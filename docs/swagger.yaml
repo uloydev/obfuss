@@ -1,0 +1,157 @@
+basePath: /api
+definitions:
+  entities.Todo:
+    properties:
+      action:
+        description: Action is the todo action
+        type: string
+      createdAt:
+        description: Automatically managed by GORM for creation time
+        type: string
+      id:
+        description: Standard field for the primary key
+        type: integer
+      updatedAt:
+        description: Automatically managed by GORM for update time
+        type: string
+    type: object
+  models.BaseResponse-array_entities_Todo:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/entities.Todo'
+        type: array
+      errors:
+        items: {}
+        type: array
+      message:
+        type: string
+    type: object
+  models.BaseResponse-entities_Todo:
+    properties:
+      data:
+        $ref: '#/definitions/entities.Todo'
+      errors:
+        items: {}
+        type: array
+      message:
+        type: string
+    type: object
+  models.TodoRequest:
+    properties:
+      action:
+        type: string
+    required:
+    - action
+    type: object
+host: localhost:6996
+info:
+  contact: {}
+  description: Obfuss API Documentation
+  title: Obfuss API
+  version: "1"
+paths:
+  /todo:
+    get:
+      consumes:
+      - application/json
+      description: Get Todos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-array_entities_Todo'
+      summary: Get Todos
+      tags:
+      - Todo
+    post:
+      consumes:
+      - application/json
+      description: Create Todo
+      parameters:
+      - description: Todo
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/models.TodoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-entities_Todo'
+      summary: Create Todo
+      tags:
+      - Todo
+  /todo/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Todo
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-entities_Todo'
+      summary: Delete Todo
+      tags:
+      - Todo
+    get:
+      consumes:
+      - application/json
+      description: Get Todo By ID
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-entities_Todo'
+      summary: Get Todo By ID
+      tags:
+      - Todo
+    put:
+      consumes:
+      - application/json
+      description: Update Todo
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Todo
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/models.TodoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-entities_Todo'
+      summary: Update Todo
+      tags:
+      - Todo
+swagger: "2.0"
