@@ -6,6 +6,8 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"skripsi.id/obfuss/entities"
+	"skripsi.id/obfuss/models"
+	"skripsi.id/obfuss/utils"
 )
 
 type TodoService struct {
@@ -20,14 +22,14 @@ func NewTodoService(db *gorm.DB, logger *zap.Logger) *TodoService {
 	}
 }
 
-func (s *TodoService) GetTodos() ([]entities.Todo, error) {
-	var todos []entities.Todo
+func (s *TodoService) GetTodos(pageParams models.PaginationParams) ([]entities.Todo, *models.PaginationMeta, error) {
+	meta, todos, err := utils.Paginate[entities.Todo](pageParams, s.db, s.logger)
 
-	if err := s.db.Find(&todos).Error; err != nil {
-		return nil, errors.New("error when get todos")
+	if err != nil {
+		return nil, nil, err
 	}
 
-	return todos, nil
+	return todos, meta, nil
 }
 
 func (s *TodoService) GetTodoByID(id uint) (*entities.Todo, error) {

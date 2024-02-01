@@ -30,10 +30,20 @@ func NewTodoHandler(db *gorm.DB, logger *zap.Logger) *TodoHandler {
 // @Tags			Todo
 // @Accept			json
 // @Produce		json
+// @Param			params	query	models.PaginationParams	true	"Pagination parameters"
 // @Success		200	{object}	models.BaseResponse[[]entities.Todo]
 // @Router			/todo [get]
 func (h *TodoHandler) GetTodos(c *gin.Context) {
-	todos, err := h.service.GetTodos()
+	var params models.PaginationParams
+	if err := c.BindQuery(&params); err != nil {
+		c.JSON(400, models.BaseResponse[entities.Todo]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	todos, meta, err := h.service.GetTodos(params)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.Todo]{
 			Message: "error",
@@ -45,6 +55,7 @@ func (h *TodoHandler) GetTodos(c *gin.Context) {
 	c.JSON(200, models.BaseResponse[[]entities.Todo]{
 		Message: "success",
 		Data:    todos,
+		Meta:    meta,
 	})
 }
 

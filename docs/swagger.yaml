@@ -26,6 +26,8 @@ definitions:
         type: array
       message:
         type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
     type: object
   models.BaseResponse-entities_Todo:
     properties:
@@ -36,6 +38,19 @@ definitions:
         type: array
       message:
         type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
+    type: object
+  models.PaginationMeta:
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
     type: object
   models.TodoRequest:
     properties:
@@ -56,6 +71,13 @@ paths:
       consumes:
       - application/json
       description: Get Todos
+      parameters:
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: size
+        type: integer
       produces:
       - application/json
       responses:
