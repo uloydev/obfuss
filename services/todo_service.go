@@ -23,7 +23,8 @@ func NewTodoService(db *gorm.DB, logger *zap.Logger) *TodoService {
 }
 
 func (s *TodoService) GetTodos(pageParams models.PaginationParams) ([]entities.Todo, *models.PaginationMeta, error) {
-	meta, todos, err := utils.Paginate[entities.Todo](pageParams, s.db, s.logger)
+	query := s.db.Model(&entities.Todo{})
+	meta, todos, err := utils.Paginate[entities.Todo](pageParams, query, s.logger)
 
 	if err != nil {
 		return nil, nil, err

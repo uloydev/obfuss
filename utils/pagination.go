@@ -35,13 +35,6 @@ func Paginate[T any](
 		return
 	}
 
-	meta = &models.PaginationMeta{
-		Total:     total,
-		TotalPage: total/int64(params.Size) + 1,
-		Size:      params.Size,
-		Page:      params.Page,
-	}
-
 	if params.Page <= 0 {
 		params.Page = DEFAULT_PAGINATION_PAGE
 	}
@@ -53,6 +46,13 @@ func Paginate[T any](
 	if params.Size > PAGINATION_MAX_SIZE {
 		err = ErrPaginationMaxSize
 		return
+	}
+
+	meta = &models.PaginationMeta{
+		Total:     total,
+		TotalPage: total/int64(params.Size) + 1,
+		Size:      params.Size,
+		Page:      params.Page,
 	}
 
 	err = query.Offset((params.Page - 1) * params.Size).
