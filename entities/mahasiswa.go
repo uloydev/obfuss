@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// TODO: Add belongs to kelas, plotkelas, BelongsToMany rewardPunish, and has Many laporanKhm
+
 type Mahasiswa struct {
 	gorm.Model
 	UserName            string
