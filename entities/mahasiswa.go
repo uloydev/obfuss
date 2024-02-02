@@ -2,14 +2,13 @@ package entities
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 // TODO: Add belongs to kelas, plotkelas, BelongsToMany rewardPunish, and has Many laporanKhm
 
 type Mahasiswa struct {
-	gorm.Model
+	BaseModel
+	UpdatedAt           time.Time
 	UserName            string
 	Password            string
 	Email               string
@@ -76,8 +75,4 @@ type Mahasiswa struct {
 	KepdirDO            string
 	SemesterDO          string
 	Confirmed           int
-	AddDate             time.Time
-	ModifiedDate        time.Time
-	AddUser             int
-	ModifiedUser        int
 }

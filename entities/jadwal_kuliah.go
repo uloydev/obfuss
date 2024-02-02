@@ -2,12 +2,10 @@ package entities
 
 import (
 	"time"
-
-	"github.com/jinzhu/gorm"
 )
 
-type TransJadwalKuliah struct {
-	gorm.Model
+type JadwalKuliah struct {
+	BaseModel
 	ID           int       `gorm:"type:int(11);auto_increment;"`
 	IDSemester   int       `gorm:"type:int(11);"`
 	IDKelas      int       `gorm:"type:int(11);"`
@@ -23,6 +21,6 @@ type TransJadwalKuliah struct {
 	ModifiedUser int       `gorm:"type:int(11);"`
 }
 
-func (s *TransJadwalKuliah) TableName() string {
+func (s *JadwalKuliah) TableName() string {
 	return "trans_jadwal_kuliah"
 }

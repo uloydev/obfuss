@@ -2,31 +2,25 @@ package entities
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
-type TransAbsenMahasiswa struct {
-	gorm.Model
+type AbsenMahasiswa struct {
+	BaseModel
 	ID              int `gorm:"type:int(11);auto_increment;"`
 	IDPertemuan     int
-	JadwalPertemuan TransJadwalPertemuan `gorm:"foreignKey:IDPertemuan"`
+	JadwalPertemuan JadwalPertemuan `gorm:"foreignKey:IDPertemuan"`
 	IDMahasiswa     int
 	Mahasiswa       Mahasiswa `gorm:"foreignKey:IDMahasiswa"`
 	IsHadir         string    `gorm:"type:enum('yes','no');"`
 	AbsenDate       time.Time `gorm:"type:datetime;"`
 	Keterangan      string    `gorm:"type:enum('daring','luring');"`
-	AddDate         time.Time `gorm:"type:timestamp;default:current_timestamp();"`
-	ModifiedDate    time.Time `gorm:"type:datetime;"`
-	AddUser         int       `gorm:"type:int(11);"`
-	ModifiedUser    int       `gorm:"type:int(11);"`
 }
 
-func (t *TransAbsenMahasiswa) TableName() string {
+func (t *AbsenMahasiswa) TableName() string {
 	return "trans_absen_mahasiswa"
 }
 
-func (t *TransAbsenMahasiswa) TableIndex() [][]string {
+func (t *AbsenMahasiswa) TableIndex() [][]string {
 	return [][]string{
 		{"ID", "IDPertemuan", "IDMahasiswa"},
 	}
