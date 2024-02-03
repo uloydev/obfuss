@@ -6,9 +6,9 @@ type PlotKelas struct {
 	IDSemester  int
 	Semester    Semester `gorm:"foreignKey:IDSemester"`
 	IDKelas     int
-	Kelas       Kelas `gorm:"foreignKey:IDKelas`
+	Kelas       Kelas `gorm:"foreignKey:IDKelas"`
 	IDMahasiswa int
-	Mahasiswa   Mahasiswa `gorm:"foreignKey:IDMahasiswa`
+	Mahasiswa   Mahasiswa `gorm:"foreignKey:IDMahasiswa"`
 	TahunMasuk  string
 }
 

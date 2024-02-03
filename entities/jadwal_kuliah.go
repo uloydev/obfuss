@@ -1,6 +1,6 @@
 package entities
 
-// PS: Di laravel id prodi ada di db gada
+// i dont know where come from IDJamMulai and IDJamSelesai
 type JadwalKuliah struct {
 	BaseModel
 	ID           int      `gorm:"type:int(11);auto_increment;"`
