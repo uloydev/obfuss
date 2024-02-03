@@ -1,24 +1,19 @@
 package entities
 
-import (
-	"time"
-)
-
+// PS: Di laravel id prodi ada di db gada
 type JadwalKuliah struct {
 	BaseModel
-	ID           int       `gorm:"type:int(11);auto_increment;"`
-	IDSemester   int       `gorm:"type:int(11);"`
-	IDKelas      int       `gorm:"type:int(11);"`
-	IDMk         int       `gorm:"type:int(11);"`
-	IDDosen      int       `gorm:"type:int(11);"`
-	Hari         string    `gorm:"type:enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu');"`
-	IDJamMulai   int       `gorm:"type:int(11);"`
-	IDJamSelesai int       `gorm:"type:int(11);"`
-	Status       string    `gorm:"type:enum('active','non_active');"`
-	AddDate      time.Time `gorm:"type:timestamp;default:current_timestamp();"`
-	ModifiedDate time.Time `gorm:"type:datetime;"`
-	AddUser      int       `gorm:"type:int(11);"`
-	ModifiedUser int       `gorm:"type:int(11);"`
+	ID           int      `gorm:"type:int(11);auto_increment;"`
+	IDSemester   int      `gorm:"type:int(11);"`
+	Semester     Semester `gorm:"foreignKey:IDSemester"`
+	IDKelas      int      `gorm:"type:int(11);"`
+	Kelas        Kelas    `gorm:"foreignKey:IDKelas"`
+	IDMk         int      `gorm:"type:int(11);"`
+	IDDosen      int      `gorm:"type:int(11);"`
+	Hari         string   `gorm:"type:enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu');"`
+	IDJamMulai   int      `gorm:"type:int(11);"`
+	IDJamSelesai int      `gorm:"type:int(11);"`
+	Status       string   `gorm:"type:enum('active','non_active');"`
 }
 
 func (s *JadwalKuliah) TableName() string {

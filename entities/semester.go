@@ -8,6 +8,7 @@ type Semester struct {
 	BaseModel
 	ID              uint
 	IDTahun         int
+	TahunAjaran     TahunAjaran `gorm:"foreignKey:IDTahun"`
 	Semester        string
 	TanggalMulai    time.Time
 	TanggalBerakhir time.Time

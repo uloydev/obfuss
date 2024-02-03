@@ -8,6 +8,7 @@ import (
 
 type Mahasiswa struct {
 	BaseModel
+	ID                  uint
 	UpdatedAt           time.Time
 	UserName            string
 	Password            string
@@ -69,6 +70,7 @@ type Mahasiswa struct {
 	PekerjaanWali       string    `gorm:"type:varchar(30);"`
 	PenghasilanWali     float64   `gorm:"type:decimal(18,2);"`
 	IDKelas             uint      `gorm:"index"`
+	PlotKelas           PlotKelas `gorm:""`
 	StatPD              int
 	StatDO              int
 	AlasanDO            string
