@@ -15,6 +15,6 @@ type Semester struct {
 	ActiveStatus    string
 }
 
-func (s *Semester) TableName() string {
+func (s Semester) TableName() string {
 	return "mst_semester"
 }

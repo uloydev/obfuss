@@ -25,6 +25,6 @@ type JadwalPertemuan struct {
 	IsTerlaksana       string       `gorm:"type:enum('yes','no');default:'no';"`
 }
 
-func (j *JadwalPertemuan) TableName() string {
+func (j JadwalPertemuan) TableName() string {
 	return "trans_jadwal_pertemuan"
 }

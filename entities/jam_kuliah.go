@@ -11,6 +11,6 @@ type JamKuliah struct {
 	Keterangan string
 }
 
-func (j *JamKuliah) TableName() string {
+func (j JamKuliah) TableName() string {
 	return "mst_jam_kuliah"
 }

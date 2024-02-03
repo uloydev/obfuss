@@ -12,6 +12,6 @@ type Kurikulum struct {
 	ActiveStatus   string `gorm:"type:enum('yes','no');default:'no';"`
 }
 
-func (k *Kurikulum) TableName() string {
+func (k Kurikulum) TableName() string {
 	return "mst_kurikulum"
 }

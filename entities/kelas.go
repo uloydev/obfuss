@@ -15,6 +15,6 @@ type Kelas struct {
 	Keterangan     string
 }
 
-func (k *Kelas) TableName() string {
+func (k Kelas) TableName() string {
 	return "mst_kelas"
 }

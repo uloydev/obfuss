@@ -8,6 +8,6 @@ type Prodi struct {
 	Keterangan string
 }
 
-func (p *Prodi) TableName() string {
+func (p Prodi) TableName() string {
 	return "mst_program_studi"
 }

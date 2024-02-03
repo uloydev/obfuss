@@ -16,6 +16,6 @@ type JadwalKuliah struct {
 	Status       string   `gorm:"type:enum('active','non_active');"`
 }
 
-func (s *JadwalKuliah) TableName() string {
+func (j JadwalKuliah) TableName() string {
 	return "trans_jadwal_kuliah"
 }

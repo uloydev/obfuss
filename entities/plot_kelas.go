@@ -12,6 +12,6 @@ type PlotKelas struct {
 	TahunMasuk  string
 }
 
-func (p *PlotKelas) TableName() string {
+func (p PlotKelas) TableName() string {
 	return "trans_plot_kelas"
 }

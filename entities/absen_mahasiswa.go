@@ -16,11 +16,11 @@ type AbsenMahasiswa struct {
 	Keterangan      string    `gorm:"type:enum('daring','luring');"`
 }
 
-func (t *AbsenMahasiswa) TableName() string {
+func (a AbsenMahasiswa) TableName() string {
 	return "trans_absen_mahasiswa"
 }
 
-func (t *AbsenMahasiswa) TableIndex() [][]string {
+func (a AbsenMahasiswa) TableIndex() [][]string {
 	return [][]string{
 		{"ID", "IDPertemuan", "IDMahasiswa"},
 	}
