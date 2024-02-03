@@ -9,6 +9,62 @@
     "host": "localhost:6996",
     "basePath": "/api",
     "paths": {
+        "/absen/mahasiswa": {
+            "get": {
+                "description": "Get Absen Mahasiswa",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Absen"
+                ],
+                "summary": "Get Absen Mahasiswa",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "User type",
+                        "name": "userType",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Semester ID",
+                        "name": "smtId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Kelas ID",
+                        "name": "kelasId",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-models_GetAllAbsenResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/todo": {
             "get": {
                 "description": "Get Todos",
@@ -236,6 +292,92 @@
                 },
                 "meta": {
                     "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
+        "models.BaseResponse-models_GetAllAbsenResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/models.GetAllAbsenResponse"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
+        "models.GetAllAbsenResponse": {
+            "type": "object",
+            "properties": {
+                "day_number": {
+                    "type": "integer"
+                },
+                "hari": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_kelas": {
+                    "type": "integer"
+                },
+                "id_mk": {
+                    "type": "integer"
+                },
+                "id_pertemuan": {
+                    "type": "integer"
+                },
+                "id_semester": {
+                    "type": "integer"
+                },
+                "inisial_kelas": {
+                    "type": "string"
+                },
+                "jam_mulai": {
+                    "type": "string"
+                },
+                "jam_selesai": {
+                    "type": "string"
+                },
+                "jumlah_hadir": {
+                    "type": "integer"
+                },
+                "jumlah_pertemuan": {
+                    "type": "integer"
+                },
+                "kode_kurikulum": {
+                    "type": "string"
+                },
+                "nama_dosen": {
+                    "type": "string"
+                },
+                "nama_kelas": {
+                    "type": "string"
+                },
+                "nama_konsentrasi": {
+                    "type": "string"
+                },
+                "nama_lengkap": {
+                    "type": "string"
+                },
+                "nama_mk": {
+                    "type": "string"
+                },
+                "nama_prodi": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
                 }
             }
         },

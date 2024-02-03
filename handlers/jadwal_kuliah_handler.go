@@ -21,12 +21,4 @@ func NewJadwalKuliahHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahHandle
 	}
 }
 
-// @Summary		Get Todos
-// @Description	Get Todos
-// @Tags			Todo
-// @Accept			json
-// @Produce		json
-// @Param			params	query	models.PaginationParams	true	"Pagination parameters"
-// @Success		200	{object}	models.BaseResponse[[]entities.Todo]
-// @Router			/todo [get]
 func (j *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {}

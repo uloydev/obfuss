@@ -41,6 +41,63 @@ definitions:
       meta:
         $ref: '#/definitions/models.PaginationMeta'
     type: object
+  models.BaseResponse-models_GetAllAbsenResponse:
+    properties:
+      data:
+        $ref: '#/definitions/models.GetAllAbsenResponse'
+      errors:
+        items: {}
+        type: array
+      message:
+        type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
+    type: object
+  models.GetAllAbsenResponse:
+    properties:
+      day_number:
+        type: integer
+      hari:
+        type: string
+      id:
+        type: integer
+      id_kelas:
+        type: integer
+      id_mk:
+        type: integer
+      id_pertemuan:
+        type: integer
+      id_semester:
+        type: integer
+      inisial_kelas:
+        type: string
+      jam_mulai:
+        type: string
+      jam_selesai:
+        type: string
+      jumlah_hadir:
+        type: integer
+      jumlah_pertemuan:
+        type: integer
+      kode_kurikulum:
+        type: string
+      nama_dosen:
+        type: string
+      nama_kelas:
+        type: string
+      nama_konsentrasi:
+        type: string
+      nama_lengkap:
+        type: string
+      nama_mk:
+        type: string
+      nama_prodi:
+        type: string
+      semester:
+        type: string
+      tahun:
+        type: string
+    type: object
   models.PaginationMeta:
     properties:
       page:
@@ -66,6 +123,43 @@ info:
   title: Obfuss API
   version: "1"
 paths:
+  /absen/mahasiswa:
+    get:
+      consumes:
+      - application/json
+      description: Get Absen Mahasiswa
+      parameters:
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: size
+        type: integer
+      - description: User type
+        in: query
+        name: userType
+        required: true
+        type: string
+      - description: Semester ID
+        in: query
+        name: smtId
+        required: true
+        type: integer
+      - description: Kelas ID
+        in: query
+        name: kelasId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-models_GetAllAbsenResponse'
+      summary: Get Absen Mahasiswa
+      tags:
+      - Absen
   /todo:
     get:
       consumes:
