@@ -32,6 +32,7 @@ func (s *AbsenService) GetAllAbsen(
 	error,
 ) {
 	query := queries.FindAllAbsenQuery(s.db, userType, smtId, kelasId, dosenId)
+
 	meta, data, err := utils.Paginate[models.GetAllAbsenResponse](pageParams, query, s.logger)
 
 	if err != nil {

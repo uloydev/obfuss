@@ -14,6 +14,6 @@ type Konsentrasi struct {
 	Keterangan      string
 }
 
-func (k *Konsentrasi) TableName() string {
+func (k Konsentrasi) TableName() string {
 	return "mst_konsentrasi"
 }

@@ -16,6 +16,7 @@ type RouteInitFunc func(*gorm.DB, *zap.Logger) Route
 var Routes = []RouteInitFunc{
 	NewTodoRoute,
 	NewAbsenRoute,
+	NewJadwalKuliahRoute,
 }
 
 func Setup(app *gin.RouterGroup, db *gorm.DB, logger *zap.Logger) {
