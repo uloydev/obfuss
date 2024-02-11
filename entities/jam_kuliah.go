@@ -4,11 +4,11 @@ import "time"
 
 type JamKuliah struct {
 	BaseModel
-	ID         uint
-	NoUrut     int
-	JamMulai   time.Time
-	JamSelesai time.Time
-	Keterangan string
+	ID         uint      `json:"id"`
+	NoUrut     int       `json:"no_urut"`
+	JamMulai   time.Time `json:"jam_mulai"`
+	JamSelesai time.Time `json:"jam_selesai"`
+	Keterangan string    `json:"keterangan"`
 }
 
 func (j JamKuliah) TableName() string {

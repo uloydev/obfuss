@@ -1,12 +1,7 @@
 package utils
 
-import "errors"
-
-func GetDayName(str string) (string, error) {
-	var (
-		errorFailedParse = errors.New("failed to parse day")
-		result           string
-	)
+func GetDayName(str string) string {
+	var result string = "Monday"
 
 	switch str {
 	case "Senin":
@@ -31,5 +26,5 @@ func GetDayName(str string) (string, error) {
 		result = "Sunday"
 	}
 
-	return result, errorFailedParse
+	return result
 }

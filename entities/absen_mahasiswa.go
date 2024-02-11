@@ -6,14 +6,14 @@ import (
 
 type AbsenMahasiswa struct {
 	BaseModel
-	ID              int `gorm:"type:int(11);auto_increment;"`
-	IDPertemuan     int
-	JadwalPertemuan JadwalPertemuan `gorm:"foreignKey:IDPertemuan"`
-	IDMahasiswa     int
-	Mahasiswa       Mahasiswa `gorm:"foreignKey:IDMahasiswa"`
-	IsHadir         string    `gorm:"type:enum('yes','no');"`
-	AbsenDate       time.Time `gorm:"type:datetime;"`
-	Keterangan      string    `gorm:"type:enum('daring','luring');"`
+	ID              int             `json:"id"`
+	IDPertemuan     int             `json:"id_pertemuan"`
+	JadwalPertemuan JadwalPertemuan `json:"jadwal_pertemuan" gorm:"foreignKey:IDPertemuan"`
+	IDMahasiswa     int             `json:"id_mahasiswa"`
+	Mahasiswa       Mahasiswa       `json:"mahasiswa" gorm:"foreignKey:IDMahasiswa"`
+	IsHadir         string          `json:"is_hadir" gorm:"type:enum('yes','no');"`
+	AbsenDate       time.Time       `json:"absen_date" gorm:"type:datetime;"`
+	Keterangan      string          `json:"keterangan" gorm:"type:enum('daring','luring');"`
 }
 
 func (a AbsenMahasiswa) TableName() string {

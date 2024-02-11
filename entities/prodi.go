@@ -2,10 +2,10 @@ package entities
 
 type Prodi struct {
 	BaseModel
-	ID         uint
-	Kode       string
-	NamaProdi  string
-	Keterangan string
+	ID         uint   `json:"id"`
+	Kode       string `json:"kode"`
+	NamaProdi  string `json:"nama_prodi"`
+	Keterangan string `json:"keterangan"`
 }
 
 func (p Prodi) TableName() string {

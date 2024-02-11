@@ -1,5 +1,169 @@
 basePath: /api
 definitions:
+  entities.JadwalKuliah:
+    properties:
+      add_date:
+        type: string
+      add_user:
+        type: integer
+      hari:
+        type: string
+      id:
+        type: integer
+      id_dosen:
+        type: integer
+      id_jam_mulai:
+        type: integer
+      id_jam_selesai:
+        type: integer
+      id_kelas:
+        type: integer
+      id_mk:
+        type: integer
+      id_semester:
+        type: integer
+      kelas:
+        $ref: '#/definitions/entities.Kelas'
+      modified_date:
+        type: string
+      modified_user:
+        type: integer
+      semester:
+        $ref: '#/definitions/entities.Semester'
+      status:
+        type: string
+    type: object
+  entities.Kelas:
+    properties:
+      add_date:
+        type: string
+      add_user:
+        type: integer
+      id:
+        type: integer
+      idkonsentrasi:
+        type: integer
+      idkurikulum:
+        type: integer
+      idsemester:
+        type: integer
+      inisialKelas:
+        type: string
+      keterangan:
+        type: string
+      konsentrasi:
+        $ref: '#/definitions/entities.Konsentrasi'
+      kurikulum:
+        $ref: '#/definitions/entities.Kurikulum'
+      modified_date:
+        type: string
+      modified_user:
+        type: integer
+      namaKelas:
+        type: string
+      semester:
+        $ref: '#/definitions/entities.Semester'
+      semesterKuliah:
+        type: string
+    type: object
+  entities.Konsentrasi:
+    properties:
+      add_date:
+        type: string
+      add_user:
+        type: integer
+      gelar:
+        type: string
+      id:
+        type: integer
+      inisial_gelar:
+        type: string
+      jurusan:
+        type: string
+      keterangan:
+        type: string
+      kode_prodi:
+        type: integer
+      modified_date:
+        type: string
+      modified_user:
+        type: integer
+      nama_konsentrasi:
+        type: string
+      nama_prodi:
+        type: string
+      pejabat_tte:
+        type: integer
+      translate_gelar:
+        type: string
+    type: object
+  entities.Kurikulum:
+    properties:
+      active_status:
+        type: string
+      add_date:
+        type: string
+      add_user:
+        type: integer
+      id:
+        type: integer
+      kode_kurikulum:
+        type: string
+      modified_date:
+        type: string
+      modified_user:
+        type: integer
+      mulai_kurikulum:
+        type: string
+      sks_pilihan:
+        type: integer
+      sks_wajib:
+        type: integer
+    type: object
+  entities.Semester:
+    properties:
+      active_status:
+        type: string
+      add_date:
+        type: string
+      add_user:
+        type: integer
+      id:
+        type: integer
+      id_tahun:
+        type: integer
+      modified_date:
+        type: string
+      modified_user:
+        type: integer
+      semester:
+        type: string
+      tahun_ajaran:
+        $ref: '#/definitions/entities.TahunAjaran'
+      tanggal_berakhir:
+        type: string
+      tanggal_mulai:
+        type: string
+    type: object
+  entities.TahunAjaran:
+    properties:
+      active_status:
+        type: string
+      add_date:
+        type: string
+      add_user:
+        type: integer
+      id:
+        type: integer
+      modified_date:
+        type: string
+      modified_user:
+        type: integer
+      mulai_berjalan:
+        type: string
+      tahun:
+        type: string
+    type: object
   entities.Todo:
     properties:
       action:
@@ -14,6 +178,20 @@ definitions:
       updatedAt:
         description: Automatically managed by GORM for update time
         type: string
+    type: object
+  models.BaseResponse-array_entities_JadwalKuliah:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/entities.JadwalKuliah'
+        type: array
+      errors:
+        items: {}
+        type: array
+      message:
+        type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
     type: object
   models.BaseResponse-array_entities_Todo:
     properties:
@@ -160,6 +338,28 @@ paths:
       summary: Get Absen Mahasiswa
       tags:
       - Absen
+  /jadwal-kuliah:
+    get:
+      consumes:
+      - application/json
+      description: Get jadwal Kuliah
+      parameters:
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-array_entities_JadwalKuliah'
+      summary: Get Jadwal Kuliah
+      tags:
+      - Jadwal Kuliah
   /todo:
     get:
       consumes:

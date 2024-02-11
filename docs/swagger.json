@@ -65,6 +65,41 @@
                 }
             }
         },
+        "/jadwal-kuliah": {
+            "get": {
+                "description": "Get jadwal Kuliah",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jadwal Kuliah"
+                ],
+                "summary": "Get Jadwal Kuliah",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-array_entities_JadwalKuliah"
+                        }
+                    }
+                }
+            }
+        },
         "/todo": {
             "get": {
                 "description": "Get Todos",
@@ -235,6 +270,255 @@
         }
     },
     "definitions": {
+        "entities.JadwalKuliah": {
+            "type": "object",
+            "properties": {
+                "add_date": {
+                    "type": "string"
+                },
+                "add_user": {
+                    "type": "integer"
+                },
+                "hari": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_dosen": {
+                    "type": "integer"
+                },
+                "id_jam_mulai": {
+                    "type": "integer"
+                },
+                "id_jam_selesai": {
+                    "type": "integer"
+                },
+                "id_kelas": {
+                    "type": "integer"
+                },
+                "id_mk": {
+                    "type": "integer"
+                },
+                "id_semester": {
+                    "type": "integer"
+                },
+                "kelas": {
+                    "$ref": "#/definitions/entities.Kelas"
+                },
+                "modified_date": {
+                    "type": "string"
+                },
+                "modified_user": {
+                    "type": "integer"
+                },
+                "semester": {
+                    "$ref": "#/definitions/entities.Semester"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Kelas": {
+            "type": "object",
+            "properties": {
+                "add_date": {
+                    "type": "string"
+                },
+                "add_user": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "idkonsentrasi": {
+                    "type": "integer"
+                },
+                "idkurikulum": {
+                    "type": "integer"
+                },
+                "idsemester": {
+                    "type": "integer"
+                },
+                "inisialKelas": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "konsentrasi": {
+                    "$ref": "#/definitions/entities.Konsentrasi"
+                },
+                "kurikulum": {
+                    "$ref": "#/definitions/entities.Kurikulum"
+                },
+                "modified_date": {
+                    "type": "string"
+                },
+                "modified_user": {
+                    "type": "integer"
+                },
+                "namaKelas": {
+                    "type": "string"
+                },
+                "semester": {
+                    "$ref": "#/definitions/entities.Semester"
+                },
+                "semesterKuliah": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Konsentrasi": {
+            "type": "object",
+            "properties": {
+                "add_date": {
+                    "type": "string"
+                },
+                "add_user": {
+                    "type": "integer"
+                },
+                "gelar": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "inisial_gelar": {
+                    "type": "string"
+                },
+                "jurusan": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "kode_prodi": {
+                    "type": "integer"
+                },
+                "modified_date": {
+                    "type": "string"
+                },
+                "modified_user": {
+                    "type": "integer"
+                },
+                "nama_konsentrasi": {
+                    "type": "string"
+                },
+                "nama_prodi": {
+                    "type": "string"
+                },
+                "pejabat_tte": {
+                    "type": "integer"
+                },
+                "translate_gelar": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Kurikulum": {
+            "type": "object",
+            "properties": {
+                "active_status": {
+                    "type": "string"
+                },
+                "add_date": {
+                    "type": "string"
+                },
+                "add_user": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "kode_kurikulum": {
+                    "type": "string"
+                },
+                "modified_date": {
+                    "type": "string"
+                },
+                "modified_user": {
+                    "type": "integer"
+                },
+                "mulai_kurikulum": {
+                    "type": "string"
+                },
+                "sks_pilihan": {
+                    "type": "integer"
+                },
+                "sks_wajib": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.Semester": {
+            "type": "object",
+            "properties": {
+                "active_status": {
+                    "type": "string"
+                },
+                "add_date": {
+                    "type": "string"
+                },
+                "add_user": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_tahun": {
+                    "type": "integer"
+                },
+                "modified_date": {
+                    "type": "string"
+                },
+                "modified_user": {
+                    "type": "integer"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "tahun_ajaran": {
+                    "$ref": "#/definitions/entities.TahunAjaran"
+                },
+                "tanggal_berakhir": {
+                    "type": "string"
+                },
+                "tanggal_mulai": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.TahunAjaran": {
+            "type": "object",
+            "properties": {
+                "active_status": {
+                    "type": "string"
+                },
+                "add_date": {
+                    "type": "string"
+                },
+                "add_user": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "modified_date": {
+                    "type": "string"
+                },
+                "modified_user": {
+                    "type": "integer"
+                },
+                "mulai_berjalan": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                }
+            }
+        },
         "entities.Todo": {
             "type": "object",
             "properties": {
@@ -253,6 +537,27 @@
                 "updatedAt": {
                     "description": "Automatically managed by GORM for update time",
                     "type": "string"
+                }
+            }
+        },
+        "models.BaseResponse-array_entities_JadwalKuliah": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entities.JadwalKuliah"
+                    }
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
                 }
             }
         },

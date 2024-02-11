@@ -4,12 +4,12 @@ import "time"
 
 type Kurikulum struct {
 	BaseModel
-	ID             uint
-	KodeKurikulum  string
-	MulaiKurikulum time.Time
-	SksWajib       uint
-	SksPilihan     uint
-	ActiveStatus   string `gorm:"type:enum('yes','no');default:'no';"`
+	ID             uint      `json:"id"`
+	KodeKurikulum  string    `json:"kode_kurikulum"`
+	MulaiKurikulum time.Time `json:"mulai_kurikulum"`
+	SksWajib       uint      `json:"sks_wajib"`
+	SksPilihan     uint      `json:"sks_pilihan"`
+	ActiveStatus   string    `json:"active_status" gorm:"type:enum('yes','no');default:'no';"`
 }
 
 func (k Kurikulum) TableName() string {

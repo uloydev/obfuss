@@ -59,12 +59,12 @@ func (j *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 	for _, v := range payload.JadwalKuliah {
 		var data = entities.JadwalKuliah{}
 
-		data.IDKelas = payload.IdKelas
-		data.IDMk = v.IDMk
-		data.IDDosen = v.IDDosen
-		data.Hari = v.Hari
-		data.IDJamMulai = v.IDJamMulai
-		data.IDJamSelesai = v.IDJamSelesai
+		data.IDKelas = &payload.IdKelas
+		data.IDMk = &v.IDMk
+		data.IDDosen = &v.IDDosen
+		data.Hari = &v.Hari
+		data.IDJamMulai = &v.IDJamMulai
+		data.IDJamSelesai = &v.IDJamSelesai
 		data.AddUser = userId
 
 		batchJadwalKuliah = append(batchJadwalKuliah, data)

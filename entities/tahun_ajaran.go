@@ -4,10 +4,10 @@ import "time"
 
 type TahunAjaran struct {
 	BaseModel
-	ID            int `gorm:"type:int(11);auto_increment;"`
-	Tahun         string
-	MulaiBerjalan time.Time
-	ActiveStatus  string
+	ID            int       `json:"id"`
+	Tahun         string    `json:"tahun"`
+	MulaiBerjalan time.Time `json:"mulai_berjalan"`
+	ActiveStatus  string    `json:"active_status"`
 }
 
 func (t TahunAjaran) TableName() string {
