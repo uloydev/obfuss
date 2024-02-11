@@ -6,12 +6,15 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	glog "gorm.io/gorm/logger"
 	"skripsi.id/obfuss/entities"
 )
 
 func NewMysqlConn(logger *zap.Logger) *gorm.DB {
 	dsn := os.Getenv("MYSQL_DSN")
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: glog.Default.LogMode(glog.Info),
+	})
 	if err != nil {
 		logger.Fatal("error when connect to mysql", zap.Error(err))
 	}
