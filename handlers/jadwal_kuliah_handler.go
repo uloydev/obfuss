@@ -25,14 +25,14 @@ func NewJadwalKuliahHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahHandle
 	}
 }
 
-// @Summary		Get Jadwal Kuliah
-// @Description	Get jadwal Kuliah
-// @Tags			Jadwal Kuliah
-// @Accept			json
-// @Produce		json
-// @Param			params	query	models.PaginationParams	true	"Pagination parameters"
-// @Success		200	{object}	models.BaseResponse[[]entities.JadwalKuliah]
-// @Router			/jadwal-kuliah [get]
+//	@Summary		Get Jadwal Kuliah
+//	@Description	Get jadwal Kuliah
+//	@Tags			Jadwal Kuliah
+//	@Accept			json
+//	@Produce		json
+//	@Param			params	query		models.PaginationParams	true	"Pagination parameters"
+//	@Success		200		{object}	models.BaseResponse[[]entities.JadwalKuliah]
+//	@Router			/jadwal-kuliah [get]
 func (j *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 	var params models.PaginationParams
 

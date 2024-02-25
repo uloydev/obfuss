@@ -79,3 +79,14 @@ func (j *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 
 	return nil
 }
+
+func (j *JadwalKuliahService) GetById(id int) (entities.JadwalKuliah, error) {
+	var data entities.JadwalKuliah
+	err := j.db.Table(entities.JadwalKuliah{}.TableName()).First(&data, id).Error
+	if err != nil {
+		j.logger.Error("failed to get jadwal kuliah by id", zap.Error(err))
+		return data, errors.New("failed to get jadwal kuliah by id")
+	}
+
+	return data, nil
+}

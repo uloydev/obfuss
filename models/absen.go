@@ -23,3 +23,23 @@ type GetAllAbsenResponse struct {
 	DayNumber       int    `json:"day_number" gorm:"column:day_number"`
 	IdKelas         int    `json:"id_kelas" gorm:"column:id_kelas"`
 }
+
+type SaveAbsenTransRequest struct {
+	IdJadwal    int              `json:"id_jadwal"`
+	IdPertemuan int              `json:"id_pertemuan"`
+	IdKelas     int              `json:"id_kelas"`
+	Absen       []SaveTransAbsen `json:"absen"`
+}
+
+type SaveTransAbsen struct {
+	IdMahasiswa int    `json:"id_mahasiswa"`
+	IsHadir     string `json:"is_hadir"`   // yes or no
+	Keterangan  string `json:"keterangan"` // daring or luring
+}
+
+type AbsenCountResult struct {
+	JumlahHadir      int `json:"jumlah_hadir" gorm:"column:jumlah_hadir"`
+	JumlahTidakHadir int `json:"jumlah_tidak_hadir" gorm:"column:jumlah_tidak_hadir"`
+	JumlahLuring     int `json:"jumlah_luring" gorm:"column:jumlah_luring"`
+	JumlahDaring     int `json:"jumlah_daring" gorm:"column:jumlah_daring"`
+}

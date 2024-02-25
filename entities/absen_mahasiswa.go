@@ -14,6 +14,7 @@ type AbsenMahasiswa struct {
 	IsHadir         string          `json:"is_hadir" gorm:"type:enum('yes','no');"`
 	AbsenDate       time.Time       `json:"absen_date" gorm:"type:datetime;"`
 	Keterangan      string          `json:"keterangan" gorm:"type:enum('daring','luring');"`
+	AddUser         int             `json:"add_user"`
 }
 
 func (a AbsenMahasiswa) TableName() string {

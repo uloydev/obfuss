@@ -179,6 +179,17 @@ definitions:
         description: Automatically managed by GORM for update time
         type: string
     type: object
+  models.BaseResponse-any:
+    properties:
+      data: {}
+      errors:
+        items: {}
+        type: array
+      message:
+        type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
+    type: object
   models.BaseResponse-array_entities_JadwalKuliah:
     properties:
       data:
@@ -287,6 +298,30 @@ definitions:
       totalPage:
         type: integer
     type: object
+  models.SaveAbsenTransRequest:
+    properties:
+      absen:
+        items:
+          $ref: '#/definitions/models.SaveTransAbsen'
+        type: array
+      id_jadwal:
+        type: integer
+      id_kelas:
+        type: integer
+      id_pertemuan:
+        type: integer
+    type: object
+  models.SaveTransAbsen:
+    properties:
+      id_mahasiswa:
+        type: integer
+      is_hadir:
+        description: yes or no
+        type: string
+      keterangan:
+        description: daring or luring
+        type: string
+    type: object
   models.TodoRequest:
     properties:
       action:
@@ -336,6 +371,28 @@ paths:
           schema:
             $ref: '#/definitions/models.BaseResponse-models_GetAllAbsenResponse'
       summary: Get Absen Mahasiswa
+      tags:
+      - Absen
+  /absen/save-trans:
+    post:
+      consumes:
+      - application/json
+      description: Save Absen
+      parameters:
+      - description: Absen request
+        in: body
+        name: absen
+        required: true
+        schema:
+          $ref: '#/definitions/models.SaveAbsenTransRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      summary: Save Absen Trans
       tags:
       - Absen
   /jadwal-kuliah:

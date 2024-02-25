@@ -71,6 +71,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/absen/save-trans": {
+            "post": {
+                "description": "Save Absen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Absen"
+                ],
+                "summary": "Save Absen Trans",
+                "parameters": [
+                    {
+                        "description": "Absen request",
+                        "name": "absen",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SaveAbsenTransRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
         "/jadwal-kuliah": {
             "get": {
                 "description": "Get jadwal Kuliah",
@@ -546,6 +580,22 @@ const docTemplate = `{
                 }
             }
         },
+        "models.BaseResponse-any": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
         "models.BaseResponse-array_entities_JadwalKuliah": {
             "type": "object",
             "properties": {
@@ -706,6 +756,42 @@ const docTemplate = `{
                 },
                 "totalPage": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.SaveAbsenTransRequest": {
+            "type": "object",
+            "properties": {
+                "absen": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.SaveTransAbsen"
+                    }
+                },
+                "id_jadwal": {
+                    "type": "integer"
+                },
+                "id_kelas": {
+                    "type": "integer"
+                },
+                "id_pertemuan": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.SaveTransAbsen": {
+            "type": "object",
+            "properties": {
+                "id_mahasiswa": {
+                    "type": "integer"
+                },
+                "is_hadir": {
+                    "description": "yes or no",
+                    "type": "string"
+                },
+                "keterangan": {
+                    "description": "daring or luring",
+                    "type": "string"
                 }
             }
         },

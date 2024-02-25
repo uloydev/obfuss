@@ -25,14 +25,14 @@ func NewTodoHandler(db *gorm.DB, logger *zap.Logger) *TodoHandler {
 	}
 }
 
-// @Summary		Get Todos
-// @Description	Get Todos
-// @Tags			Todo
-// @Accept			json
-// @Produce		json
-// @Param			params	query	models.PaginationParams	true	"Pagination parameters"
-// @Success		200	{object}	models.BaseResponse[[]entities.Todo]
-// @Router			/todo [get]
+//	@Summary		Get Todos
+//	@Description	Get Todos
+//	@Tags			Todo
+//	@Accept			json
+//	@Produce		json
+//	@Param			params	query		models.PaginationParams	true	"Pagination parameters"
+//	@Success		200		{object}	models.BaseResponse[[]entities.Todo]
+//	@Router			/todo [get]
 func (h *TodoHandler) GetTodos(c *gin.Context) {
 	var params models.PaginationParams
 	if err := c.BindQuery(&params); err != nil {
@@ -59,14 +59,14 @@ func (h *TodoHandler) GetTodos(c *gin.Context) {
 	})
 }
 
-// @Summary		Get Todo By ID
-// @Description	Get Todo By ID
-// @Tags			Todo
-// @Accept			json
-// @Produce		json
-// @Param			id	path		int	true	"Todo ID"
-// @Success		200	{object}	models.BaseResponse[entities.Todo]
-// @Router			/todo/{id} [get]
+//	@Summary		Get Todo By ID
+//	@Description	Get Todo By ID
+//	@Tags			Todo
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"Todo ID"
+//	@Success		200	{object}	models.BaseResponse[entities.Todo]
+//	@Router			/todo/{id} [get]
 func (h *TodoHandler) GetTodoByID(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -92,14 +92,14 @@ func (h *TodoHandler) GetTodoByID(c *gin.Context) {
 	})
 }
 
-// @Summary		Create Todo
-// @Description	Create Todo
-// @Tags			Todo
-// @Accept			json
-// @Produce		json
-// @Param			todo	body		models.TodoRequest	true	"Todo"
-// @Success		200		{object}	models.BaseResponse[entities.Todo]
-// @Router			/todo [post]
+//	@Summary		Create Todo
+//	@Description	Create Todo
+//	@Tags			Todo
+//	@Accept			json
+//	@Produce		json
+//	@Param			todo	body		models.TodoRequest	true	"Todo"
+//	@Success		200		{object}	models.BaseResponse[entities.Todo]
+//	@Router			/todo [post]
 func (h *TodoHandler) Create(c *gin.Context) {
 	var req models.TodoRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -128,15 +128,15 @@ func (h *TodoHandler) Create(c *gin.Context) {
 	})
 }
 
-// @Summary		Update Todo
-// @Description	Update Todo
-// @Tags			Todo
-// @Accept			json
-// @Produce		json
-// @Param			id		path		int					true	"Todo ID"
-// @Param			todo	body		models.TodoRequest	true	"Todo"
-// @Success		200		{object}	models.BaseResponse[entities.Todo]
-// @Router			/todo/{id} [put]
+//	@Summary		Update Todo
+//	@Description	Update Todo
+//	@Tags			Todo
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		int					true	"Todo ID"
+//	@Param			todo	body		models.TodoRequest	true	"Todo"
+//	@Success		200		{object}	models.BaseResponse[entities.Todo]
+//	@Router			/todo/{id} [put]
 func (h *TodoHandler) Update(c *gin.Context) {
 	var req models.TodoRequest
 
@@ -176,14 +176,14 @@ func (h *TodoHandler) Update(c *gin.Context) {
 	})
 }
 
-// @Summary		Delete Todo
-// @Description	Delete Todo
-// @Tags			Todo
-// @Accept			json
-// @Produce		json
-// @Param			id	path		int	true	"Todo ID"
-// @Success		200	{object}	models.BaseResponse[entities.Todo]
-// @Router			/todo/{id} [delete]
+//	@Summary		Delete Todo
+//	@Description	Delete Todo
+//	@Tags			Todo
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"Todo ID"
+//	@Success		200	{object}	models.BaseResponse[entities.Todo]
+//	@Router			/todo/{id} [delete]
 func (h *TodoHandler) Delete(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
