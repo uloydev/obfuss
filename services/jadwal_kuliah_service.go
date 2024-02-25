@@ -124,6 +124,7 @@ func (j *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 			return errors.New("failed when save trans jadwal kuliah")
 		}
 
+		// Function gak jelas
 		if err := j.saveAuto(trx, v.Hari, data.ID, v.IDJamMulai, v.IDJamSelesai); err != nil {
 			return err
 		}
