@@ -29,6 +29,8 @@ func (j *JadwalKuliahService) GetJadwalKuliah(pageParams models.PaginationParams
 
 	meta, jadwalKuliah, err := utils.Paginate[entities.JadwalKuliah](pageParams, query, j.logger)
 
+	j.logger.Info("debug pagination: ", zap.Any("meta", meta), zap.Any("jadwal", jadwalKuliah))
+
 	if err != nil {
 		return nil, nil, err
 	}
