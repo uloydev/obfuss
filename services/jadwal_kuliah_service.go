@@ -52,11 +52,59 @@ func (j *JadwalKuliahService) DeleteJadwalKuliah(id int) error {
 	return nil
 }
 
+func (j *JadwalKuliahService) saveAuto(tx *gorm.DB, dayName string, idJadwal int, idJamMulai int, idJamSelesai int) error {
+	day := utils.GetDayName(dayName)
+
+	if err := queries.DeleteTransJadwalKuliah(tx, idJadwal).Error; err != nil {
+		j.logger.Warn(err.Error())
+		tx.Rollback()
+
+		return errors.New("error when delete trans jadwal kuliah")
+	}
+
+	if err := tx.Exec("SET @row_number=0;").Error; err != nil {
+		j.logger.Warn(err.Error())
+		tx.Rollback()
+
+		return errors.New("error when set row number")
+	}
+
+	subQuery := tx.Table("date_calendar").
+		Select("date").
+		Joins("LEFT JOIN mst_tanggal_off ON mst_tanggal_off.tanggal = date_calendar.date").
+		Where("DAYNAME(date_calendar.date) = ?", day)
+
+	err := tx.Exec("INSERT INTO trans_jadwal_pertemuan (id_jadwal, pertemuan_ke, tanggal_pertemuan, mulai_jam, sampai_jam, keterangan, add_date, add_user)"+
+		"SELECT ?, (@row_number := @row_number +1), cal.date, ?, ?, mst_tanggal_off.keterangan, NOW(), 'SYSTEM' "+
+		"FROM (?) AS cal", idJadwal, idJamMulai, idJamSelesai, subQuery).Error
+
+	if err != nil {
+		j.logger.Warn(err.Error())
+		tx.Rollback()
+		return errors.New("error when insert trans jadwal kuliah pertemuan")
+	}
+
+	return nil
+}
+
 func (j *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliahRequest, userId int) error {
 	var (
-		jadwalKuliah      entities.JadwalKuliah
-		batchJadwalKuliah []entities.JadwalKuliah
+		jadwalKuliah entities.JadwalKuliah
 	)
+
+	var jadwalKuliahs []entities.JadwalKuliah
+	var trx = j.db.Begin()
+
+	err := trx.Table(jadwalKuliah.TableName()).
+		Where("id_kelas = ?", &payload.IdKelas).
+		Delete(&jadwalKuliahs).Error
+
+	if err != nil {
+		j.logger.Error(err.Error())
+
+		trx.Rollback()
+		return errors.New("failed when delete jadwal kuliah by id kelas")
+	}
 
 	for _, v := range payload.JadwalKuliah {
 		var data = entities.JadwalKuliah{}
@@ -69,13 +117,19 @@ func (j *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 		data.IDJamSelesai = &v.IDJamSelesai
 		data.AddUser = userId
 
-		batchJadwalKuliah = append(batchJadwalKuliah, data)
+		if err := trx.Table(jadwalKuliah.TableName()).Create(&data).Error; err != nil {
+			j.logger.Error(err.Error())
+			trx.Rollback()
+
+			return errors.New("failed when save trans jadwal kuliah")
+		}
+
+		if err := j.saveAuto(trx, v.Hari, data.ID, v.IDJamMulai, v.IDJamSelesai); err != nil {
+			return err
+		}
 	}
 
-	if err := j.db.Table(jadwalKuliah.TableName()).Create(&batchJadwalKuliah).Error; err != nil {
-		j.logger.Error(err.Error())
-		return errors.New("failed when save trans jadwal kuliah")
-	}
+	trx.Commit()
 
 	return nil
 }

@@ -24,3 +24,9 @@ func FindAllJadwalKuliah(
 			"mst_kelas.inisial_kelas, mst_kelas.nama_kelas, mst_semester.semester, " +
 			"mst_tahun_ajaran.tahun, mst_konsentrasi.nama_prodi, mst_konsentrasi.nama_konsentrasi")
 }
+
+func DeleteTransJadwalKuliah(db *gorm.DB, idJadwal int) *gorm.DB {
+	return db.Table(entities.JadwalPertemuan{}.
+		TableName()).
+		Where("id_jadwal = ?", idJadwal)
+}
