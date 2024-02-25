@@ -30,10 +30,7 @@ func Paginate[T any](
 ) {
 	var total int64
 
-	if err = query.Count(&total).Error; err != nil {
-		logger.Error("failed to count data", zap.Error(err))
-		return
-	}
+	rawQuery := query.Statement.SQL.String()
 
 	if params.Page <= 0 {
 		params.Page = DEFAULT_PAGINATION_PAGE
@@ -55,12 +52,20 @@ func Paginate[T any](
 		Page:      params.Page,
 	}
 
-	err = query.Offset((params.Page - 1) * params.Size).
+	countQuery := *query
+	query = query.Offset((params.Page - 1) * params.Size).
 		Limit(params.Size).
-		Find(&data).Error
+		Find(&data)
+	logger.Info("debug", zap.Any("params", params))
 
-	if err != nil {
+	if query.Error != nil {
 		logger.Error("failed to fetch data", zap.Error(err))
+		err = ErrFailedFetchData
+		return
+	}
+
+	if err = countQuery.Offset(-1).Limit(-1).Raw(rawQuery).Count(&total).Error; err != nil {
+		logger.Error("failed to count data", zap.Error(err))
 		err = ErrFailedFetchData
 		return
 	}
