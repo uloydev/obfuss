@@ -186,6 +186,7 @@ definitions:
         items: {}
         type: array
       message:
+        example: success
         type: string
       meta:
         $ref: '#/definitions/models.PaginationMeta'
@@ -200,6 +201,7 @@ definitions:
         items: {}
         type: array
       message:
+        example: success
         type: string
       meta:
         $ref: '#/definitions/models.PaginationMeta'
@@ -214,6 +216,7 @@ definitions:
         items: {}
         type: array
       message:
+        example: success
         type: string
       meta:
         $ref: '#/definitions/models.PaginationMeta'
@@ -226,6 +229,7 @@ definitions:
         items: {}
         type: array
       message:
+        example: success
         type: string
       meta:
         $ref: '#/definitions/models.PaginationMeta'
@@ -238,6 +242,7 @@ definitions:
         items: {}
         type: array
       message:
+        example: success
         type: string
       meta:
         $ref: '#/definitions/models.PaginationMeta'
@@ -305,22 +310,35 @@ definitions:
           $ref: '#/definitions/models.SaveTransAbsen'
         type: array
       id_jadwal:
+        example: 1
         type: integer
       id_kelas:
+        example: 1
         type: integer
       id_pertemuan:
+        example: 1
         type: integer
+    required:
+    - absen
+    - id_jadwal
+    - id_kelas
+    - id_pertemuan
     type: object
   models.SaveTransAbsen:
     properties:
       id_mahasiswa:
+        example: 1
         type: integer
       is_hadir:
         description: yes or no
+        example: "yes"
         type: string
       keterangan:
         description: daring or luring
+        example: daring
         type: string
+    required:
+    - id_mahasiswa
     type: object
   models.TodoRequest:
     properties:

@@ -589,7 +589,8 @@ const docTemplate = `{
                     "items": {}
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "success"
                 },
                 "meta": {
                     "$ref": "#/definitions/models.PaginationMeta"
@@ -610,7 +611,8 @@ const docTemplate = `{
                     "items": {}
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "success"
                 },
                 "meta": {
                     "$ref": "#/definitions/models.PaginationMeta"
@@ -631,7 +633,8 @@ const docTemplate = `{
                     "items": {}
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "success"
                 },
                 "meta": {
                     "$ref": "#/definitions/models.PaginationMeta"
@@ -649,7 +652,8 @@ const docTemplate = `{
                     "items": {}
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "success"
                 },
                 "meta": {
                     "$ref": "#/definitions/models.PaginationMeta"
@@ -667,7 +671,8 @@ const docTemplate = `{
                     "items": {}
                 },
                 "message": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "success"
                 },
                 "meta": {
                     "$ref": "#/definitions/models.PaginationMeta"
@@ -761,6 +766,12 @@ const docTemplate = `{
         },
         "models.SaveAbsenTransRequest": {
             "type": "object",
+            "required": [
+                "absen",
+                "id_jadwal",
+                "id_kelas",
+                "id_pertemuan"
+            ],
             "properties": {
                 "absen": {
                     "type": "array",
@@ -769,29 +780,38 @@ const docTemplate = `{
                     }
                 },
                 "id_jadwal": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "id_kelas": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "id_pertemuan": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
         "models.SaveTransAbsen": {
             "type": "object",
+            "required": [
+                "id_mahasiswa"
+            ],
             "properties": {
                 "id_mahasiswa": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "is_hadir": {
                     "description": "yes or no",
-                    "type": "string"
+                    "type": "string",
+                    "example": "yes"
                 },
                 "keterangan": {
                     "description": "daring or luring",
-                    "type": "string"
+                    "type": "string",
+                    "example": "daring"
                 }
             }
         },

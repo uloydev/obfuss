@@ -25,16 +25,16 @@ type GetAllAbsenResponse struct {
 }
 
 type SaveAbsenTransRequest struct {
-	IdJadwal    int              `json:"id_jadwal"`
-	IdPertemuan int              `json:"id_pertemuan"`
-	IdKelas     int              `json:"id_kelas"`
-	Absen       []SaveTransAbsen `json:"absen"`
+	IdJadwal    int              `json:"id_jadwal" example:"1" binding:"required"`
+	IdPertemuan int              `json:"id_pertemuan" example:"1" binding:"required"`
+	IdKelas     int              `json:"id_kelas" example:"1" binding:"required"`
+	Absen       []SaveTransAbsen `json:"absen" binding:"required"`
 }
 
 type SaveTransAbsen struct {
-	IdMahasiswa int    `json:"id_mahasiswa"`
-	IsHadir     string `json:"is_hadir"`   // yes or no
-	Keterangan  string `json:"keterangan"` // daring or luring
+	IdMahasiswa int    `json:"id_mahasiswa" example:"1" binding:"required"`
+	IsHadir     string `json:"is_hadir" example:"yes"`      // yes or no
+	Keterangan  string `json:"keterangan" example:"daring"` // daring or luring
 }
 
 type AbsenCountResult struct {
