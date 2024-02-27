@@ -18,6 +18,9 @@ import (
 //	@description	Obfuss API Documentation
 //	@host			localhost:6996
 //	@BasePath		/api
+// 	@securityDefinitions.apikey BearerAuth
+// 	@in header
+// 	@name Authorization
 
 func main() {
 	initEnv()

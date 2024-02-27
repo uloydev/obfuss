@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/jadwal-kuliah": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get jadwal Kuliah",
                 "consumes": [
                     "application/json"
@@ -52,6 +57,11 @@ const docTemplate = `{
         },
         "/jadwal-kuliah/save-trans": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Save Trans Jadwal Kuliah",
                 "consumes": [
                     "application/json"
@@ -341,6 +351,29 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/token": {
+            "get": {
+                "description": "Get Token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Get Token",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-handlers_TokenResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -614,6 +647,17 @@ const docTemplate = `{
                 }
             }
         },
+        "handlers.TokenResponse": {
+            "type": "object",
+            "properties": {
+                "token_dosen": {
+                    "type": "string"
+                },
+                "token_mhs": {
+                    "type": "string"
+                }
+            }
+        },
         "models.BaseResponse-any": {
             "type": "object",
             "properties": {
@@ -680,6 +724,25 @@ const docTemplate = `{
             "properties": {
                 "data": {
                     "$ref": "#/definitions/entities.Todo"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
+        "models.BaseResponse-handlers_TokenResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/handlers.TokenResponse"
                 },
                 "errors": {
                     "type": "array",
@@ -904,6 +967,13 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

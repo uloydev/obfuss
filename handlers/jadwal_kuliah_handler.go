@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"strconv"
-
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -33,6 +32,7 @@ func NewJadwalKuliahHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahHandle
 // @Param			params	query		models.PaginationParams	true	"Pagination parameters"
 // @Success		200		{object}	models.BaseResponse[[]entities.JadwalKuliah]
 // @Router			/jadwal-kuliah [get]
+// @Security BearerAuth
 func (j *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 	var params models.PaginationParams
 
@@ -68,6 +68,7 @@ func (j *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 // @Param			jadwalKuliah	body		models.JadwalKuliahRequest	true "Save Trans request"
 // @Success		200		{object}	models.BaseResponse[any]
 // @Router			/jadwal-kuliah/save-trans [post]
+// @Security BearerAuth
 func (j *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 	var body models.JadwalKuliahRequest
 

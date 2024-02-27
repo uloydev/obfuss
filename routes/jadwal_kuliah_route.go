@@ -21,7 +21,7 @@ func NewJadwalKuliahRoute(db *gorm.DB, logger *zap.Logger) Route {
 }
 
 func (r *JadwalKuliahRoute) Register(app *gin.RouterGroup) {
-	api := app.Group(r.prefix, middlewares.RequestId())
+	api := app.Group(r.prefix, middlewares.RequestId(), middlewares.Authorization())
 	api.GET("/", r.handler.GetJadwalKuliah)
 	api.DELETE("/delete/:id", r.handler.DeleteJadwalKuliah)
 	api.POST("/save-trans", r.handler.SaveTransJadwalKuliah)

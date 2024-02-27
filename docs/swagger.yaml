@@ -179,6 +179,13 @@ definitions:
         description: Automatically managed by GORM for update time
         type: string
     type: object
+  handlers.TokenResponse:
+    properties:
+      token_dosen:
+        type: string
+      token_mhs:
+        type: string
+    type: object
   models.BaseResponse-any:
     properties:
       data: {}
@@ -225,6 +232,19 @@ definitions:
     properties:
       data:
         $ref: '#/definitions/entities.Todo'
+      errors:
+        items: {}
+        type: array
+      message:
+        example: success
+        type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
+    type: object
+  models.BaseResponse-handlers_TokenResponse:
+    properties:
+      data:
+        $ref: '#/definitions/handlers.TokenResponse'
       errors:
         items: {}
         type: array
@@ -404,6 +424,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.BaseResponse-array_entities_JadwalKuliah'
+      security:
+      - BearerAuth: []
       summary: Get Jadwal Kuliah
       tags:
       - Jadwal Kuliah
@@ -426,6 +448,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
       summary: Save Trans Jadwal Kuliah
       tags:
       - Jadwal Kuliah
@@ -598,4 +622,24 @@ paths:
       summary: Update Todo
       tags:
       - Todo
+  /token:
+    get:
+      consumes:
+      - application/json
+      description: Get Token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-handlers_TokenResponse'
+      summary: Get Token
+      tags:
+      - Token
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
