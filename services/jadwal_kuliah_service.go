@@ -3,6 +3,7 @@ package services
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -70,12 +71,12 @@ func (j *JadwalKuliahService) saveAuto(tx *gorm.DB, dayName string, idJadwal int
 	}
 
 	subQuery := tx.Table("date_calendar").
-		Select("date").
+		Select("date, mst_tanggal_off.keterangan as keterangan").
 		Joins("LEFT JOIN mst_tanggal_off ON mst_tanggal_off.tanggal = date_calendar.date").
 		Where("DAYNAME(date_calendar.date) = ?", day)
 
-	err := tx.Exec("INSERT INTO trans_jadwal_pertemuan (id_jadwal, pertemuan_ke, tanggal_pertemuan, mulai_jam, sampai_jam, keterangan, add_date, add_user)"+
-		"SELECT ?, (@row_number := @row_number +1), cal.date, ?, ?, mst_tanggal_off.keterangan, NOW(), 'SYSTEM' "+
+	err := tx.Exec("INSERT INTO trans_jadwal_pertemuan (id_jadwal, pertemuan_ke, tanggal_pertemuan, mulai_jam, sampai_jam, keterangan, add_date, add_user) "+
+		"SELECT ?, (@row_number := @row_number +1), cal.date, ?, ?, cal.keterangan, NOW(), 0 "+
 		"FROM (?) AS cal", idJadwal, idJamMulai, idJamSelesai, subQuery).Error
 
 	if err != nil {
@@ -116,6 +117,8 @@ func (j *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 		data.IDJamMulai = &v.IDJamMulai
 		data.IDJamSelesai = &v.IDJamSelesai
 		data.AddUser = userId
+
+		fmt.Println(v.Hari)
 
 		if err := trx.Table(jadwalKuliah.TableName()).Create(&data).Error; err != nil {
 			j.logger.Error(err.Error())

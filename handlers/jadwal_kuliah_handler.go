@@ -25,14 +25,14 @@ func NewJadwalKuliahHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahHandle
 	}
 }
 
-//	@Summary		Get Jadwal Kuliah
-//	@Description	Get jadwal Kuliah
-//	@Tags			Jadwal Kuliah
-//	@Accept			json
-//	@Produce		json
-//	@Param			params	query		models.PaginationParams	true	"Pagination parameters"
-//	@Success		200		{object}	models.BaseResponse[[]entities.JadwalKuliah]
-//	@Router			/jadwal-kuliah [get]
+// @Summary		Get Jadwal Kuliah
+// @Description	Get jadwal Kuliah
+// @Tags			Jadwal Kuliah
+// @Accept			json
+// @Produce		json
+// @Param			params	query		models.PaginationParams	true	"Pagination parameters"
+// @Success		200		{object}	models.BaseResponse[[]entities.JadwalKuliah]
+// @Router			/jadwal-kuliah [get]
 func (j *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 	var params models.PaginationParams
 
@@ -60,10 +60,18 @@ func (j *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 	})
 }
 
+// @Summary		Save Trans Jadwal Kuliah
+// @Description	Save Trans Jadwal Kuliah
+// @Tags			Jadwal Kuliah
+// @Accept			json
+// @Produce		json
+// @Param			jadwalKuliah	body		models.JadwalKuliahRequest	true "Save Trans request"
+// @Success		200		{object}	models.BaseResponse[any]
+// @Router			/jadwal-kuliah/save-trans [post]
 func (j *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 	var body models.JadwalKuliahRequest
 
-	if err := c.BindJSON(body); err != nil {
+	if err := c.BindJSON(&body); err != nil {
 		c.JSON(400, models.BaseResponse[entities.Todo]{
 			Message: "error",
 			Errors:  []any{err.Error()},

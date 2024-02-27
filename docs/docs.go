@@ -15,7 +15,76 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/absen/mahasiswa": {
+        "/jadwal-kuliah": {
+            "get": {
+                "description": "Get jadwal Kuliah",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jadwal Kuliah"
+                ],
+                "summary": "Get Jadwal Kuliah",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-array_entities_JadwalKuliah"
+                        }
+                    }
+                }
+            }
+        },
+        "/jadwal-kuliah/save-trans": {
+            "post": {
+                "description": "Save Trans Jadwal Kuliah",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jadwal Kuliah"
+                ],
+                "summary": "Save Trans Jadwal Kuliah",
+                "parameters": [
+                    {
+                        "description": "Save Trans request",
+                        "name": "jadwalKuliah",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.JadwalKuliahRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/mahasiswa": {
             "get": {
                 "description": "Get Absen Mahasiswa",
                 "consumes": [
@@ -71,7 +140,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/absen/save-trans": {
+        "/mahasiswa/absen/save-trans": {
             "post": {
                 "description": "Save Absen",
                 "consumes": [
@@ -100,41 +169,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.BaseResponse-any"
-                        }
-                    }
-                }
-            }
-        },
-        "/jadwal-kuliah": {
-            "get": {
-                "description": "Get jadwal Kuliah",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Jadwal Kuliah"
-                ],
-                "summary": "Get Jadwal Kuliah",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "size",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.BaseResponse-array_entities_JadwalKuliah"
                         }
                     }
                 }
@@ -744,6 +778,51 @@ const docTemplate = `{
                 },
                 "tahun": {
                     "type": "string"
+                }
+            }
+        },
+        "models.JadwalKuliahCreateRequest": {
+            "type": "object",
+            "required": [
+                "hari",
+                "id_dosen",
+                "id_jam_mulai",
+                "id_jam_selesai",
+                "id_mk"
+            ],
+            "properties": {
+                "hari": {
+                    "type": "string"
+                },
+                "id_dosen": {
+                    "type": "integer"
+                },
+                "id_jam_mulai": {
+                    "type": "integer"
+                },
+                "id_jam_selesai": {
+                    "type": "integer"
+                },
+                "id_mk": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.JadwalKuliahRequest": {
+            "type": "object",
+            "required": [
+                "id_kelas",
+                "jadwal_kuliah"
+            ],
+            "properties": {
+                "id_kelas": {
+                    "type": "integer"
+                },
+                "jadwal_kuliah": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.JadwalKuliahCreateRequest"
+                    }
                 }
             }
         },

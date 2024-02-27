@@ -6,9 +6,17 @@ services:
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - siapData:/var/lib/mysql
+    networks:
+      - local
 
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
+volumes:
+  siapData:
+
+networks:
+  local:
+    name: utiles-backend_local
+    external: true

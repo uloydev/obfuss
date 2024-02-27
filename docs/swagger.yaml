@@ -292,6 +292,37 @@ definitions:
       tahun:
         type: string
     type: object
+  models.JadwalKuliahCreateRequest:
+    properties:
+      hari:
+        type: string
+      id_dosen:
+        type: integer
+      id_jam_mulai:
+        type: integer
+      id_jam_selesai:
+        type: integer
+      id_mk:
+        type: integer
+    required:
+    - hari
+    - id_dosen
+    - id_jam_mulai
+    - id_jam_selesai
+    - id_mk
+    type: object
+  models.JadwalKuliahRequest:
+    properties:
+      id_kelas:
+        type: integer
+      jadwal_kuliah:
+        items:
+          $ref: '#/definitions/models.JadwalKuliahCreateRequest'
+        type: array
+    required:
+    - id_kelas
+    - jadwal_kuliah
+    type: object
   models.PaginationMeta:
     properties:
       page:
@@ -354,7 +385,51 @@ info:
   title: Obfuss API
   version: "1"
 paths:
-  /absen/mahasiswa:
+  /jadwal-kuliah:
+    get:
+      consumes:
+      - application/json
+      description: Get jadwal Kuliah
+      parameters:
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-array_entities_JadwalKuliah'
+      summary: Get Jadwal Kuliah
+      tags:
+      - Jadwal Kuliah
+  /jadwal-kuliah/save-trans:
+    post:
+      consumes:
+      - application/json
+      description: Save Trans Jadwal Kuliah
+      parameters:
+      - description: Save Trans request
+        in: body
+        name: jadwalKuliah
+        required: true
+        schema:
+          $ref: '#/definitions/models.JadwalKuliahRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      summary: Save Trans Jadwal Kuliah
+      tags:
+      - Jadwal Kuliah
+  /mahasiswa:
     get:
       consumes:
       - application/json
@@ -391,7 +466,7 @@ paths:
       summary: Get Absen Mahasiswa
       tags:
       - Absen
-  /absen/save-trans:
+  /mahasiswa/absen/save-trans:
     post:
       consumes:
       - application/json
@@ -413,28 +488,6 @@ paths:
       summary: Save Absen Trans
       tags:
       - Absen
-  /jadwal-kuliah:
-    get:
-      consumes:
-      - application/json
-      description: Get jadwal Kuliah
-      parameters:
-      - in: query
-        name: page
-        type: integer
-      - in: query
-        name: size
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.BaseResponse-array_entities_JadwalKuliah'
-      summary: Get Jadwal Kuliah
-      tags:
-      - Jadwal Kuliah
   /todo:
     get:
       consumes:

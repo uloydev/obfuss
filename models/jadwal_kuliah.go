@@ -13,14 +13,14 @@ type GetAllJadwalKuliahResponse struct {
 }
 
 type JadwalKuliahCreateRequest struct {
-	IDMk         int    `json:"id_mk"`
-	IDDosen      int    `json:"id_dosen"`
-	Hari         string `json:"hari"`
-	IDJamMulai   int    `json:"id_jam_mulai"`
-	IDJamSelesai int    `json:"id_jam_selesai"`
+	IDMk         int    `json:"id_mk" binding:"required"`
+	IDDosen      int    `json:"id_dosen" binding:"required"`
+	Hari         string `json:"hari" binding:"required"`
+	IDJamMulai   int    `json:"id_jam_mulai" binding:"required"`
+	IDJamSelesai int    `json:"id_jam_selesai" binding:"required"`
 }
 
 type JadwalKuliahRequest struct {
 	IdKelas      int                         `json:"id_kelas" binding:"required"`
-	JadwalKuliah []JadwalKuliahCreateRequest `json:"jadwal_kuliah"`
+	JadwalKuliah []JadwalKuliahCreateRequest `json:"jadwal_kuliah" binding:"required"`
 }

@@ -25,12 +25,12 @@ func (s *AngketDosenService) FineOneByPertemuan(idPertemuan int) (entities.Angke
 	err := s.db.Table(angket.TableName()).
 		Where("id_pertemuan = ?", idPertemuan).
 		First(&angket).Error
-	if err != nil {
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		s.logger.Error("failed to find angket by pertemuan", zap.Error(err))
 		return angket, errors.New("failed to find angket by pertemuan")
 	}
 
-	return angket, nil
+	return angket, err
 }
 
 func (s *AngketDosenService) SaveAngketDosen(payload *entities.AngketDosen) error {

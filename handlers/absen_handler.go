@@ -44,7 +44,7 @@ func NewAbsenHandler(db *gorm.DB, logger *zap.Logger) *AbsenHandler {
 // @Param			smtId		query		int						true	"Semester ID"
 // @Param			kelasId		query		int						true	"Kelas ID"
 // @Success		200			{object}	models.BaseResponse[models.GetAllAbsenResponse]
-// @Router			/absen/mahasiswa [get]
+// @Router			/mahasiswa [get]
 func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 	var params models.PaginationParams
 	if err := c.BindQuery(&params); err != nil {
@@ -102,7 +102,7 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 // @Produce		json
 // @Param			absen	body		models.SaveAbsenTransRequest	true	"Absen request"
 // @Success		200		{object}	models.BaseResponse[any]
-// @Router			/absen/save-trans [post]
+// @Router			/mahasiswa/absen/save-trans [post]
 func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 	var req models.SaveAbsenTransRequest
 	actorId := 1 // TODO: replace this with session('siap_userid') /  userId / mhsId

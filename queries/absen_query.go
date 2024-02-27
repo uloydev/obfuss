@@ -63,6 +63,6 @@ func FindAllAbsenQuery(
 }
 
 func CountAbsenQuery(db *gorm.DB, idPertemuan int) *gorm.DB {
-	query := `(SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND is_hadir = 'yes') as jumlah_hadir, (SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND is_hadir = 'no') as jumlah_tidak_hadir, as (SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND keterangan = 'luring') jumlah_luring, (SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND keterangan = 'daring') jumlah_daring`
-	return db.Select(query, idPertemuan, idPertemuan, idPertemuan, idPertemuan)
+	query := `SELECT * FROM ((SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND is_hadir = 'yes') as jumlah_hadir, (SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND is_hadir = 'no') as jumlah_tidak_hadir, as (SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND keterangan = 'luring') jumlah_luring, (SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND keterangan = 'daring') as jumlah_daring)`
+	return db.Raw(query, idPertemuan, idPertemuan, idPertemuan, idPertemuan)
 }
