@@ -1,11 +1,15 @@
 package handlers
 
 import (
+	"errors"
+	"fmt"
 	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"skripsi.id/obfuss/entities"
+	"skripsi.id/obfuss/middlewares"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/services"
 )
@@ -33,8 +37,31 @@ func NewJadwalKuliahHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahHandle
 // @Success		200		{object}	models.BaseResponse[[]entities.JadwalKuliah]
 // @Router			/jadwal-kuliah [get]
 // @Security BearerAuth
-func (j *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
+func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 	var params models.PaginationParams
+
+	userContext, exist := c.Get("user")
+
+	if !exist {
+		c.JSON(401, models.BaseResponse[entities.Todo]{
+			Message: "error",
+			Errors:  []any{errors.New("unauthorize")},
+		})
+		return
+	}
+
+	user, ok := userContext.(*middlewares.User)
+
+	if !ok {
+		h.logger.Error("error when parse user data")
+
+		c.JSON(500, models.BaseResponse[entities.Todo]{
+			Message: "error",
+			Errors:  []any{errors.New("internal server error")},
+		})
+
+		return
+	}
 
 	if err := c.BindQuery(&params); err != nil {
 		c.JSON(400, models.BaseResponse[entities.Todo]{
@@ -44,7 +71,9 @@ func (j *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 		return
 	}
 
-	jadwalKuliah, meta, err := j.service.GetJadwalKuliah(params, 1) // replace this value to session(semester_id)
+	fmt.Println(user)
+
+	jadwalKuliah, meta, err := h.service.GetJadwalKuliah(params, uint(user.SemesterId))
 	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.JadwalKuliah]{
 			Message: "error",

@@ -10,6 +10,18 @@ import (
 	"skripsi.id/obfuss/models"
 )
 
+type User struct {
+	ActorID    int    `json:"actorId"`
+	UserType   string `json:"userType"`
+	SemesterId int    `json:"semesterId"`
+	KelasId    int    `json:"kelasId"`
+}
+
+type UserToken struct {
+	jwt.MapClaims
+	*User
+}
+
 func Authorization() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString := c.Request.Header.Get("Authorization")
@@ -24,11 +36,10 @@ func Authorization() gin.HandlerFunc {
 			return
 		}
 
-		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenString, &UserToken{}, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 			}
-			fmt.Println(os.Getenv("JWT_SECRET"))
 
 			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
@@ -54,7 +65,7 @@ func Authorization() gin.HandlerFunc {
 			return
 		}
 
-		claims, ok := token.Claims.(jwt.MapClaims)
+		claims, ok := token.Claims.(*UserToken)
 
 		if !ok {
 			c.JSON(401, models.BaseResponse[map[string]any]{
@@ -66,45 +77,7 @@ func Authorization() gin.HandlerFunc {
 			return
 		}
 
-		actorId, ok := (claims["actorId"].(float64))
-		if !ok {
-			c.JSON(500, models.BaseResponse[map[string]any]{
-				Message: "error",
-				Errors:  []any{errors.New("internal server error").Error()},
-			})
-			c.Abort()
-
-			return
-		}
-
-		userType, ok := claims["userType"].(string)
-		if !ok {
-			c.JSON(500, models.BaseResponse[map[string]any]{
-				Message: "error",
-				Errors:  []any{errors.New("internal server error").Error()},
-			})
-			c.Abort()
-
-			fmt.Println("Semester id not found in claims")
-			return
-		}
-
-		semesterId, ok := claims["semesterId"].(float64)
-		if !ok {
-			c.JSON(500, models.BaseResponse[map[string]any]{
-				Message: "error",
-				Errors:  []any{errors.New("internal server error").Error()},
-			})
-			c.Abort()
-
-			fmt.Println("Semester id not found in claims")
-			return
-		}
-
-		c.Set("x-actor-id", int(actorId))
-		c.Set("x-user-type", userType)
-		c.Set("x-semester-id", int(semesterId))
-		c.Set("x-kelas-id", 0)
+		c.Set("user", claims.User)
 		c.Next()
 	}
 }
