@@ -8,6 +8,6 @@ type Prodi struct {
 	Keterangan string `json:"keterangan"`
 }
 
-func (p Prodi) TableName() string {
+func (e Prodi) TableName() string {
 	return "mst_program_studi"
 }

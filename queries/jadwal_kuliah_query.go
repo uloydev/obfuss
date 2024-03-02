@@ -9,8 +9,9 @@ func FindAllJadwalKuliah(
 	db *gorm.DB,
 	smtId uint,
 ) *gorm.DB {
+	var jadwalKuliah *entities.JadwalKuliah
 
-	return db.Table(entities.JadwalKuliah{}.TableName()).
+	return db.Table(jadwalKuliah.TableName()).
 		Select("mst_kurikulum.kode_kurikulum, trans_jadwal_kuliah.id_kelas, COUNT(trans_jadwal_kuliah.id_mk) AS jumlah_mk, "+
 			"mst_kelas.inisial_kelas, mst_kelas.nama_kelas, mst_semester.semester, "+
 			"mst_tahun_ajaran.tahun, mst_konsentrasi.nama_prodi, mst_konsentrasi.nama_konsentrasi").
@@ -26,7 +27,7 @@ func FindAllJadwalKuliah(
 }
 
 func DeleteTransJadwalKuliah(db *gorm.DB, idJadwal int) *gorm.DB {
-	return db.Table(entities.JadwalPertemuan{}.
-		TableName()).
-		Where("id_jadwal = ?", idJadwal)
+	var jadwalKuliah *entities.JadwalKuliah
+
+	return db.Table(jadwalKuliah.TableName()).Where("id_jadwal = ?", idJadwal)
 }

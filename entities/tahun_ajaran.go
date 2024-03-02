@@ -10,6 +10,6 @@ type TahunAjaran struct {
 	ActiveStatus  string    `json:"active_status"`
 }
 
-func (t TahunAjaran) TableName() string {
+func (e TahunAjaran) TableName() string {
 	return "mst_tahun_ajaran"
 }

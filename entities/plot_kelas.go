@@ -12,6 +12,6 @@ type PlotKelas struct {
 	TahunMasuk  string    `json:"tahun_masuk"`
 }
 
-func (p PlotKelas) TableName() string {
+func (e PlotKelas) TableName() string {
 	return "trans_plot_kelas"
 }

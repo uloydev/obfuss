@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +16,7 @@ import (
 type JadwalKuliahHandler struct {
 	db      *gorm.DB
 	logger  *zap.Logger
-	service *services.JadwalKuliahService
+	service *services.JadwalKuliahDosenService
 }
 
 func NewJadwalKuliahHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahHandler {
@@ -71,8 +70,6 @@ func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(user)
-
 	jadwalKuliah, meta, err := h.service.GetJadwalKuliah(params, uint(user.SemesterId))
 	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.JadwalKuliah]{
@@ -98,7 +95,7 @@ func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 // @Success		200		{object}	models.BaseResponse[any]
 // @Router			/jadwal-kuliah/save-trans [post]
 // @Security BearerAuth
-func (j *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
+func (h *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 	var body models.JadwalKuliahRequest
 
 	if err := c.BindJSON(&body); err != nil {
@@ -109,7 +106,7 @@ func (j *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 		return
 	}
 
-	err := j.service.SaveTransJadwalKuliah(&body, 1) // replace this value to session(semester_id)
+	err := h.service.SaveTransJadwalKuliah(&body, 1) // replace this value to session(semester_id)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.JadwalKuliah]{
 			Message: "error",
@@ -124,18 +121,27 @@ func (j *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 	})
 }
 
-func (j *JadwalKuliahHandler) DeleteJadwalKuliah(c *gin.Context) {
+// @Summary		delete Trans Jadwal Kuliah
+// @Description	delete Trans Jadwal Kuliah
+// @Tags			Jadwal Kuliah
+// @Accept			json
+// @Produce		json
+// @Param			id	path		int	true	"Jadwal Kuliah ID"
+// @Success		200		{object}	models.BaseResponse[any]
+// @Router			/jadwal-kuliah/ [delete]
+// @Security BearerAuth
+func (h *JadwalKuliahHandler) DeleteJadwalKuliah(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 
 	if err != nil {
-		c.JSON(500, models.BaseResponse[entities.Todo]{
+		c.JSON(500, models.BaseResponse[entities.JadwalKuliah]{
 			Message: "error",
 			Errors:  []any{err.Error()},
 		})
 		return
 	}
 
-	err = j.service.DeleteJadwalKuliah(id) // replace this value to session(semester_id)
+	err = h.service.DeleteJadwalKuliah(id)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.JadwalKuliah]{
 			Message: "error",

@@ -14,6 +14,6 @@ type Konsentrasi struct {
 	Keterangan      string `json:"keterangan"`
 }
 
-func (k Konsentrasi) TableName() string {
+func (e Konsentrasi) TableName() string {
 	return "mst_konsentrasi"
 }

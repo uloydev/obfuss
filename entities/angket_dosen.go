@@ -23,6 +23,6 @@ type AngketDosen struct {
 	ModifiedUser     *int       `gorm:"column:modified_user" json:"modified_user"`
 }
 
-func (AngketDosen) TableName() string {
+func (e AngketDosen) TableName() string {
 	return "trans_angket_dosen"
 }

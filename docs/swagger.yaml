@@ -429,6 +429,29 @@ paths:
       summary: Get Jadwal Kuliah
       tags:
       - Jadwal Kuliah
+  /jadwal-kuliah/:
+    delete:
+      consumes:
+      - application/json
+      description: delete Trans Jadwal Kuliah
+      parameters:
+      - description: Jadwal Kuliah ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
+      summary: delete Trans Jadwal Kuliah
+      tags:
+      - Jadwal Kuliah
   /jadwal-kuliah/save-trans:
     post:
       consumes:

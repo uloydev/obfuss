@@ -40,6 +40,6 @@ type Dosen struct {
 	Uname              string    `json:"uname"`
 }
 
-func (d Dosen) TableName() string {
+func (e Dosen) TableName() string {
 	return "mst_dosen"
 }

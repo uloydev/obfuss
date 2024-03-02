@@ -19,6 +19,6 @@ type MataKuliah struct {
 	SksSimulasi    uint   `json:"sks_simulasi"`
 }
 
-func (m MataKuliah) TableName() string {
+func (e MataKuliah) TableName() string {
 	return "mst_mata_kuliah"
 }

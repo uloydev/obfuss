@@ -77,3 +77,7 @@ type Mahasiswa struct {
 	SemesterDO          string    `json:"semester_do"`
 	Confirmed           int       `json:"confirmed"`
 }
+
+func (e Mahasiswa) TableName() string {
+	return "mst_mahasiswa"
+}

@@ -15,6 +15,6 @@ type Semester struct {
 	ActiveStatus    string      `json:"active_status"`
 }
 
-func (s Semester) TableName() string {
+func (e Semester) TableName() string {
 	return "mst_semester"
 }

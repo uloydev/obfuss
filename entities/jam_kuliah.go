@@ -11,6 +11,6 @@ type JamKuliah struct {
 	Keterangan string    `json:"keterangan"`
 }
 
-func (j JamKuliah) TableName() string {
+func (e JamKuliah) TableName() string {
 	return "mst_jam_kuliah"
 }

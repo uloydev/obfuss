@@ -1,7 +1,6 @@
 package entities
 
-// i dont know where come from IDJamMulai and IDJamSelesai
-type JadwalKuliah struct {
+type JadwalKuliahDosen struct {
 	BaseModel
 	ID           int       `gorm:"type:int(11);auto_increment;" json:"id"`
 	IDSemester   *int      `gorm:"type:int(11);" json:"id_semester"`
@@ -16,6 +15,6 @@ type JadwalKuliah struct {
 	Status       *string   `gorm:"type:enum('active','non_active');"`
 }
 
-func (e JadwalKuliah) TableName() string {
+func (e JadwalKuliahDosen) TableName() string {
 	return "trans_jadwal_kuliah"
 }

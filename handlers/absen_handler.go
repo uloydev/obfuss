@@ -19,7 +19,7 @@ type AbsenHandler struct {
 	plotKelasService       *services.PlotKelasService
 	jadwalPertemuanService *services.JadwalPertemuanService
 	angketDosenService     *services.AngketDosenService
-	jadwalKuliahService    *services.JadwalKuliahService
+	jadwalKuliahService    *services.JadwalKuliahDosenService
 }
 
 func NewAbsenHandler(db *gorm.DB, logger *zap.Logger) *AbsenHandler {

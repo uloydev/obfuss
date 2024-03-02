@@ -49,6 +49,43 @@
                 }
             }
         },
+        "/jadwal-kuliah/": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "delete Trans Jadwal Kuliah",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jadwal Kuliah"
+                ],
+                "summary": "delete Trans Jadwal Kuliah",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Jadwal Kuliah ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
         "/jadwal-kuliah/save-trans": {
             "post": {
                 "security": [
