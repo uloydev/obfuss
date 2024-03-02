@@ -26,8 +26,16 @@ func NewJadwalKuliahDosenHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahD
 	}
 }
 
+// @Summary		Save Trans Jadwal Kuliah
+// @Description	Save Trans Jadwal Kuliah
+// @Tags			Jadwal Kuliah
+// @Accept			json
+// @Produce		json
+// @Success		204		{object}	models.BaseResponse[any]
+// @Router		/jadwal-kuliah-dosen/save-trans [post]
+// @Security BearerAuth
 func (h *JadwalKuliahDosenHandler) SaveTrans(c *gin.Context) {
-	var body models.JadwalKuliahRequest
+	var body models.SaveTransJadwalKuliahDosen
 
 	if err := c.BindJSON(&body); err != nil {
 		c.JSON(400, models.BaseResponse[entities.JadwalKuliahDosen]{
@@ -37,6 +45,21 @@ func (h *JadwalKuliahDosenHandler) SaveTrans(c *gin.Context) {
 		return
 	}
 
+	if err := h.service.SaveTrans(&body); err != nil {
+		c.JSON(500, models.BaseResponse[entities.JadwalKuliahDosen]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+
+		return
+	}
+
+	c.JSON(204, models.BaseResponse[*entities.JadwalKuliahDosen]{
+		Message: "success",
+		Data:    nil,
+	})
+
+	return
 }
 
 // @Summary		delete Trans Jadwal Kuliah

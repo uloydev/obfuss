@@ -16,7 +16,7 @@ import (
 type JadwalKuliahHandler struct {
 	db      *gorm.DB
 	logger  *zap.Logger
-	service *services.JadwalKuliahDosenService
+	service *services.JadwalKuliahService
 }
 
 func NewJadwalKuliahHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahHandler {

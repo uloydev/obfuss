@@ -22,7 +22,7 @@ func NewJadwalKuliahDosenService(db *gorm.DB, logger *zap.Logger) *JadwalKuliahD
 	}
 }
 
-func (s *JadwalKuliahDosenService) SaveTrans(payload models.SaveTransJadwalKuliahDosen) error {
+func (s *JadwalKuliahDosenService) SaveTrans(payload *models.SaveTransJadwalKuliahDosen) error {
 	var (
 		errorCreate = errors.New("failed when create jadwal kuliah")
 		errorUpdate = errors.New("failed when update jadwal kuliah dosen")

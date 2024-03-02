@@ -18,14 +18,14 @@ type JadwalKuliahService struct {
 	logger *zap.Logger
 }
 
-func NewJadwalKuliahService(db *gorm.DB, logger *zap.Logger) *JadwalKuliahDosenService {
-	return &JadwalKuliahDosenService{
+func NewJadwalKuliahService(db *gorm.DB, logger *zap.Logger) *JadwalKuliahService {
+	return &JadwalKuliahService{
 		db,
 		logger.With(zap.String("type", "JadwalKuliahService")),
 	}
 }
 
-func (s *JadwalKuliahDosenService) GetJadwalKuliah(pageParams models.PaginationParams, idSemester uint) ([]entities.JadwalKuliah, *models.PaginationMeta, error) {
+func (s *JadwalKuliahService) GetJadwalKuliah(pageParams models.PaginationParams, idSemester uint) ([]entities.JadwalKuliah, *models.PaginationMeta, error) {
 	query := queries.FindAllJadwalKuliah(s.db, idSemester)
 
 	meta, jadwalKuliah, err := utils.Paginate[entities.JadwalKuliah](pageParams, query, s.logger)
@@ -39,7 +39,7 @@ func (s *JadwalKuliahDosenService) GetJadwalKuliah(pageParams models.PaginationP
 	return jadwalKuliah, meta, nil
 }
 
-func (s *JadwalKuliahDosenService) DeleteJadwalKuliah(id int) error {
+func (s *JadwalKuliahService) DeleteJadwalKuliah(id int) error {
 	var jadwalKuliah entities.JadwalKuliah
 
 	err := s.db.Table(jadwalKuliah.TableName()).
@@ -53,7 +53,7 @@ func (s *JadwalKuliahDosenService) DeleteJadwalKuliah(id int) error {
 	return nil
 }
 
-func (s *JadwalKuliahDosenService) saveAuto(tx *gorm.DB, dayName string, idJadwal int, idJamMulai int, idJamSelesai int) error {
+func (s *JadwalKuliahService) saveAuto(tx *gorm.DB, dayName string, idJadwal int, idJamMulai int, idJamSelesai int) error {
 	day := utils.GetDayName(dayName)
 
 	if err := queries.DeleteTransJadwalKuliah(tx, idJadwal).Error; err != nil {
@@ -88,7 +88,7 @@ func (s *JadwalKuliahDosenService) saveAuto(tx *gorm.DB, dayName string, idJadwa
 	return nil
 }
 
-func (s *JadwalKuliahDosenService) SaveTransJadwalKuliah(payload *models.JadwalKuliahRequest, userId int) error {
+func (s *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliahRequest, userId int) error {
 	var (
 		jadwalKuliah entities.JadwalKuliah
 	)
@@ -138,7 +138,7 @@ func (s *JadwalKuliahDosenService) SaveTransJadwalKuliah(payload *models.JadwalK
 	return nil
 }
 
-func (s *JadwalKuliahDosenService) GetById(id int) (entities.JadwalKuliah, error) {
+func (s *JadwalKuliahService) GetById(id int) (entities.JadwalKuliah, error) {
 	var data entities.JadwalKuliah
 	err := s.db.Table(entities.JadwalKuliah{}.TableName()).First(&data, id).Error
 	if err != nil {
