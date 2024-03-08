@@ -49,6 +49,34 @@
                 }
             }
         },
+        "/jadwal-kuliah-dosen/save-trans": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Save Trans Jadwal Kuliah",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jadwal Kuliah"
+                ],
+                "summary": "Save Trans Jadwal Kuliah",
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
         "/jadwal-kuliah/": {
             "delete": {
                 "security": [
@@ -210,6 +238,46 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/perubahan-jadwal": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Perubahan Jadwal",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Perubahan Jadwal"
+                ],
+                "summary": "Get Perubahan Jadwal",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-array_models_GetAllPerubahanJadwal"
                         }
                     }
                 }
@@ -750,6 +818,28 @@
                 }
             }
         },
+        "models.BaseResponse-array_models_GetAllPerubahanJadwal": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.GetAllPerubahanJadwal"
+                    }
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
         "models.BaseResponse-entities_Todo": {
             "type": "object",
             "properties": {
@@ -871,6 +961,83 @@
                     "type": "string"
                 },
                 "tahun": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.GetAllPerubahanJadwal": {
+            "type": "object",
+            "properties": {
+                "alasan_perubahan": {
+                    "type": "string"
+                },
+                "hari_jadwal": {
+                    "type": "string"
+                },
+                "hari_old": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "inisial_kelas": {
+                    "type": "string"
+                },
+                "jam_kuliah": {
+                    "type": "string"
+                },
+                "jam_kuliah_old": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "kode_kurikulum": {
+                    "type": "string"
+                },
+                "mulai_jam": {
+                    "type": "integer"
+                },
+                "mulai_jam_old": {
+                    "type": "integer"
+                },
+                "nama_dosen": {
+                    "type": "string"
+                },
+                "nama_kelas": {
+                    "type": "string"
+                },
+                "nama_konsentrasi": {
+                    "type": "string"
+                },
+                "nama_mk": {
+                    "type": "string"
+                },
+                "nama_prodi": {
+                    "type": "string"
+                },
+                "sampai_jam": {
+                    "type": "integer"
+                },
+                "sampai_jam_old": {
+                    "type": "integer"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "status_usulan": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                },
+                "tanggal_old": {
+                    "type": "string"
+                },
+                "tanggal_pertemuan": {
+                    "type": "string"
+                },
+                "tanggal_usulan_ganti": {
                     "type": "string"
                 }
             }

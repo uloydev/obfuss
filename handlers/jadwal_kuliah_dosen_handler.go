@@ -37,7 +37,7 @@ func NewJadwalKuliahDosenHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahD
 func (h *JadwalKuliahDosenHandler) SaveTrans(c *gin.Context) {
 	var body models.SaveTransJadwalKuliahDosen
 
-	if err := c.BindJSON(&body); err != nil {
+if err := c.BindJSON(&body); err != nil {
 		c.JSON(400, models.BaseResponse[entities.JadwalKuliahDosen]{
 			Message: "error",
 			Errors:  []any{err.Error()},
@@ -58,8 +58,6 @@ func (h *JadwalKuliahDosenHandler) SaveTrans(c *gin.Context) {
 		Message: "success",
 		Data:    nil,
 	})
-
-	return
 }
 
 // @Summary		delete Trans Jadwal Kuliah

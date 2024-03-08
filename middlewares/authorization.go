@@ -66,6 +66,7 @@ func Authorization() gin.HandlerFunc {
 		}
 
 		claims, ok := token.Claims.(*UserToken)
+		claims.SemesterId = 1
 
 		if !ok {
 			c.JSON(401, models.BaseResponse[map[string]any]{
