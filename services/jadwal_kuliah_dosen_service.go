@@ -25,6 +25,22 @@ func NewJadwalKuliahDosenService(db *gorm.DB, logger *zap.Logger) *JadwalKuliahD
 	}
 }
 
+func (s *JadwalKuliahDosenService) GetGridJadwalKuliahDosen() ([]entities.Kelas, error) {
+	var results []entities.Kelas
+
+	err := s.db.Joins("Kurikulum").
+		Joins("Semester").
+		Joins("Konsentrasi").
+		Find(&results).Error
+
+	if err != nil {
+		s.logger.Error("failed to get grid jadwal kuliah dosen", zap.Error(err))
+		return nil, errors.New("failed to get grid jadwal kuliah dosen")
+	}
+
+	return results, nil
+}
+
 func (s *JadwalKuliahDosenService) GetAllJadwalKuliahDosen(
 	pageParams models.PaginationParams,
 	idDosen int,

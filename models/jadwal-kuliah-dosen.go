@@ -1,5 +1,7 @@
 package models
 
+import "skripsi.id/obfuss/entities"
+
 type SaveTransJadwalKuliahDosen struct {
 	ID           int    `json:"id"`
 	IDSemester   int    `json:"id_semester"`
@@ -14,4 +16,8 @@ type SaveTransJadwalKuliahDosen struct {
 type GetMahasiswaRaw struct {
 	IDKelas     int `json:"id_kelas"`
 	IDPertemuan int `json:"id_pertemuan"`
+}
+
+type GetGridJadwalKuliahDosenResult struct {
+	entities.Kurikulum
 }

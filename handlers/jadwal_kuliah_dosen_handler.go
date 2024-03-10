@@ -205,3 +205,28 @@ func (h *JadwalKuliahDosenHandler) GetAllMahasiswa(c *gin.Context) {
 		Meta:    meta,
 	})
 }
+
+// @Summary		Get All Kelas
+// @Description	Get All Kelas
+// @Tags			Jadwal Kuliah
+// @Accept			json
+// @Produce		json
+// @Success		200		{object}	models.BaseResponse[[]entities.Kelas]
+// @Router		/jadwal-kuliah-dosen/kelas [get]
+// @Security BearerAuth
+func (h *JadwalKuliahDosenHandler) GetGridJadwalKuliahDosen(c *gin.Context) {
+	data, err := h.service.GetGridJadwalKuliahDosen()
+
+	if err != nil {
+		c.JSON(500, models.BaseResponse[entities.Kelas]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	c.JSON(200, models.BaseResponse[[]entities.Kelas]{
+		Message: "success",
+		Data:    data,
+	})
+}

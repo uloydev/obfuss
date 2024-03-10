@@ -23,6 +23,7 @@ func NewJadwalKuliahDosenRoute(db *gorm.DB, logger *zap.Logger) Route {
 func (r *JadwalKuliahDosenRoute) Register(app *gin.RouterGroup) {
 	api := app.Group(r.prefix, middlewares.RequestId(), middlewares.Authorization())
 	api.GET("/", r.handler.GetAll)
+	api.GET("/kelas", r.handler.GetGridJadwalKuliahDosen)
 	api.DELETE("/delete/:id", r.handler.Delete)
 	api.POST("/save-trans", r.handler.SaveTrans)
 	api.POST("/mahasiswa", r.handler.GetAllMahasiswa)

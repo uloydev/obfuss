@@ -97,6 +97,34 @@ const docTemplate = `{
                 }
             }
         },
+        "/jadwal-kuliah-dosen/kelas": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get All Kelas",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jadwal Kuliah"
+                ],
+                "summary": "Get All Kelas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-array_entities_Kelas"
+                        }
+                    }
+                }
+            }
+        },
         "/jadwal-kuliah-dosen/mahasiswa": {
             "post": {
                 "security": [
@@ -959,6 +987,28 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/entities.JadwalKuliah"
+                    }
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
+        "models.BaseResponse-array_entities_Kelas": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entities.Kelas"
                     }
                 },
                 "errors": {
