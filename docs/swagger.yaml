@@ -378,6 +378,13 @@ definitions:
       tanggal_usulan_ganti:
         type: string
     type: object
+  models.GetMahasiswaRaw:
+    properties:
+      id_kelas:
+        type: integer
+      id_pertemuan:
+        type: integer
+    type: object
   models.JadwalKuliahCreateRequest:
     properties:
       hari:
@@ -495,6 +502,87 @@ paths:
       summary: Get Jadwal Kuliah
       tags:
       - Jadwal Kuliah
+  /jadwal-kuliah-dosen/:
+    get:
+      consumes:
+      - application/json
+      description: Get All Jadwal Kuliah Dosen
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
+      summary: Get All Jadwal Kuliah Dosen
+      tags:
+      - Jadwal Kuliah
+  /jadwal-kuliah-dosen/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete Trans Jadwal Kuliah
+      parameters:
+      - description: Jadwal Kuliah ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
+      summary: delete Trans Jadwal Kuliah
+      tags:
+      - Jadwal Kuliah
+  /jadwal-kuliah-dosen/mahasiswa:
+    post:
+      consumes:
+      - application/json
+      description: Get All Mahasiswa
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.GetMahasiswaRaw'
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
+      summary: Get All Mahasiswa
+      tags:
+      - Jadwal Kuliah
   /jadwal-kuliah-dosen/save-trans:
     post:
       consumes:
@@ -559,6 +647,32 @@ paths:
       summary: Save Trans Jadwal Kuliah
       tags:
       - Jadwal Kuliah
+  /laporan-perkuliahan/:
+    get:
+      consumes:
+      - application/json
+      description: Get All Laporan Perkuliahan
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
+      summary: Get All Laporan Perkuliahan
+      tags:
+      - Laporan Perkuliahan
   /mahasiswa:
     get:
       consumes:

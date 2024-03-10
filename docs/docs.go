@@ -55,6 +55,99 @@ const docTemplate = `{
                 }
             }
         },
+        "/jadwal-kuliah-dosen/": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get All Jadwal Kuliah Dosen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jadwal Kuliah"
+                ],
+                "summary": "Get All Jadwal Kuliah Dosen",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/jadwal-kuliah-dosen/mahasiswa": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get All Mahasiswa",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jadwal Kuliah"
+                ],
+                "summary": "Get All Mahasiswa",
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.GetMahasiswaRaw"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
         "/jadwal-kuliah-dosen/save-trans": {
             "post": {
                 "security": [
@@ -73,6 +166,43 @@ const docTemplate = `{
                     "Jadwal Kuliah"
                 ],
                 "summary": "Save Trans Jadwal Kuliah",
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/jadwal-kuliah-dosen/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "delete Trans Jadwal Kuliah",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jadwal Kuliah"
+                ],
+                "summary": "delete Trans Jadwal Kuliah",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Jadwal Kuliah ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "204": {
                         "description": "No Content",
@@ -147,6 +277,48 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.JadwalKuliahRequest"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/laporan-perkuliahan/": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get All Laporan Perkuliahan",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Laporan Perkuliahan"
+                ],
+                "summary": "Get All Laporan Perkuliahan",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1045,6 +1217,17 @@ const docTemplate = `{
                 },
                 "tanggal_usulan_ganti": {
                     "type": "string"
+                }
+            }
+        },
+        "models.GetMahasiswaRaw": {
+            "type": "object",
+            "properties": {
+                "id_kelas": {
+                    "type": "integer"
+                },
+                "id_pertemuan": {
+                    "type": "integer"
                 }
             }
         },
