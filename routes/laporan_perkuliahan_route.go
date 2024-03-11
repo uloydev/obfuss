@@ -23,4 +23,5 @@ func NewLaporanPerkuliahanRoute(db *gorm.DB, logger *zap.Logger) Route {
 func (r *LaporanPerkuliahanRoute) Register(app *gin.RouterGroup) {
 	api := app.Group(r.prefix, middlewares.RequestId(), middlewares.Authorization())
 	api.GET("/", r.handler.GetAll)
+	api.POST("/save-trans", r.handler.SaveTransLaporanPerkuliahan)
 }

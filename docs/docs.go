@@ -359,6 +359,83 @@ const docTemplate = `{
                 }
             }
         },
+        "/laporan-perkuliahan/save-trans": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "SaveTrans",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Laporan Perkuliahan"
+                ],
+                "summary": "SaveTrans",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "fileName",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id_dosen",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id_pertemuan",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "jam_kuliah",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "keterangan",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "materi",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "pertemuan_ke",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "file",
+                        "name": "foto",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
         "/mahasiswa/absen": {
             "get": {
                 "description": "Get Absen Mahasiswa",
