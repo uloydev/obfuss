@@ -10,6 +10,7 @@ import (
 	"skripsi.id/obfuss/entities"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/services"
+	"skripsi.id/obfuss/utils"
 )
 
 type AbsenHandler struct {
@@ -40,13 +41,22 @@ func NewAbsenHandler(db *gorm.DB, logger *zap.Logger) *AbsenHandler {
 // @Accept			json
 // @Produce		json
 // @Param			params		query		models.PaginationParams	true	"Pagination parameters"
-// @Param			userType	query		string					true	"User type"
 // @Param			smtId		query		int						true	"Semester ID"
 // @Param			kelasId		query		int						true	"Kelas ID"
 // @Success		200			{object}	models.BaseResponse[models.GetAllAbsenResponse]
 // @Router			/mahasiswa/absen [get]
 func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 	var params models.PaginationParams
+
+	user, err := utils.GetUser(c)
+	if err != nil {
+		c.JSON(401, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{errors.New("unauthorize")},
+		})
+		return
+	}
+
 	if err := c.BindQuery(&params); err != nil {
 		c.JSON(400, models.BaseResponse[map[string]any]{
 			Message: "error",
@@ -55,8 +65,6 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 		return
 	}
 
-	// START TODO: remove this params when user auth is implemented
-	userType := c.Query("userType")
 	smtId, err := strconv.Atoi(c.Query("smtId"))
 	if err != nil {
 		c.JSON(400, models.BaseResponse[map[string]any]{
@@ -65,11 +73,10 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 		})
 		return
 	}
-	// END TODO
 
 	kelasId, err := h.plotKelasService.GetIdKelas(map[string]any{
 		"id_semester":  smtId,
-		"id_mahasiswa": 1, // TODO: replace this with session('siap_id') /  userId / mhsId
+		"id_mahasiswa": user.ActorID,
 	})
 	if err != nil {
 		c.JSON(500, models.BaseResponse[map[string]any]{
@@ -79,7 +86,7 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 		return
 	}
 
-	absen, meta, err := h.absenService.GetAllAbsen(params, userType, smtId, kelasId, 0)
+	absen, meta, err := h.absenService.GetAllAbsen(params, user.UserType, smtId, kelasId, 0)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
@@ -105,7 +112,14 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 // @Router			/mahasiswa/absen/save-trans [post]
 func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 	var req models.SaveAbsenTransRequest
-	actorId := 1 // TODO: replace this with session('siap_userid') /  userId / mhsId
+	user, err := utils.GetUser(c)
+	if err != nil {
+		c.JSON(401, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{errors.New("unauthorize")},
+		})
+		return
+	}
 	if err := c.BindJSON(&req); err != nil {
 		c.JSON(400, models.BaseResponse[map[string]any]{
 			Message: "error",
@@ -132,7 +146,7 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 		return
 	}
 
-	err = h.absenService.SaveAbsenTrans(req, actorId)
+	err = h.absenService.SaveAbsenTrans(req, user.ActorID)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
@@ -188,7 +202,7 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 			JumlahLuring:     &absenCount.JumlahLuring,
 			JumlahDaring:     &absenCount.JumlahDaring,
 			Status:           "Draft",
-			AddUser:          &actorId,
+			AddUser:          &user.ActorID,
 		}
 	} else {
 		angket.JumlahHadir = &absenCount.JumlahHadir

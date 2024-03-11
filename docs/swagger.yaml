@@ -766,11 +766,6 @@ paths:
       - in: query
         name: size
         type: integer
-      - description: User type
-        in: query
-        name: userType
-        required: true
-        type: string
       - description: Semester ID
         in: query
         name: smtId
