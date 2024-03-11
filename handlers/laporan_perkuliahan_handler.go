@@ -4,10 +4,12 @@ import (
 	"errors"
 	"fmt"
 	"path/filepath"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
+	"skripsi.id/obfuss/entities"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/services"
 	"skripsi.id/obfuss/utils"
@@ -137,4 +139,35 @@ func (h *LaporanPerkuliahanHandler) GetAll(c *gin.Context) {
 		Meta:    meta,
 	})
 
+}
+
+// @Summary		Delete Angket Dosen
+// @Description	Delete Angket Dosen
+// @Tags		Laporan Perkuliahan
+// @Accept			json
+// @Produce		json
+// @Param			id-pertemuan	path		int	true	"pertemuan ID"
+// @Success		204	{object}	models.BaseResponse[any]
+// @Router			/laporan-perkuliahan/{id-pertemuan}/pertemuan [delete]
+func (h *LaporanPerkuliahanHandler) Delete(c *gin.Context) {
+	idPertemuan, err := strconv.Atoi(c.Param("id-pertemuan"))
+	if err != nil {
+		c.JSON(500, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	if err := h.service.Delete(idPertemuan); err != nil {
+		c.JSON(500, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	c.JSON(200, models.BaseResponse[entities.Todo]{
+		Message: "success",
+	})
 }

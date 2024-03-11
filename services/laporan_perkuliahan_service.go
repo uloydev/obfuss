@@ -85,3 +85,14 @@ func (s *LaporanPerkuliahanService) GetAllAngeketDosen(
 
 	return data, meta, err
 }
+
+func (s *LaporanPerkuliahanService) Delete(idPertemuan int) error {
+	var angketDosen *entities.AngketDosen
+
+	if err := s.db.Delete(&angketDosen, map[string]any{"id_pertemuan": idPertemuan}).Error; err != nil {
+		s.logger.Error("error while deletee angket dosen:", zap.Any("delete-angket-dosn", err.Error()))
+		return errors.New("failed when delete data")
+	}
+
+	return nil
+}

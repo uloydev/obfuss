@@ -720,6 +720,27 @@ paths:
       summary: Get All Laporan Perkuliahan
       tags:
       - Laporan Perkuliahan
+  /laporan-perkuliahan/{id-pertemuan}/pertemuan:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Angket Dosen
+      parameters:
+      - description: pertemuan ID
+        in: path
+        name: id-pertemuan
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      summary: Delete Angket Dosen
+      tags:
+      - Laporan Perkuliahan
   /laporan-perkuliahan/save-trans:
     post:
       consumes:
