@@ -430,7 +430,39 @@
                 }
             }
         },
-        "/mahasiswa/absen": {
+        "/laporan-perkuliahan/{id-pertemuan}/pertemuan": {
+            "delete": {
+                "description": "Delete Angket Dosen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Laporan Perkuliahan"
+                ],
+                "summary": "Delete Angket Dosen",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "pertemuan ID",
+                        "name": "id-pertemuan",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/mahasiswa": {
             "get": {
                 "description": "Get Absen Mahasiswa",
                 "consumes": [
