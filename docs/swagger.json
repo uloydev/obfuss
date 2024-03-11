@@ -462,7 +462,7 @@
                 }
             }
         },
-        "/mahasiswa": {
+        "/mahasiswa/absen": {
             "get": {
                 "security": [
                     {

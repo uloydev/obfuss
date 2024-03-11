@@ -468,7 +468,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/mahasiswa": {
+        "/mahasiswa/absen": {
             "get": {
                 "security": [
                     {
