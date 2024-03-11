@@ -212,3 +212,42 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 		Message: "success",
 	})
 }
+
+// @Summary		Delete Absen
+// @Description	Delete Absen
+// @Tags			Absen
+// @Accept			json
+// @Produce		json
+// @Param			idPertemuan	path	int	true	"Pertemuan ID"
+// @Success		204		{object}	models.BaseResponse[any]
+// @Router			/mahasiswa/absen/{idPertemuan} [delete]
+func (h *AbsenHandler) Delete(c *gin.Context) {
+	idPertemuanStr := c.Param("idPertemuan")
+	idPertemuan, err := strconv.Atoi(idPertemuanStr)
+	if err != nil {
+		c.JSON(400, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{errors.New("idPertemuan must be a number")},
+		})
+		return
+	}
+	if err := h.absenService.DeleteByPertemuanID(idPertemuan); err != nil {
+		c.JSON(500, models.BaseResponse[any]{
+			Message: "internal error",
+			Errors:  []any{err.Error()},
+		})
+	}
+
+	if err := h.angketDosenService.DeleteByPertemuanID(idPertemuan); err != nil {
+		c.JSON(500, models.BaseResponse[any]{
+			Message: "internal error",
+			Errors:  []any{err.Error()},
+		})
+	}
+
+	c.JSON(204, models.BaseResponse[any]{
+		Data:    nil,
+		Message: "success",
+	})
+
+}

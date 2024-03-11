@@ -45,3 +45,18 @@ func (s *AngketDosenService) SaveAngketDosen(payload *entities.AngketDosen) erro
 	tx.Commit()
 	return nil
 }
+
+func (s *AngketDosenService) DeleteByPertemuanID(idPertemuan int) error {
+	tx := s.db.Begin()
+	err := tx.Table(entities.AngketDosen{}.TableName()).
+		Where("id_pertemuan = ?", idPertemuan).
+		Delete(entities.AngketDosen{}).Error
+	if err != nil {
+		s.logger.Error("failed to delete angket dosen by pertemuan", zap.Error(err))
+		tx.Rollback()
+		return errors.New("failed to delete angket dosen by pertemuan")
+	}
+	tx.Commit()
+
+	return nil
+}

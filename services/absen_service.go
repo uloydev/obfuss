@@ -101,3 +101,15 @@ func (s *AbsenService) CountAbsen(idPertemuan int) (models.AbsenCountResult, err
 
 	return data, nil
 }
+
+func (s *AbsenService) DeleteByPertemuanID(idPertemuan int) error {
+	err := s.db.Table(entities.AbsenMahasiswa{}.TableName()).
+		Where("id_pertemuan = ?", idPertemuan).
+		Delete(entities.AbsenMahasiswa{}).Error
+	if err != nil {
+		s.logger.Error("failed to delete absen by pertemuan", zap.Error(err))
+		return errors.New("failed to delete absen by pertemuan")
+	}
+
+	return nil
+}

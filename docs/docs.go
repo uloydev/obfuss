@@ -526,6 +526,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/mahasiswa/absen/{idPertemuan}": {
+            "delete": {
+                "description": "Delete Absen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Absen"
+                ],
+                "summary": "Delete Absen",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Pertemuan ID",
+                        "name": "idPertemuan",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
         "/perubahan-jadwal": {
             "get": {
                 "security": [

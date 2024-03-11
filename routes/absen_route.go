@@ -24,4 +24,5 @@ func (r *AbsenRoute) Register(app *gin.RouterGroup) {
 	api := app.Group(r.prefix, middlewares.RequestId())
 	api.GET("/", r.handler.GetAbsenMhs)
 	api.POST("/save-trans", r.handler.SaveTrans)
+	api.POST("/:idPertemuan/delete", r.handler.Delete)
 }

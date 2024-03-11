@@ -791,6 +791,27 @@ paths:
       summary: Get Absen Mahasiswa
       tags:
       - Absen
+  /mahasiswa/absen/{idPertemuan}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Absen
+      parameters:
+      - description: Pertemuan ID
+        in: path
+        name: idPertemuan
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      summary: Delete Absen
+      tags:
+      - Absen
   /mahasiswa/absen/save-trans:
     post:
       consumes:
