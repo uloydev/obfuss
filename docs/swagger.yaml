@@ -705,6 +705,55 @@ paths:
       summary: Get All Laporan Perkuliahan
       tags:
       - Laporan Perkuliahan
+  /laporan-perkuliahan/save-trans:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: SaveTrans
+      parameters:
+      - in: formData
+        name: fileName
+        type: string
+      - in: formData
+        name: id_dosen
+        required: true
+        type: integer
+      - in: formData
+        name: id_pertemuan
+        required: true
+        type: integer
+      - in: formData
+        name: jam_kuliah
+        required: true
+        type: string
+      - in: formData
+        name: keterangan
+        required: true
+        type: string
+      - in: formData
+        name: materi
+        required: true
+        type: string
+      - in: formData
+        name: pertemuan_ke
+        required: true
+        type: integer
+      - description: file
+        in: formData
+        name: foto
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
+      summary: SaveTrans
+      tags:
+      - Laporan Perkuliahan
   /mahasiswa:
     get:
       consumes:
