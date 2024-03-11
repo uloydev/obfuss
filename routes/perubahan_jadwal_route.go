@@ -23,4 +23,5 @@ func NewPerubahanJadwalRoute(db *gorm.DB, logger *zap.Logger) Route {
 func (r *PerubahanJadwalRoute) Register(app *gin.RouterGroup) {
 	api := app.Group(r.prefix, middlewares.RequestId(), middlewares.Authorization())
 	api.GET("/", r.handler.GetPerubahanJadwal)
+	api.PATCH("/:idJadwalPertemuan", r.handler.Update)
 }

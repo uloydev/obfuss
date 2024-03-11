@@ -1,6 +1,10 @@
 package handlers
 
 import (
+	"errors"
+	"strconv"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -60,5 +64,86 @@ func (h *PerubahanJadwalHandler) GetPerubahanJadwal(c *gin.Context) {
 		Message: "success",
 		Data:    perubahanJadwal,
 		Meta:    meta,
+	})
+}
+
+// @Summary		Update Perubahan Jadwal
+// @Description	Update Perubahan Jadwal
+// @Tags			Perubahan Jadwal
+// @Accept			json
+// @Produce		json
+// @Param			idJadwalPertemuan	path	int	true	"ID Jadwal Pertemuan"
+// @Param			payload		body	models.UpdateJadwalPertemuanRequest	true	"Update Jadwal Pertemuan Request"
+// @Success		204		{object}	models.BaseResponse[any]
+// @Router			/perubahan-jadwal/{idJadwalPertemuan} [patch]
+// @Security BearerAuth
+func (h *PerubahanJadwalHandler) Update(c *gin.Context) {
+	var payload models.UpdateJadwalPertemuanRequest
+
+	idPertemuanStr := c.Param("idJadwalPertemuan")
+	idPertemuan, err := strconv.Atoi(idPertemuanStr)
+	if err != nil {
+		c.JSON(400, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{errors.New("invalid id pertemuan")},
+		})
+		return
+	}
+
+	if err := c.BindJSON(&payload); err != nil {
+		c.JSON(400, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	tanggalUsulanGanti, err := time.Parse("2006-01-02 15:04:05", payload.TanggalUsulanGanti)
+	if err != nil {
+		c.JSON(400, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{errors.New("invalid date format")},
+		})
+		return
+	}
+
+	user, err := utils.GetUser(c)
+	if err != nil {
+		c.JSON(401, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{errors.New("unauthorize")},
+		})
+		return
+	}
+
+	jadwalPertemuan, err := h.service.GetJadwalById(idPertemuan)
+	if err != nil {
+		c.JSON(500, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	jadwalPertemuan.TanggalUsulanGanti = tanggalUsulanGanti
+	jadwalPertemuan.UsulanMulaiJam = payload.UsulanMulaiJam
+	jadwalPertemuan.UsulanSampaiJam = payload.UsulanSampaiJam
+	jadwalPertemuan.StatusUsulan = payload.StatusUsulan
+	jadwalPertemuan.AlasanPerubahan = payload.AlasanPerubahan
+	jadwalPertemuan.ModifiedDate = time.Now()
+	jadwalPertemuan.ModifiedUser = user.ActorID
+
+	err = h.service.SavePerubahanJadwal(&jadwalPertemuan)
+	if err != nil {
+		c.JSON(500, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	c.JSON(204, models.BaseResponse[any]{
+		Data:    nil,
+		Message: "success",
 	})
 }

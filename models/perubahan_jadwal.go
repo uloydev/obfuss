@@ -46,3 +46,12 @@ type MstJamKuliah struct {
 	JamMulai   string `gorm:"column:jam_mulai"`
 	JamSelesai string `gorm:"column:jam_selesai"`
 }
+
+type UpdateJadwalPertemuanRequest struct {
+	IDJadwal           int    `json:"id_jadwal"`
+	TanggalUsulanGanti string `json:"tanggal_usulan_ganti"`
+	UsulanMulaiJam     int    `json:"usulan_mulai_jam"`
+	UsulanSampaiJam    int    `json:"usulan_sampai_jam"`
+	AlasanPerubahan    string `json:"alasan_perubahan"`
+	StatusUsulan       string `json:"status_usulan"`
+}

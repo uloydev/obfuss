@@ -591,6 +591,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/perubahan-jadwal/{idJadwalPertemuan}": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update Perubahan Jadwal",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Perubahan Jadwal"
+                ],
+                "summary": "Update Perubahan Jadwal",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID Jadwal Pertemuan",
+                        "name": "idJadwalPertemuan",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Jadwal Pertemuan Request",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateJadwalPertemuanRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
         "/todo": {
             "get": {
                 "description": "Get Todos",
@@ -1504,6 +1550,29 @@ const docTemplate = `{
             "properties": {
                 "action": {
                     "type": "string"
+                }
+            }
+        },
+        "models.UpdateJadwalPertemuanRequest": {
+            "type": "object",
+            "properties": {
+                "alasan_perubahan": {
+                    "type": "string"
+                },
+                "id_jadwal": {
+                    "type": "integer"
+                },
+                "status_usulan": {
+                    "type": "string"
+                },
+                "tanggal_usulan_ganti": {
+                    "type": "string"
+                },
+                "usulan_mulai_jam": {
+                    "type": "integer"
+                },
+                "usulan_sampai_jam": {
+                    "type": "integer"
                 }
             }
         }

@@ -486,6 +486,21 @@ definitions:
     required:
     - action
     type: object
+  models.UpdateJadwalPertemuanRequest:
+    properties:
+      alasan_perubahan:
+        type: string
+      id_jadwal:
+        type: integer
+      status_usulan:
+        type: string
+      tanggal_usulan_ganti:
+        type: string
+      usulan_mulai_jam:
+        type: integer
+      usulan_sampai_jam:
+        type: integer
+    type: object
 host: localhost:6996
 info:
   contact: {}
@@ -851,6 +866,35 @@ paths:
       security:
       - BearerAuth: []
       summary: Get Perubahan Jadwal
+      tags:
+      - Perubahan Jadwal
+  /perubahan-jadwal/{idJadwalPertemuan}:
+    patch:
+      consumes:
+      - application/json
+      description: Update Perubahan Jadwal
+      parameters:
+      - description: ID Jadwal Pertemuan
+        in: path
+        name: idJadwalPertemuan
+        required: true
+        type: integer
+      - description: Update Jadwal Pertemuan Request
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateJadwalPertemuanRequest'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
+      summary: Update Perubahan Jadwal
       tags:
       - Perubahan Jadwal
   /todo:
