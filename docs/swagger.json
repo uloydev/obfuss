@@ -432,6 +432,11 @@
         },
         "/mahasiswa/absen": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get Absen Mahasiswa",
                 "consumes": [
                     "application/json"
@@ -481,6 +486,11 @@
         },
         "/mahasiswa/absen/save-trans": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Save Absen",
                 "consumes": [
                     "application/json"
@@ -515,6 +525,11 @@
         },
         "/mahasiswa/absen/{idPertemuan}": {
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete Absen",
                 "consumes": [
                     "application/json"

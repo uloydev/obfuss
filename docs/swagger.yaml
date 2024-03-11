@@ -798,6 +798,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.BaseResponse-models_GetAllAbsenResponse'
+      security:
+      - BearerAuth: []
       summary: Get Absen Mahasiswa
       tags:
       - Absen
@@ -819,6 +821,8 @@ paths:
           description: No Content
           schema:
             $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
       summary: Delete Absen
       tags:
       - Absen
@@ -841,6 +845,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.BaseResponse-any'
+      security:
+      - BearerAuth: []
       summary: Save Absen Trans
       tags:
       - Absen

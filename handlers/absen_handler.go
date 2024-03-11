@@ -45,6 +45,7 @@ func NewAbsenHandler(db *gorm.DB, logger *zap.Logger) *AbsenHandler {
 // @Param			kelasId		query		int						true	"Kelas ID"
 // @Success		200			{object}	models.BaseResponse[models.GetAllAbsenResponse]
 // @Router			/mahasiswa/absen [get]
+// @Security BearerAuth
 func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 	var params models.PaginationParams
 
@@ -110,6 +111,7 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 // @Param			absen	body		models.SaveAbsenTransRequest	true	"Absen request"
 // @Success		200		{object}	models.BaseResponse[any]
 // @Router			/mahasiswa/absen/save-trans [post]
+// @Security BearerAuth
 func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 	var req models.SaveAbsenTransRequest
 	user, err := utils.GetUser(c)
@@ -235,6 +237,7 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 // @Param			idPertemuan	path	int	true	"Pertemuan ID"
 // @Success		204		{object}	models.BaseResponse[any]
 // @Router			/mahasiswa/absen/{idPertemuan} [delete]
+// @Security BearerAuth
 func (h *AbsenHandler) Delete(c *gin.Context) {
 	idPertemuanStr := c.Param("idPertemuan")
 	idPertemuan, err := strconv.Atoi(idPertemuanStr)

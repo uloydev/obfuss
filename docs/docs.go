@@ -438,6 +438,11 @@ const docTemplate = `{
         },
         "/mahasiswa/absen": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Get Absen Mahasiswa",
                 "consumes": [
                     "application/json"
@@ -487,6 +492,11 @@ const docTemplate = `{
         },
         "/mahasiswa/absen/save-trans": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Save Absen",
                 "consumes": [
                     "application/json"
@@ -521,6 +531,11 @@ const docTemplate = `{
         },
         "/mahasiswa/absen/{idPertemuan}": {
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete Absen",
                 "consumes": [
                     "application/json"
