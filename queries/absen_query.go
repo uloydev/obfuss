@@ -52,9 +52,9 @@ func FindAllAbsenQuery(
         JOIN mst_mata_kuliah ON trans_jadwal_kuliah.id_mk = mst_mata_kuliah.id
         JOIN mst_semester ON trans_jadwal_kuliah.id_semester = mst_semester.id
         JOIN mst_tahun_ajaran ON mst_semester.id_tahun = mst_tahun_ajaran.id 
-        WHERE  trans_jadwal_kuliah.id_semester = @smtId` +
+        WHERE  trans_jadwal_kuliah.id_semester = @smtId ` +
 		filterConds +
-		`GROUP BY trans_jadwal_kuliah.id
+		` GROUP BY trans_jadwal_kuliah.id
         ORDER BY mst_kelas.id , day_number;`
 
 	filterArgs = append(filterArgs, sql.Named("smtId", smtId))
@@ -63,6 +63,17 @@ func FindAllAbsenQuery(
 }
 
 func CountAbsenQuery(db *gorm.DB, idPertemuan int) *gorm.DB {
-	query := `SELECT * FROM ((SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND is_hadir = 'yes') as jumlah_hadir, (SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND is_hadir = 'no') as jumlah_tidak_hadir, as (SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND keterangan = 'luring') jumlah_luring, (SELECT COUNT(1) FROM absen_mahasiswa WHERE id_pertemuan = ? AND keterangan = 'daring') as jumlah_daring)`
+	query := `SELECT 
+        jumlah_hadir,
+        jumlah_tidak_hadir,
+        jumlah_luring,
+        jumlah_daring
+    FROM (
+        SELECT 
+            (SELECT COUNT(1) FROM trans_absen_mahasiswa WHERE id_pertemuan = ? AND is_hadir = 'yes') as jumlah_hadir, 
+            (SELECT COUNT(1) FROM trans_absen_mahasiswa WHERE id_pertemuan = ? AND is_hadir = 'no') as jumlah_tidak_hadir, 
+            (SELECT COUNT(1) FROM trans_absen_mahasiswa WHERE id_pertemuan = ? AND keterangan = 'luring') as jumlah_luring, 
+            (SELECT COUNT(1) FROM trans_absen_mahasiswa WHERE id_pertemuan = ? AND keterangan = 'daring') as jumlah_daring
+    ) AS counts;`
 	return db.Raw(query, idPertemuan, idPertemuan, idPertemuan, idPertemuan)
 }

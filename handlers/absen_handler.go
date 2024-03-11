@@ -44,7 +44,7 @@ func NewAbsenHandler(db *gorm.DB, logger *zap.Logger) *AbsenHandler {
 // @Param			smtId		query		int						true	"Semester ID"
 // @Param			kelasId		query		int						true	"Kelas ID"
 // @Success		200			{object}	models.BaseResponse[models.GetAllAbsenResponse]
-// @Router			/mahasiswa [get]
+// @Router			/mahasiswa/absen [get]
 func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 	var params models.PaginationParams
 	if err := c.BindQuery(&params); err != nil {

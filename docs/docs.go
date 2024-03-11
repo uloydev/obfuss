@@ -359,7 +359,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/mahasiswa": {
+        "/mahasiswa/absen": {
             "get": {
                 "description": "Get Absen Mahasiswa",
                 "consumes": [

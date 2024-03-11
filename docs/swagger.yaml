@@ -705,7 +705,7 @@ paths:
       summary: Get All Laporan Perkuliahan
       tags:
       - Laporan Perkuliahan
-  /mahasiswa:
+  /mahasiswa/absen:
     get:
       consumes:
       - application/json
