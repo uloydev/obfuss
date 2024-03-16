@@ -49,7 +49,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.BaseResponse-array_entities_JadwalKuliah"
+                            "$ref": "#/definitions/models.BaseResponse-array_models_GetAllJadwalKuliahResponse"
                         }
                     }
                 }
@@ -194,6 +194,17 @@ const docTemplate = `{
                     "Jadwal Kuliah"
                 ],
                 "summary": "Save Trans Jadwal Kuliah",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SaveTransJadwalKuliahDosen"
+                        }
+                    }
+                ],
                 "responses": {
                     "204": {
                         "description": "No Content",
@@ -877,56 +888,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "entities.JadwalKuliah": {
-            "type": "object",
-            "properties": {
-                "add_date": {
-                    "type": "string"
-                },
-                "add_user": {
-                    "type": "integer"
-                },
-                "hari": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "id_dosen": {
-                    "type": "integer"
-                },
-                "id_jam_mulai": {
-                    "type": "integer"
-                },
-                "id_jam_selesai": {
-                    "type": "integer"
-                },
-                "id_kelas": {
-                    "type": "integer"
-                },
-                "id_mk": {
-                    "type": "integer"
-                },
-                "id_semester": {
-                    "type": "integer"
-                },
-                "kelas": {
-                    "$ref": "#/definitions/entities.Kelas"
-                },
-                "modified_date": {
-                    "type": "string"
-                },
-                "modified_user": {
-                    "type": "integer"
-                },
-                "semester": {
-                    "$ref": "#/definitions/entities.Semester"
-                },
-                "status": {
-                    "type": "string"
-                }
-            }
-        },
         "entities.Kelas": {
             "type": "object",
             "properties": {
@@ -1175,28 +1136,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.BaseResponse-array_entities_JadwalKuliah": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entities.JadwalKuliah"
-                    }
-                },
-                "errors": {
-                    "type": "array",
-                    "items": {}
-                },
-                "message": {
-                    "type": "string",
-                    "example": "success"
-                },
-                "meta": {
-                    "$ref": "#/definitions/models.PaginationMeta"
-                }
-            }
-        },
         "models.BaseResponse-array_entities_Kelas": {
             "type": "object",
             "properties": {
@@ -1226,6 +1165,28 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/entities.Todo"
+                    }
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
+        "models.BaseResponse-array_models_GetAllJadwalKuliahResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.GetAllJadwalKuliahResponse"
                     }
                 },
                 "errors": {
@@ -1375,6 +1336,38 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "nama_mk": {
+                    "type": "string"
+                },
+                "nama_prodi": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.GetAllJadwalKuliahResponse": {
+            "type": "object",
+            "properties": {
+                "id_kelas": {
+                    "type": "integer"
+                },
+                "inisial_kelas": {
+                    "type": "string"
+                },
+                "jumlah_mk": {
+                    "type": "integer"
+                },
+                "kode_kurikulum": {
+                    "type": "integer"
+                },
+                "nama_kelas": {
+                    "type": "string"
+                },
+                "nama_konsentrasi": {
                     "type": "string"
                 },
                 "nama_prodi": {
@@ -1589,6 +1582,35 @@ const docTemplate = `{
                 }
             }
         },
+        "models.SaveTransJadwalKuliahDosen": {
+            "type": "object",
+            "properties": {
+                "hari": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_dosen": {
+                    "type": "integer"
+                },
+                "id_jam_mulai": {
+                    "type": "integer"
+                },
+                "id_jam_selesai": {
+                    "type": "integer"
+                },
+                "id_kelas": {
+                    "type": "integer"
+                },
+                "id_mk": {
+                    "type": "integer"
+                },
+                "id_semester": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.TodoRequest": {
             "type": "object",
             "required": [
@@ -1607,19 +1629,24 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id_jadwal": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "status_usulan": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "disetujui"
                 },
                 "tanggal_usulan_ganti": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2006-01-02 15:04:05"
                 },
                 "usulan_mulai_jam": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "usulan_sampai_jam": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         }

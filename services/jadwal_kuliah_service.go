@@ -25,10 +25,10 @@ func NewJadwalKuliahService(db *gorm.DB, logger *zap.Logger) *JadwalKuliahServic
 	}
 }
 
-func (s *JadwalKuliahService) GetJadwalKuliah(pageParams models.PaginationParams, idSemester uint) ([]entities.JadwalKuliah, *models.PaginationMeta, error) {
+func (s *JadwalKuliahService) GetJadwalKuliah(pageParams models.PaginationParams, idSemester uint) ([]models.GetAllJadwalKuliahResponse, *models.PaginationMeta, error) {
 	query := queries.FindAllJadwalKuliah(s.db, idSemester)
 
-	meta, jadwalKuliah, err := utils.Paginate[entities.JadwalKuliah](pageParams, query, s.logger)
+	meta, jadwalKuliah, err := utils.Paginate[models.GetAllJadwalKuliahResponse](pageParams, query, s.logger)
 
 	s.logger.Info("debug pagination: ", zap.Any("meta", meta), zap.Any("jadwal", jadwalKuliah))
 

@@ -81,6 +81,7 @@ func (h *JadwalKuliahDosenHandler) GetAll(c *gin.Context) {
 // @Tags			Jadwal Kuliah
 // @Accept			json
 // @Produce		json
+// @Param			body	body	models.SaveTransJadwalKuliahDosen	true	"body"
 // @Success		204		{object}	models.BaseResponse[any]
 // @Router		/jadwal-kuliah-dosen/save-trans [post]
 // @Security BearerAuth

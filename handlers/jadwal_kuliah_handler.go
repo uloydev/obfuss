@@ -11,6 +11,7 @@ import (
 	"skripsi.id/obfuss/middlewares"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/services"
+	"skripsi.id/obfuss/utils"
 )
 
 type JadwalKuliahHandler struct {
@@ -33,7 +34,7 @@ func NewJadwalKuliahHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahHandle
 // @Accept			json
 // @Produce		json
 // @Param			params	query		models.PaginationParams	true	"Pagination parameters"
-// @Success		200		{object}	models.BaseResponse[[]entities.JadwalKuliah]
+// @Success		200		{object}	models.BaseResponse[[]models.GetAllJadwalKuliahResponse]
 // @Router			/jadwal-kuliah [get]
 // @Security BearerAuth
 func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
@@ -79,7 +80,7 @@ func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, models.BaseResponse[[]entities.JadwalKuliah]{
+	c.JSON(200, models.BaseResponse[[]models.GetAllJadwalKuliahResponse]{
 		Message: "success",
 		Data:    jadwalKuliah,
 		Meta:    meta,
@@ -106,7 +107,17 @@ func (h *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 		return
 	}
 
-	err := h.service.SaveTransJadwalKuliah(&body, 1) // replace this value to session(semester_id)
+	user, err := utils.GetUser(c)
+
+	if err != nil {
+		c.JSON(401, models.BaseResponse[entities.JadwalKuliah]{
+			Message: "error",
+			Errors:  []any{errors.New("unauthorize")},
+		})
+		return
+	}
+
+	err = h.service.SaveTransJadwalKuliah(&body, user.ActorID)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.JadwalKuliah]{
 			Message: "error",

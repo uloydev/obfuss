@@ -81,6 +81,7 @@ func (h *PerubahanJadwalHandler) Update(c *gin.Context) {
 	var payload models.UpdateJadwalPertemuanRequest
 
 	idPertemuanStr := c.Param("idJadwalPertemuan")
+
 	idPertemuan, err := strconv.Atoi(idPertemuanStr)
 	if err != nil {
 		c.JSON(400, models.BaseResponse[any]{

@@ -1,38 +1,5 @@
 basePath: /api
 definitions:
-  entities.JadwalKuliah:
-    properties:
-      add_date:
-        type: string
-      add_user:
-        type: integer
-      hari:
-        type: string
-      id:
-        type: integer
-      id_dosen:
-        type: integer
-      id_jam_mulai:
-        type: integer
-      id_jam_selesai:
-        type: integer
-      id_kelas:
-        type: integer
-      id_mk:
-        type: integer
-      id_semester:
-        type: integer
-      kelas:
-        $ref: '#/definitions/entities.Kelas'
-      modified_date:
-        type: string
-      modified_user:
-        type: integer
-      semester:
-        $ref: '#/definitions/entities.Semester'
-      status:
-        type: string
-    type: object
   entities.Kelas:
     properties:
       add_date:
@@ -198,21 +165,6 @@ definitions:
       meta:
         $ref: '#/definitions/models.PaginationMeta'
     type: object
-  models.BaseResponse-array_entities_JadwalKuliah:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/entities.JadwalKuliah'
-        type: array
-      errors:
-        items: {}
-        type: array
-      message:
-        example: success
-        type: string
-      meta:
-        $ref: '#/definitions/models.PaginationMeta'
-    type: object
   models.BaseResponse-array_entities_Kelas:
     properties:
       data:
@@ -233,6 +185,21 @@ definitions:
       data:
         items:
           $ref: '#/definitions/entities.Todo'
+        type: array
+      errors:
+        items: {}
+        type: array
+      message:
+        example: success
+        type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
+    type: object
+  models.BaseResponse-array_models_GetAllJadwalKuliahResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.GetAllJadwalKuliahResponse'
         type: array
       errors:
         items: {}
@@ -334,6 +301,27 @@ definitions:
       nama_lengkap:
         type: string
       nama_mk:
+        type: string
+      nama_prodi:
+        type: string
+      semester:
+        type: string
+      tahun:
+        type: string
+    type: object
+  models.GetAllJadwalKuliahResponse:
+    properties:
+      id_kelas:
+        type: integer
+      inisial_kelas:
+        type: string
+      jumlah_mk:
+        type: integer
+      kode_kurikulum:
+        type: integer
+      nama_kelas:
+        type: string
+      nama_konsentrasi:
         type: string
       nama_prodi:
         type: string
@@ -479,6 +467,25 @@ definitions:
     required:
     - id_mahasiswa
     type: object
+  models.SaveTransJadwalKuliahDosen:
+    properties:
+      hari:
+        type: string
+      id:
+        type: integer
+      id_dosen:
+        type: integer
+      id_jam_mulai:
+        type: integer
+      id_jam_selesai:
+        type: integer
+      id_kelas:
+        type: integer
+      id_mk:
+        type: integer
+      id_semester:
+        type: integer
+    type: object
   models.TodoRequest:
     properties:
       action:
@@ -491,14 +498,19 @@ definitions:
       alasan_perubahan:
         type: string
       id_jadwal:
+        example: 1
         type: integer
       status_usulan:
+        example: disetujui
         type: string
       tanggal_usulan_ganti:
+        example: "2006-01-02 15:04:05"
         type: string
       usulan_mulai_jam:
+        example: 1
         type: integer
       usulan_sampai_jam:
+        example: 1
         type: integer
     type: object
 host: localhost:6996
@@ -526,7 +538,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.BaseResponse-array_entities_JadwalKuliah'
+            $ref: '#/definitions/models.BaseResponse-array_models_GetAllJadwalKuliahResponse'
       security:
       - BearerAuth: []
       summary: Get Jadwal Kuliah
@@ -635,6 +647,13 @@ paths:
       consumes:
       - application/json
       description: Save Trans Jadwal Kuliah
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.SaveTransJadwalKuliahDosen'
       produces:
       - application/json
       responses:

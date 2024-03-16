@@ -21,7 +21,7 @@ func NewAbsenRoute(db *gorm.DB, logger *zap.Logger) Route {
 }
 
 func (r *AbsenRoute) Register(app *gin.RouterGroup) {
-	api := app.Group(r.prefix, middlewares.RequestId())
+	api := app.Group(r.prefix, middlewares.RequestId(), middlewares.Authorization())
 	api.GET("/", r.handler.GetAbsenMhs)
 	api.POST("/save-trans", r.handler.SaveTrans)
 	api.POST("/:idPertemuan/delete", r.handler.Delete)

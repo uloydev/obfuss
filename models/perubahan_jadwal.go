@@ -48,10 +48,10 @@ type MstJamKuliah struct {
 }
 
 type UpdateJadwalPertemuanRequest struct {
-	IDJadwal           int    `json:"id_jadwal"`
-	TanggalUsulanGanti string `json:"tanggal_usulan_ganti"`
-	UsulanMulaiJam     int    `json:"usulan_mulai_jam"`
-	UsulanSampaiJam    int    `json:"usulan_sampai_jam"`
+	IDJadwal           int    `json:"id_jadwal" example:"1"`
+	TanggalUsulanGanti string `json:"tanggal_usulan_ganti" example:"2006-01-02 15:04:05"`
+	UsulanMulaiJam     int    `json:"usulan_mulai_jam" example:"1"`
+	UsulanSampaiJam    int    `json:"usulan_sampai_jam" example:"1"`
 	AlasanPerubahan    string `json:"alasan_perubahan"`
-	StatusUsulan       string `json:"status_usulan"`
+	StatusUsulan       string `json:"status_usulan" example:"disetujui"`
 }

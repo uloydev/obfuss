@@ -91,7 +91,7 @@ func (s *JadwalKuliahDosenService) SaveTrans(payload *models.SaveTransJadwalKuli
 
 	err := s.db.
 		Table(jadwalKuliahDosen.TableName()).
-		Find(jadwalKuliahDosen, map[string]any{
+		Find(&jadwalKuliahDosen, map[string]any{
 			"id": &payload.ID,
 		}).Error
 

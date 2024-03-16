@@ -8,6 +8,6 @@ import (
 func GetKelasIDFromTPK(db *gorm.DB, user *middlewares.User) *gorm.DB {
 	return db.Table("trans_plot_kelas").
 		Where("id_semester = ?", user.SemesterId).
-		Where("id_mahasiswa = ?", 1).
+		Where("id_mahasiswa = ?", user.ActorID).
 		Select("id_kelas")
 }
