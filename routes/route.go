@@ -14,7 +14,6 @@ type RouteInitFunc func(*gorm.DB, *zap.Logger) Route
 
 // Routes is a list of Route
 var Routes = []RouteInitFunc{
-	NewTodoRoute,
 	NewAbsenRoute,
 	NewJadwalKuliahRoute,
 	NewTokenRoute,

@@ -441,7 +441,71 @@
                 }
             }
         },
+        "/laporan-perkuliahan/to-pdf": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "To PDF",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/pdf"
+                ],
+                "tags": [
+                    "Laporan Perkuliahan"
+                ],
+                "summary": "To PDF",
+                "parameters": [
+                    {
+                        "description": "Save Trans request",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.LaporanPerkuliahanDTO"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/laporan-perkuliahan/{id-pertemuan}/pertemuan": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get All Laporan Perkuliahan By Pertemuan",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Laporan Perkuliahan"
+                ],
+                "summary": "Get All Laporan Perkuliahan By Pertemuan",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "pertemuan ID",
+                        "name": "id-pertemuan",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-entities_AngketDosen"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete Angket Dosen",
                 "consumes": [
@@ -689,174 +753,6 @@
                 }
             }
         },
-        "/todo": {
-            "get": {
-                "description": "Get Todos",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Todo"
-                ],
-                "summary": "Get Todos",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "size",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.BaseResponse-array_entities_Todo"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create Todo",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Todo"
-                ],
-                "summary": "Create Todo",
-                "parameters": [
-                    {
-                        "description": "Todo",
-                        "name": "todo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.TodoRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.BaseResponse-entities_Todo"
-                        }
-                    }
-                }
-            }
-        },
-        "/todo/{id}": {
-            "get": {
-                "description": "Get Todo By ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Todo"
-                ],
-                "summary": "Get Todo By ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Todo ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.BaseResponse-entities_Todo"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update Todo",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Todo"
-                ],
-                "summary": "Update Todo",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Todo ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Todo",
-                        "name": "todo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.TodoRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.BaseResponse-entities_Todo"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete Todo",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Todo"
-                ],
-                "summary": "Delete Todo",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Todo ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.BaseResponse-entities_Todo"
-                        }
-                    }
-                }
-            }
-        },
         "/token": {
             "get": {
                 "description": "Get Token",
@@ -882,6 +778,65 @@
         }
     },
     "definitions": {
+        "entities.AngketDosen": {
+            "type": "object",
+            "properties": {
+                "add_date": {
+                    "type": "string"
+                },
+                "add_user": {
+                    "type": "integer"
+                },
+                "file": {
+                    "type": "string"
+                },
+                "file_gambar": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_dosen": {
+                    "type": "integer"
+                },
+                "id_pertemuan": {
+                    "type": "integer"
+                },
+                "jam_kuliah": {
+                    "type": "string"
+                },
+                "jumlah_daring": {
+                    "type": "integer"
+                },
+                "jumlah_hadir": {
+                    "type": "integer"
+                },
+                "jumlah_luring": {
+                    "type": "integer"
+                },
+                "jumlah_tidak_hadir": {
+                    "type": "integer"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "modified_date": {
+                    "type": "string"
+                },
+                "modified_user": {
+                    "type": "integer"
+                },
+                "pertemuan_ke": {
+                    "type": "integer"
+                },
+                "ringkasan_materi": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
         "entities.Kelas": {
             "type": "object",
             "properties": {
@@ -1081,27 +1036,6 @@
                 }
             }
         },
-        "entities.Todo": {
-            "type": "object",
-            "properties": {
-                "action": {
-                    "description": "Action is the todo action",
-                    "type": "string"
-                },
-                "createdAt": {
-                    "description": "Automatically managed by GORM for creation time",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "Standard field for the primary key",
-                    "type": "integer"
-                },
-                "updatedAt": {
-                    "description": "Automatically managed by GORM for update time",
-                    "type": "string"
-                }
-            }
-        },
         "handlers.TokenResponse": {
             "type": "object",
             "properties": {
@@ -1137,28 +1071,6 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/entities.Kelas"
-                    }
-                },
-                "errors": {
-                    "type": "array",
-                    "items": {}
-                },
-                "message": {
-                    "type": "string",
-                    "example": "success"
-                },
-                "meta": {
-                    "$ref": "#/definitions/models.PaginationMeta"
-                }
-            }
-        },
-        "models.BaseResponse-array_entities_Todo": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entities.Todo"
                     }
                 },
                 "errors": {
@@ -1218,11 +1130,11 @@
                 }
             }
         },
-        "models.BaseResponse-entities_Todo": {
+        "models.BaseResponse-entities_AngketDosen": {
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/entities.Todo"
+                    "$ref": "#/definitions/entities.AngketDosen"
                 },
                 "errors": {
                     "type": "array",
@@ -1508,6 +1420,32 @@
                 }
             }
         },
+        "models.LaporanPerkuliahanDTO": {
+            "type": "object",
+            "required": [
+                "idDosen",
+                "idKelas",
+                "idMk",
+                "idPertemuan"
+            ],
+            "properties": {
+                "idDosen": {
+                    "type": "integer"
+                },
+                "idKelas": {
+                    "type": "integer"
+                },
+                "idMk": {
+                    "type": "integer"
+                },
+                "idPertemuan": {
+                    "type": "integer"
+                },
+                "isPreview": {
+                    "type": "boolean"
+                }
+            }
+        },
         "models.PaginationMeta": {
             "type": "object",
             "properties": {
@@ -1602,17 +1540,6 @@
                 },
                 "id_semester": {
                     "type": "integer"
-                }
-            }
-        },
-        "models.TodoRequest": {
-            "type": "object",
-            "required": [
-                "action"
-            ],
-            "properties": {
-                "action": {
-                    "type": "string"
                 }
             }
         },

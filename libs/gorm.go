@@ -7,7 +7,6 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	glog "gorm.io/gorm/logger"
-	"skripsi.id/obfuss/entities"
 )
 
 func NewMysqlConn(logger *zap.Logger) *gorm.DB {
@@ -19,7 +18,6 @@ func NewMysqlConn(logger *zap.Logger) *gorm.DB {
 		logger.Fatal("error when connect to mysql", zap.Error(err))
 	}
 
-	err = db.AutoMigrate(&entities.Todo{})
 	if err != nil {
 		logger.Fatal("error when migrate table", zap.Error(err))
 	}

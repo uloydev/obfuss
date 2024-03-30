@@ -167,7 +167,75 @@ func (h *LaporanPerkuliahanHandler) Delete(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, models.BaseResponse[entities.Todo]{
+	c.JSON(200, models.BaseResponse[any]{
 		Message: "success",
 	})
+}
+
+// @Summary		Get All Laporan Perkuliahan By Pertemuan
+// @Description	Get All Laporan Perkuliahan By Pertemuan
+// @Tags			Laporan Perkuliahan
+// @Produce		json
+// @Param			id-pertemuan	path		int	true	"pertemuan ID"
+// @Success		200		{object} models.BaseResponse[entities.AngketDosen]
+// @Router		/laporan-perkuliahan/{id-pertemuan}/pertemuan [get]
+// @Security BearerAuth
+func (h *LaporanPerkuliahanHandler) GetAngketDosenByPertemuan(c *gin.Context) {
+	idPertemuan, err := strconv.Atoi(c.Param("id-pertemuan"))
+	if err != nil {
+		c.JSON(500, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	data, err := h.service.GetAngketDosenByPertemuan(idPertemuan)
+
+	if err != nil {
+		c.JSON(500, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	c.JSON(200, models.BaseResponse[*entities.AngketDosen]{
+		Message: "success",
+		Data:    data,
+	})
+
+}
+
+// @Summary		To PDF
+// @Description	To PDF
+// @Tags			Laporan Perkuliahan
+// @Accept			json
+// @Produce		application/pdf
+// @Param			data	body		models.LaporanPerkuliahanDTO	true "Save Trans request"
+// @Router		/laporan-perkuliahan/to-pdf [post]
+// @Security BearerAuth
+func (h *LaporanPerkuliahanHandler) ToPDF(c *gin.Context) {
+	var body *models.LaporanPerkuliahanDTO
+
+	if err := c.BindJSON(&body); err != nil {
+		c.JSON(400, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	baseUrl := "http://" + c.Request.Host
+
+	data, err := h.service.ToPDF(body.IDKelas, body.IDPertemuan, body.IDDosen, body.IDMK, body.IsPreview, baseUrl)
+	if err != nil {
+		c.JSON(500, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{err.Error()},
+		})
+		return
+	}
+
+	c.Data(200, "application/pdf", data)
 }

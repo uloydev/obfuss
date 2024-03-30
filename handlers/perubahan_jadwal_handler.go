@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
-	"skripsi.id/obfuss/entities"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/services"
 	"skripsi.id/obfuss/utils"
@@ -43,7 +42,7 @@ func (h *PerubahanJadwalHandler) GetPerubahanJadwal(c *gin.Context) {
 	user, error := utils.GetUser(c)
 
 	if error != nil {
-		c.JSON(500, models.BaseResponse[entities.Todo]{
+		c.JSON(500, models.BaseResponse[any]{
 			Message: "error",
 			Errors:  []any{error.Error()},
 		})

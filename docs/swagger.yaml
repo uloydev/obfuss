@@ -1,5 +1,44 @@
 basePath: /api
 definitions:
+  entities.AngketDosen:
+    properties:
+      add_date:
+        type: string
+      add_user:
+        type: integer
+      file:
+        type: string
+      file_gambar:
+        type: string
+      id:
+        type: integer
+      id_dosen:
+        type: integer
+      id_pertemuan:
+        type: integer
+      jam_kuliah:
+        type: string
+      jumlah_daring:
+        type: integer
+      jumlah_hadir:
+        type: integer
+      jumlah_luring:
+        type: integer
+      jumlah_tidak_hadir:
+        type: integer
+      keterangan:
+        type: string
+      modified_date:
+        type: string
+      modified_user:
+        type: integer
+      pertemuan_ke:
+        type: integer
+      ringkasan_materi:
+        type: string
+      status:
+        type: string
+    type: object
   entities.Kelas:
     properties:
       add_date:
@@ -131,21 +170,6 @@ definitions:
       tahun:
         type: string
     type: object
-  entities.Todo:
-    properties:
-      action:
-        description: Action is the todo action
-        type: string
-      createdAt:
-        description: Automatically managed by GORM for creation time
-        type: string
-      id:
-        description: Standard field for the primary key
-        type: integer
-      updatedAt:
-        description: Automatically managed by GORM for update time
-        type: string
-    type: object
   handlers.TokenResponse:
     properties:
       token_dosen:
@@ -170,21 +194,6 @@ definitions:
       data:
         items:
           $ref: '#/definitions/entities.Kelas'
-        type: array
-      errors:
-        items: {}
-        type: array
-      message:
-        example: success
-        type: string
-      meta:
-        $ref: '#/definitions/models.PaginationMeta'
-    type: object
-  models.BaseResponse-array_entities_Todo:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/entities.Todo'
         type: array
       errors:
         items: {}
@@ -225,10 +234,10 @@ definitions:
       meta:
         $ref: '#/definitions/models.PaginationMeta'
     type: object
-  models.BaseResponse-entities_Todo:
+  models.BaseResponse-entities_AngketDosen:
     properties:
       data:
-        $ref: '#/definitions/entities.Todo'
+        $ref: '#/definitions/entities.AngketDosen'
       errors:
         items: {}
         type: array
@@ -419,6 +428,24 @@ definitions:
     - id_kelas
     - jadwal_kuliah
     type: object
+  models.LaporanPerkuliahanDTO:
+    properties:
+      idDosen:
+        type: integer
+      idKelas:
+        type: integer
+      idMk:
+        type: integer
+      idPertemuan:
+        type: integer
+      isPreview:
+        type: boolean
+    required:
+    - idDosen
+    - idKelas
+    - idMk
+    - idPertemuan
+    type: object
   models.PaginationMeta:
     properties:
       page:
@@ -485,13 +512,6 @@ definitions:
         type: integer
       id_semester:
         type: integer
-    type: object
-  models.TodoRequest:
-    properties:
-      action:
-        type: string
-    required:
-    - action
     type: object
   models.UpdateJadwalPertemuanRequest:
     properties:
@@ -760,6 +780,26 @@ paths:
       summary: Delete Angket Dosen
       tags:
       - Laporan Perkuliahan
+    get:
+      description: Get All Laporan Perkuliahan By Pertemuan
+      parameters:
+      - description: pertemuan ID
+        in: path
+        name: id-pertemuan
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-entities_AngketDosen'
+      security:
+      - BearerAuth: []
+      summary: Get All Laporan Perkuliahan By Pertemuan
+      tags:
+      - Laporan Perkuliahan
   /laporan-perkuliahan/save-trans:
     post:
       consumes:
@@ -807,6 +847,26 @@ paths:
       security:
       - BearerAuth: []
       summary: SaveTrans
+      tags:
+      - Laporan Perkuliahan
+  /laporan-perkuliahan/to-pdf:
+    post:
+      consumes:
+      - application/json
+      description: To PDF
+      parameters:
+      - description: Save Trans request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.LaporanPerkuliahanDTO'
+      produces:
+      - application/pdf
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: To PDF
       tags:
       - Laporan Perkuliahan
   /mahasiswa/absen:
@@ -943,116 +1003,6 @@ paths:
       summary: Update Perubahan Jadwal
       tags:
       - Perubahan Jadwal
-  /todo:
-    get:
-      consumes:
-      - application/json
-      description: Get Todos
-      parameters:
-      - in: query
-        name: page
-        type: integer
-      - in: query
-        name: size
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.BaseResponse-array_entities_Todo'
-      summary: Get Todos
-      tags:
-      - Todo
-    post:
-      consumes:
-      - application/json
-      description: Create Todo
-      parameters:
-      - description: Todo
-        in: body
-        name: todo
-        required: true
-        schema:
-          $ref: '#/definitions/models.TodoRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.BaseResponse-entities_Todo'
-      summary: Create Todo
-      tags:
-      - Todo
-  /todo/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete Todo
-      parameters:
-      - description: Todo ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.BaseResponse-entities_Todo'
-      summary: Delete Todo
-      tags:
-      - Todo
-    get:
-      consumes:
-      - application/json
-      description: Get Todo By ID
-      parameters:
-      - description: Todo ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.BaseResponse-entities_Todo'
-      summary: Get Todo By ID
-      tags:
-      - Todo
-    put:
-      consumes:
-      - application/json
-      description: Update Todo
-      parameters:
-      - description: Todo ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Todo
-        in: body
-        name: todo
-        required: true
-        schema:
-          $ref: '#/definitions/models.TodoRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.BaseResponse-entities_Todo'
-      summary: Update Todo
-      tags:
-      - Todo
   /token:
     get:
       consumes:

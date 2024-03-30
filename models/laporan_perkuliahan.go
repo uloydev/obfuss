@@ -12,3 +12,11 @@ type SaveTransLaporanPerkuliahan struct {
 	Foto            *multipart.FileHeader `form:"foto" swaggerignore:"true"`
 	FileName        string
 }
+
+type LaporanPerkuliahanDTO struct {
+	IDKelas     int  `json:"idKelas" binding:"required"`
+	IDPertemuan int  `json:"idPertemuan" binding:"required"`
+	IDDosen     int  `json:"idDosen" binding:"required"`
+	IDMK        int  `json:"idMk" binding:"required"`
+	IsPreview   bool `json:"isPreview"`
+}

@@ -32,6 +32,8 @@ func main() {
 
 	routes.Setup(api, db, logger)
 
+	app.Static("/public", "./public")
+
 	initSwagger(app)
 
 	app.Run(fmt.Sprint(":", os.Getenv("PORT")))

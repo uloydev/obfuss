@@ -6,6 +6,7 @@ type Dosen struct {
 	BaseModel
 	ID                 uint      `json:"id"`
 	NomorDosen         string    `json:"nomor_dosen"`
+	NamaLengkap        string    `json:"nama_lengkap"`
 	NIP                string    `json:"nip"`
 	NIDN               string    `json:"nidn"`
 	NUPN               string    `json:"nupn"`

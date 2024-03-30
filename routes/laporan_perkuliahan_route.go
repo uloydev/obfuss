@@ -25,4 +25,6 @@ func (r *LaporanPerkuliahanRoute) Register(app *gin.RouterGroup) {
 	api.GET("/", r.handler.GetAll)
 	api.POST("/save-trans", r.handler.SaveTransLaporanPerkuliahan)
 	api.DELETE("/:id-pertemuan/pertemuan", r.handler.Delete)
+	api.GET("/:id-pertemuan/pertemuan", r.handler.GetAngketDosenByPertemuan)
+	api.POST("/to-pdf", r.handler.ToPDF)
 }

@@ -43,7 +43,7 @@ func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 	userContext, exist := c.Get("user")
 
 	if !exist {
-		c.JSON(401, models.BaseResponse[entities.Todo]{
+		c.JSON(401, models.BaseResponse[any]{
 			Message: "error",
 			Errors:  []any{errors.New("unauthorize")},
 		})
@@ -55,7 +55,7 @@ func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 	if !ok {
 		h.logger.Error("error when parse user data")
 
-		c.JSON(500, models.BaseResponse[entities.Todo]{
+		c.JSON(500, models.BaseResponse[any]{
 			Message: "error",
 			Errors:  []any{errors.New("internal server error")},
 		})
@@ -64,7 +64,7 @@ func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 	}
 
 	if err := c.BindQuery(&params); err != nil {
-		c.JSON(400, models.BaseResponse[entities.Todo]{
+		c.JSON(400, models.BaseResponse[any]{
 			Message: "error",
 			Errors:  []any{err.Error()},
 		})
@@ -100,7 +100,7 @@ func (h *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 	var body models.JadwalKuliahRequest
 
 	if err := c.BindJSON(&body); err != nil {
-		c.JSON(400, models.BaseResponse[entities.Todo]{
+		c.JSON(400, models.BaseResponse[any]{
 			Message: "error",
 			Errors:  []any{err.Error()},
 		})

@@ -53,9 +53,6 @@ func (s *JadwalKuliahDosenService) GetAllJadwalKuliahDosen(
 
 	query := queries.FindAllJadwalKuliahDosen(s.db, idDosen)
 
-	query.Find(&data)
-
-	s.logger.Info("logging", zap.Any("data", data))
 
 	meta, data, err := utils.Paginate[map[string]interface{}](pageParams, query, s.logger)
 
