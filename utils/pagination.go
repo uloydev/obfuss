@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -52,6 +53,8 @@ func Paginate[T any](
 		Page:      params.Page,
 	}
 
+	fmt.Println("params", params)
+
 	countQuery := *query
 	query = query.Offset((params.Page - 1) * params.Size).
 		Limit(params.Size).
@@ -69,6 +72,8 @@ func Paginate[T any](
 		err = ErrFailedFetchData
 		return
 	}
+
+	meta.Total = total
 
 	return
 }

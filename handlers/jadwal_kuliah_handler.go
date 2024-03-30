@@ -139,7 +139,7 @@ func (h *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 // @Produce		json
 // @Param			id	path		int	true	"Jadwal Kuliah ID"
 // @Success		200		{object}	models.BaseResponse[any]
-// @Router			/jadwal-kuliah/ [delete]
+// @Router			/jadwal-kuliah/{id} [delete]
 // @Security BearerAuth
 func (h *JadwalKuliahHandler) DeleteJadwalKuliah(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))

@@ -686,7 +686,7 @@ paths:
       summary: Save Trans Jadwal Kuliah
       tags:
       - Jadwal Kuliah
-  /jadwal-kuliah/:
+  /jadwal-kuliah/{id}:
     delete:
       consumes:
       - application/json
