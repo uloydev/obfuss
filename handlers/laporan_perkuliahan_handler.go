@@ -3,6 +3,7 @@ package handlers
 import (
 	"errors"
 	"fmt"
+	"io"
 	"path/filepath"
 	"strconv"
 
@@ -207,6 +208,9 @@ func (h *LaporanPerkuliahanHandler) GetAngketDosenByPertemuan(c *gin.Context) {
 
 }
 
+type PdfFile io.Writer
+
+// @Success 200 {file} PdfFile
 // @Summary		To PDF
 // @Description	To PDF
 // @Tags			Laporan Perkuliahan
@@ -214,6 +218,7 @@ func (h *LaporanPerkuliahanHandler) GetAngketDosenByPertemuan(c *gin.Context) {
 // @Produce		application/pdf
 // @Param			data	body		models.LaporanPerkuliahanDTO	true "Save Trans request"
 // @Router		/laporan-perkuliahan/to-pdf [post]
+// @Success 200 {file} application/pdf
 // @Security BearerAuth
 func (h *LaporanPerkuliahanHandler) ToPDF(c *gin.Context) {
 	var body *models.LaporanPerkuliahanDTO
@@ -236,6 +241,9 @@ func (h *LaporanPerkuliahanHandler) ToPDF(c *gin.Context) {
 		})
 		return
 	}
+
+	c.Header("Content-Disposition", "attachment; filename=example.pdf")
+	c.Header("Content-Type", "application/pdf")
 
 	c.Data(200, "application/pdf", data)
 }

@@ -129,6 +129,7 @@ func (h *PerubahanJadwalHandler) Update(c *gin.Context) {
 	jadwalPertemuan.UsulanMulaiJam = payload.UsulanMulaiJam
 	jadwalPertemuan.UsulanSampaiJam = payload.UsulanSampaiJam
 	jadwalPertemuan.StatusUsulan = payload.StatusUsulan
+	jadwalPertemuan.IDJadwal = payload.IDJadwalKuliah
 	jadwalPertemuan.AlasanPerubahan = payload.AlasanPerubahan
 	jadwalPertemuan.ModifiedDate = time.Now()
 	jadwalPertemuan.ModifiedUser = user.ActorID

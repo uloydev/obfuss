@@ -2,7 +2,6 @@ package utils
 
 import (
 	"errors"
-	"fmt"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -52,8 +51,6 @@ func Paginate[T any](
 		Size:      params.Size,
 		Page:      params.Page,
 	}
-
-	fmt.Println("params", params)
 
 	countQuery := *query
 	query = query.Offset((params.Page - 1) * params.Size).

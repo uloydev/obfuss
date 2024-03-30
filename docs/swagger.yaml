@@ -517,7 +517,7 @@ definitions:
     properties:
       alasan_perubahan:
         type: string
-      id_jadwal:
+      id_jadwal_kuliah:
         example: 1
         type: integer
       status_usulan:
@@ -863,7 +863,11 @@ paths:
           $ref: '#/definitions/models.LaporanPerkuliahanDTO'
       produces:
       - application/pdf
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
       security:
       - BearerAuth: []
       summary: To PDF

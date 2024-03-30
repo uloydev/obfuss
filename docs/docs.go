@@ -476,7 +476,14 @@ const docTemplate = `{
                         }
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                }
             }
         },
         "/laporan-perkuliahan/{id-pertemuan}/pertemuan": {
@@ -1555,7 +1562,7 @@ const docTemplate = `{
                 "alasan_perubahan": {
                     "type": "string"
                 },
-                "id_jadwal": {
+                "id_jadwal_kuliah": {
                     "type": "integer",
                     "example": 1
                 },
