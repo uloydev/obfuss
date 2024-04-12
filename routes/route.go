@@ -20,6 +20,9 @@ var Routes = []RouteInitFunc{
 	NewPerubahanJadwalRoute,
 	NewJadwalKuliahDosenRoute,
 	NewLaporanPerkuliahanRoute,
+	NewMatakuliahRoute,
+	NewDosenRoute,
+	NewJamKuliahRoute,
 }
 
 func Setup(app *gin.RouterGroup, db *gorm.DB, logger *zap.Logger) {

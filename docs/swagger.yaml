@@ -204,6 +204,21 @@ definitions:
       meta:
         $ref: '#/definitions/models.PaginationMeta'
     type: object
+  models.BaseResponse-array_models_GetAllDosen:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.GetAllDosen'
+        type: array
+      errors:
+        items: {}
+        type: array
+      message:
+        example: success
+        type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
+    type: object
   models.BaseResponse-array_models_GetAllJadwalKuliahResponse:
     properties:
       data:
@@ -219,11 +234,41 @@ definitions:
       meta:
         $ref: '#/definitions/models.PaginationMeta'
     type: object
+  models.BaseResponse-array_models_GetAllJamKuliah:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.GetAllJamKuliah'
+        type: array
+      errors:
+        items: {}
+        type: array
+      message:
+        example: success
+        type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
+    type: object
   models.BaseResponse-array_models_GetAllPerubahanJadwal:
     properties:
       data:
         items:
           $ref: '#/definitions/models.GetAllPerubahanJadwal'
+        type: array
+      errors:
+        items: {}
+        type: array
+      message:
+        example: success
+        type: string
+      meta:
+        $ref: '#/definitions/models.PaginationMeta'
+    type: object
+  models.BaseResponse-array_models_MataKuliah:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.MataKuliah'
         type: array
       errors:
         items: {}
@@ -318,6 +363,29 @@ definitions:
       tahun:
         type: string
     type: object
+  models.GetAllDosen:
+    properties:
+      id:
+        type: integer
+      kelamin:
+        type: string
+      keterangan:
+        type: string
+      nama_lengkap:
+        type: string
+      nidn:
+        type: string
+      nik:
+        type: string
+      nip:
+        type: string
+      nupn:
+        type: string
+      status:
+        type: string
+      uname:
+        type: string
+    type: object
   models.GetAllJadwalKuliahResponse:
     properties:
       id_kelas:
@@ -338,6 +406,19 @@ definitions:
         type: string
       tahun:
         type: string
+    type: object
+  models.GetAllJamKuliah:
+    properties:
+      id:
+        type: integer
+      jam_mulai:
+        type: string
+      jam_selesai:
+        type: string
+      keterangan:
+        type: string
+      no_urut:
+        type: integer
     type: object
   models.GetAllPerubahanJadwal:
     properties:
@@ -446,6 +527,35 @@ definitions:
     - idMk
     - idPertemuan
     type: object
+  models.MataKuliah:
+    properties:
+      id:
+        type: integer
+      is_agama:
+        type: integer
+      is_ta_pkl:
+        type: string
+      jenis_mk:
+        type: string
+      keterangan:
+        type: string
+      kode_mk:
+        type: string
+      nama_mk:
+        type: string
+      semester_kuliah:
+        type: integer
+      sks:
+        type: integer
+      sks_lapangan:
+        type: integer
+      sks_praktek:
+        type: integer
+      sks_simulasi:
+        type: integer
+      status:
+        type: string
+    type: object
   models.PaginationMeta:
     properties:
       page:
@@ -540,6 +650,21 @@ info:
   title: Obfuss API
   version: "1"
 paths:
+  /dosen:
+    get:
+      description: Get Dosen
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-array_models_GetAllDosen'
+      security:
+      - BearerAuth: []
+      summary: Get Dosen
+      tags:
+      - Dosen
   /jadwal-kuliah:
     get:
       consumes:
@@ -733,6 +858,21 @@ paths:
       summary: Save Trans Jadwal Kuliah
       tags:
       - Jadwal Kuliah
+  /jam-kuliah:
+    get:
+      description: Get JamKuliah
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-array_models_GetAllJamKuliah'
+      security:
+      - BearerAuth: []
+      summary: Get JamKuliah
+      tags:
+      - JamKuliah
   /laporan-perkuliahan/:
     get:
       consumes:
@@ -954,6 +1094,21 @@ paths:
       summary: Save Absen Trans
       tags:
       - Absen
+  /mata-kuliah:
+    get:
+      description: Get Matakuliah
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BaseResponse-array_models_MataKuliah'
+      security:
+      - BearerAuth: []
+      summary: Get Matakuliah
+      tags:
+      - Matakuliah
   /perubahan-jadwal:
     get:
       consumes:

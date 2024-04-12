@@ -15,6 +15,31 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/dosen": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Dosen",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dosen"
+                ],
+                "summary": "Get Dosen",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-array_models_GetAllDosen"
+                        }
+                    }
+                }
+            }
+        },
         "/jadwal-kuliah": {
             "get": {
                 "security": [
@@ -323,6 +348,31 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/jam-kuliah": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get JamKuliah",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "JamKuliah"
+                ],
+                "summary": "Get JamKuliah",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-array_models_GetAllJamKuliah"
                         }
                     }
                 }
@@ -675,6 +725,31 @@ const docTemplate = `{
                         "description": "No Content",
                         "schema": {
                             "$ref": "#/definitions/models.BaseResponse-any"
+                        }
+                    }
+                }
+            }
+        },
+        "/mata-kuliah": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get Matakuliah",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Matakuliah"
+                ],
+                "summary": "Get Matakuliah",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BaseResponse-array_models_MataKuliah"
                         }
                     }
                 }
@@ -1099,6 +1174,28 @@ const docTemplate = `{
                 }
             }
         },
+        "models.BaseResponse-array_models_GetAllDosen": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.GetAllDosen"
+                    }
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
         "models.BaseResponse-array_models_GetAllJadwalKuliahResponse": {
             "type": "object",
             "properties": {
@@ -1121,6 +1218,28 @@ const docTemplate = `{
                 }
             }
         },
+        "models.BaseResponse-array_models_GetAllJamKuliah": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.GetAllJamKuliah"
+                    }
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
         "models.BaseResponse-array_models_GetAllPerubahanJadwal": {
             "type": "object",
             "properties": {
@@ -1128,6 +1247,28 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.GetAllPerubahanJadwal"
+                    }
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {}
+                },
+                "message": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "meta": {
+                    "$ref": "#/definitions/models.PaginationMeta"
+                }
+            }
+        },
+        "models.BaseResponse-array_models_MataKuliah": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.MataKuliah"
                     }
                 },
                 "errors": {
@@ -1268,6 +1409,41 @@ const docTemplate = `{
                 }
             }
         },
+        "models.GetAllDosen": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "kelamin": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "nama_lengkap": {
+                    "type": "string"
+                },
+                "nidn": {
+                    "type": "string"
+                },
+                "nik": {
+                    "type": "string"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "nupn": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "uname": {
+                    "type": "string"
+                }
+            }
+        },
         "models.GetAllJadwalKuliahResponse": {
             "type": "object",
             "properties": {
@@ -1297,6 +1473,26 @@ const docTemplate = `{
                 },
                 "tahun": {
                     "type": "string"
+                }
+            }
+        },
+        "models.GetAllJamKuliah": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "jam_mulai": {
+                    "type": "string"
+                },
+                "jam_selesai": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "no_urut": {
+                    "type": "integer"
                 }
             }
         },
@@ -1456,6 +1652,50 @@ const docTemplate = `{
                 },
                 "isPreview": {
                     "type": "boolean"
+                }
+            }
+        },
+        "models.MataKuliah": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "is_agama": {
+                    "type": "integer"
+                },
+                "is_ta_pkl": {
+                    "type": "string"
+                },
+                "jenis_mk": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "kode_mk": {
+                    "type": "string"
+                },
+                "nama_mk": {
+                    "type": "string"
+                },
+                "semester_kuliah": {
+                    "type": "integer"
+                },
+                "sks": {
+                    "type": "integer"
+                },
+                "sks_lapangan": {
+                    "type": "integer"
+                },
+                "sks_praktek": {
+                    "type": "integer"
+                },
+                "sks_simulasi": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         },

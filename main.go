@@ -13,6 +13,8 @@ import (
 	"skripsi.id/obfuss/routes"
 )
 
+const ENV string = "development"
+
 //	@title			Obfuss API
 //	@version		1
 //	@description	Obfuss API Documentation
@@ -34,7 +36,9 @@ func main() {
 
 	app.Static("/public", "./public")
 
-	initSwagger(app)
+	if ENV == "development" {
+		initSwagger(app)
+	}
 
 	app.Run(fmt.Sprint(":", os.Getenv("PORT")))
 }
