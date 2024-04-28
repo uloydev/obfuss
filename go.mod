@@ -3,19 +3,27 @@ module skripsi.id/obfuss
 go 1.21.5
 
 require (
+	github.com/deepmap/oapi-codegen/v2 v2.1.0
+	github.com/getkin/kin-openapi v0.122.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
-	github.com/swaggo/files v1.0.1
-	github.com/swaggo/gin-swagger v1.6.0
+	github.com/oapi-codegen/runtime v1.1.1
 	github.com/swaggo/swag v1.16.2
 	go.uber.org/zap v1.26.0
 	gorm.io/driver/mysql v1.5.2
 	gorm.io/gorm v1.25.5
 )
 
-require github.com/unixpickle/gobfuscate v0.0.0-20211207222725-13796335c727 // indirect
+require (
+	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
+	github.com/invopop/yaml v0.2.0 // indirect
+	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
+	github.com/perimeterx/marshmallow v1.1.5 // indirect
+	golang.org/x/mod v0.17.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
+)
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect

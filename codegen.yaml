@@ -1,0 +1,1193 @@
+openapi: 3.0.1
+info:
+  title: Obfuss API
+  description: Obfuss API Documentation
+  contact: {}
+  version: "1"
+servers:
+  - url: //localhost:6996/api
+paths:
+  /dosen:
+    get:
+      tags:
+        - Dosen
+      summary: Get Dosen
+      description: Get Dosen
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-array_models_GetAllDosen"
+      security:
+        - BearerAuth: []
+  /jadwal-kuliah:
+    get:
+      tags:
+        - Jadwal Kuliah
+      summary: Get Jadwal Kuliah
+      description: Get jadwal Kuliah
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-array_models_GetAllJadwalKuliahResponse"
+      security:
+        - BearerAuth: []
+  /jadwal-kuliah-dosen/:
+    get:
+      tags:
+        - Jadwal Kuliah
+      summary: Get All Jadwal Kuliah Dosen
+      description: Get All Jadwal Kuliah Dosen
+      parameters:
+        - name: page
+          in: query
+          description: Page
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Limit
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+  /jadwal-kuliah-dosen/{id}:
+    delete:
+      tags:
+        - Jadwal Kuliah
+      summary: delete Trans Jadwal Kuliah
+      description: delete Trans Jadwal Kuliah
+      parameters:
+        - name: id
+          in: path
+          description: Jadwal Kuliah ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+  /jadwal-kuliah-dosen/kelas:
+    get:
+      tags:
+        - Jadwal Kuliah
+      summary: Get All Kelas
+      description: Get All Kelas
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-array_entities_Kelas"
+      security:
+        - BearerAuth: []
+  /jadwal-kuliah-dosen/mahasiswa:
+    post:
+      tags:
+        - Jadwal Kuliah
+      summary: Get All Mahasiswa
+      description: Get All Mahasiswa
+      parameters:
+        - name: page
+          in: query
+          description: Page
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Limit
+          schema:
+            type: integer
+      requestBody:
+        description: data
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/models.GetMahasiswaRaw"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: data
+  /jadwal-kuliah-dosen/save-trans:
+    post:
+      tags:
+        - Jadwal Kuliah
+      summary: Save Trans Jadwal Kuliah
+      description: Save Trans Jadwal Kuliah
+      requestBody:
+        description: body
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/models.SaveTransJadwalKuliahDosen"
+        required: true
+      responses:
+        "204":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: body
+  /jadwal-kuliah/{id}:
+    delete:
+      tags:
+        - Jadwal Kuliah
+      summary: delete Trans Jadwal Kuliah
+      description: delete Trans Jadwal Kuliah
+      parameters:
+        - name: id
+          in: path
+          description: Jadwal Kuliah ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+  /jadwal-kuliah/save-trans:
+    post:
+      tags:
+        - Jadwal Kuliah
+      summary: Save Trans Jadwal Kuliah
+      description: Save Trans Jadwal Kuliah
+      requestBody:
+        description: Save Trans request
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/models.JadwalKuliahRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: jadwalKuliah
+  /jam-kuliah:
+    get:
+      tags:
+        - JamKuliah
+      summary: Get JamKuliah
+      description: Get JamKuliah
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-array_models_GetAllJamKuliah"
+      security:
+        - BearerAuth: []
+  /laporan-perkuliahan/:
+    get:
+      tags:
+        - Laporan Perkuliahan
+      summary: Get All Laporan Perkuliahan
+      description: Get All Laporan Perkuliahan
+      parameters:
+        - name: page
+          in: query
+          description: Page
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Limit
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+  /laporan-perkuliahan/{id-pertemuan}/pertemuan:
+    get:
+      tags:
+        - Laporan Perkuliahan
+      summary: Get All Laporan Perkuliahan By Pertemuan
+      description: Get All Laporan Perkuliahan By Pertemuan
+      parameters:
+        - name: id-pertemuan
+          in: path
+          description: pertemuan ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-entities_AngketDosen"
+      security:
+        - BearerAuth: []
+    delete:
+      tags:
+        - Laporan Perkuliahan
+      summary: Delete Angket Dosen
+      description: Delete Angket Dosen
+      parameters:
+        - name: id-pertemuan
+          in: path
+          description: pertemuan ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+  /laporan-perkuliahan/save-trans:
+    post:
+      tags:
+        - Laporan Perkuliahan
+      summary: SaveTrans
+      description: SaveTrans
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - id_dosen
+                - id_pertemuan
+                - jam_kuliah
+                - keterangan
+                - materi
+                - pertemuan_ke
+              type: object
+              properties:
+                fileName:
+                  type: string
+                id_dosen:
+                  type: integer
+                  format: int32
+                id_pertemuan:
+                  type: integer
+                  format: int32
+                jam_kuliah:
+                  type: string
+                keterangan:
+                  type: string
+                materi:
+                  type: string
+                pertemuan_ke:
+                  type: integer
+                  format: int32
+                foto:
+                  type: string
+                  description: file
+                  format: binary
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+  /laporan-perkuliahan/to-pdf:
+    post:
+      tags:
+        - Laporan Perkuliahan
+      summary: To PDF
+      description: To PDF
+      requestBody:
+        description: Save Trans request
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/models.LaporanPerkuliahanDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: data
+  /mahasiswa/absen:
+    get:
+      tags:
+        - Absen
+      summary: Get Absen Mahasiswa
+      description: Get Absen Mahasiswa
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+        - name: smtId
+          in: query
+          description: Semester ID
+          required: true
+          schema:
+            type: integer
+        - name: kelasId
+          in: query
+          description: Kelas ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-models_GetAllAbsenResponse"
+      security:
+        - BearerAuth: []
+  /mahasiswa/absen/{idPertemuan}:
+    delete:
+      tags:
+        - Absen
+      summary: Delete Absen
+      description: Delete Absen
+      parameters:
+        - name: idPertemuan
+          in: path
+          description: Pertemuan ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+  /mahasiswa/absen/save-trans:
+    post:
+      tags:
+        - Absen
+      summary: Save Absen Trans
+      description: Save Absen
+      requestBody:
+        description: Absen request
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/models.SaveAbsenTransRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: absen
+  /mata-kuliah:
+    get:
+      tags:
+        - Matakuliah
+      summary: Get Matakuliah
+      description: Get Matakuliah
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-array_models_MataKuliah"
+      security:
+        - BearerAuth: []
+  /perubahan-jadwal:
+    get:
+      tags:
+        - Perubahan Jadwal
+      summary: Get Perubahan Jadwal
+      description: Get Perubahan Jadwal
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-array_models_GetAllPerubahanJadwal"
+      security:
+        - BearerAuth: []
+  /perubahan-jadwal/{idJadwalPertemuan}:
+    patch:
+      tags:
+        - Perubahan Jadwal
+      summary: Update Perubahan Jadwal
+      description: Update Perubahan Jadwal
+      parameters:
+        - name: idJadwalPertemuan
+          in: path
+          description: ID Jadwal Pertemuan
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Update Jadwal Pertemuan Request
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/models.UpdateJadwalPertemuanRequest"
+        required: true
+      responses:
+        "204":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-any"
+      security:
+        - BearerAuth: []
+      x-codegen-request-body-name: payload
+  /token:
+    get:
+      tags:
+        - Token
+      summary: Get Token
+      description: Get Token
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.BaseResponse-handlers_TokenResponse"
+components:
+  schemas:
+    entities.AngketDosen:
+      type: object
+      properties:
+        add_date:
+          type: string
+        add_user:
+          type: integer
+        file:
+          type: string
+        file_gambar:
+          type: string
+        id:
+          type: integer
+        id_dosen:
+          type: integer
+        id_pertemuan:
+          type: integer
+        jam_kuliah:
+          type: string
+        jumlah_daring:
+          type: integer
+        jumlah_hadir:
+          type: integer
+        jumlah_luring:
+          type: integer
+        jumlah_tidak_hadir:
+          type: integer
+        keterangan:
+          type: string
+        modified_date:
+          type: string
+        modified_user:
+          type: integer
+        pertemuan_ke:
+          type: integer
+        ringkasan_materi:
+          type: string
+        status:
+          type: string
+    entities.Kelas:
+      type: object
+      properties:
+        add_date:
+          type: string
+        add_user:
+          type: integer
+        id:
+          type: integer
+        idkonsentrasi:
+          type: integer
+        idkurikulum:
+          type: integer
+        idsemester:
+          type: integer
+        inisialKelas:
+          type: string
+        keterangan:
+          type: string
+        konsentrasi:
+          $ref: "#/components/schemas/entities.Konsentrasi"
+        kurikulum:
+          $ref: "#/components/schemas/entities.Kurikulum"
+        modified_date:
+          type: string
+        modified_user:
+          type: integer
+        namaKelas:
+          type: string
+        semester:
+          $ref: "#/components/schemas/entities.Semester"
+        semesterKuliah:
+          type: string
+    entities.Konsentrasi:
+      type: object
+      properties:
+        add_date:
+          type: string
+        add_user:
+          type: integer
+        gelar:
+          type: string
+        id:
+          type: integer
+        inisial_gelar:
+          type: string
+        jurusan:
+          type: string
+        keterangan:
+          type: string
+        kode_prodi:
+          type: integer
+        modified_date:
+          type: string
+        modified_user:
+          type: integer
+        nama_konsentrasi:
+          type: string
+        nama_prodi:
+          type: string
+        pejabat_tte:
+          type: integer
+        translate_gelar:
+          type: string
+    entities.Kurikulum:
+      type: object
+      properties:
+        active_status:
+          type: string
+        add_date:
+          type: string
+        add_user:
+          type: integer
+        id:
+          type: integer
+        kode_kurikulum:
+          type: string
+        modified_date:
+          type: string
+        modified_user:
+          type: integer
+        mulai_kurikulum:
+          type: string
+        sks_pilihan:
+          type: integer
+        sks_wajib:
+          type: integer
+    entities.Semester:
+      type: object
+      properties:
+        active_status:
+          type: string
+        add_date:
+          type: string
+        add_user:
+          type: integer
+        id:
+          type: integer
+        id_tahun:
+          type: integer
+        modified_date:
+          type: string
+        modified_user:
+          type: integer
+        semester:
+          type: string
+        tahun_ajaran:
+          $ref: "#/components/schemas/entities.TahunAjaran"
+        tanggal_berakhir:
+          type: string
+        tanggal_mulai:
+          type: string
+    entities.TahunAjaran:
+      type: object
+      properties:
+        active_status:
+          type: string
+        add_date:
+          type: string
+        add_user:
+          type: integer
+        id:
+          type: integer
+        modified_date:
+          type: string
+        modified_user:
+          type: integer
+        mulai_berjalan:
+          type: string
+        tahun:
+          type: string
+    handlers.TokenResponse:
+      type: object
+      properties:
+        token_dosen:
+          type: string
+        token_mhs:
+          type: string
+    models.BaseResponse-any:
+      type: object
+      properties:
+        data:
+          type: object
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.BaseResponse-array_entities_Kelas:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/entities.Kelas"
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.BaseResponse-array_models_GetAllDosen:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.GetAllDosen"
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.BaseResponse-array_models_GetAllJadwalKuliahResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.GetAllJadwalKuliahResponse"
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.BaseResponse-array_models_GetAllJamKuliah:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.GetAllJamKuliah"
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.BaseResponse-array_models_GetAllPerubahanJadwal:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.GetAllPerubahanJadwal"
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.BaseResponse-array_models_MataKuliah:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.MataKuliah"
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.BaseResponse-entities_AngketDosen:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/entities.AngketDosen"
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.BaseResponse-handlers_TokenResponse:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/handlers.TokenResponse"
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.BaseResponse-models_GetAllAbsenResponse:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/models.GetAllAbsenResponse"
+        errors:
+          type: array
+          items:
+            type: object
+        message:
+          type: string
+          example: success
+        meta:
+          $ref: "#/components/schemas/models.PaginationMeta"
+    models.GetAllAbsenResponse:
+      type: object
+      properties:
+        day_number:
+          type: integer
+        hari:
+          type: string
+        id:
+          type: integer
+        id_kelas:
+          type: integer
+        id_mk:
+          type: integer
+        id_pertemuan:
+          type: integer
+        id_semester:
+          type: integer
+        inisial_kelas:
+          type: string
+        jam_mulai:
+          type: string
+        jam_selesai:
+          type: string
+        jumlah_hadir:
+          type: integer
+        jumlah_pertemuan:
+          type: integer
+        kode_kurikulum:
+          type: string
+        nama_dosen:
+          type: string
+        nama_kelas:
+          type: string
+        nama_konsentrasi:
+          type: string
+        nama_lengkap:
+          type: string
+        nama_mk:
+          type: string
+        nama_prodi:
+          type: string
+        semester:
+          type: string
+        tahun:
+          type: string
+    models.GetAllDosen:
+      type: object
+      properties:
+        id:
+          type: integer
+        kelamin:
+          type: string
+        keterangan:
+          type: string
+        nama_lengkap:
+          type: string
+        nidn:
+          type: string
+        nik:
+          type: string
+        nip:
+          type: string
+        nupn:
+          type: string
+        status:
+          type: string
+        uname:
+          type: string
+    models.GetAllJadwalKuliahResponse:
+      type: object
+      properties:
+        id_kelas:
+          type: integer
+        inisial_kelas:
+          type: string
+        jumlah_mk:
+          type: integer
+        kode_kurikulum:
+          type: integer
+        nama_kelas:
+          type: string
+        nama_konsentrasi:
+          type: string
+        nama_prodi:
+          type: string
+        semester:
+          type: string
+        tahun:
+          type: string
+    models.GetAllJamKuliah:
+      type: object
+      properties:
+        id:
+          type: integer
+        jam_mulai:
+          type: string
+        jam_selesai:
+          type: string
+        keterangan:
+          type: string
+        no_urut:
+          type: integer
+    models.GetAllPerubahanJadwal:
+      type: object
+      properties:
+        alasan_perubahan:
+          type: string
+        hari_jadwal:
+          type: string
+        hari_old:
+          type: string
+        id:
+          type: integer
+        inisial_kelas:
+          type: string
+        jam_kuliah:
+          type: string
+        jam_kuliah_old:
+          type: string
+        keterangan:
+          type: string
+        kode_kurikulum:
+          type: string
+        mulai_jam:
+          type: integer
+        mulai_jam_old:
+          type: integer
+        nama_dosen:
+          type: string
+        nama_kelas:
+          type: string
+        nama_konsentrasi:
+          type: string
+        nama_mk:
+          type: string
+        nama_prodi:
+          type: string
+        sampai_jam:
+          type: integer
+        sampai_jam_old:
+          type: integer
+        semester:
+          type: string
+        status_usulan:
+          type: string
+        tahun:
+          type: string
+        tanggal_old:
+          type: string
+        tanggal_pertemuan:
+          type: string
+        tanggal_usulan_ganti:
+          type: string
+    models.GetMahasiswaRaw:
+      type: object
+      properties:
+        id_kelas:
+          type: integer
+        id_pertemuan:
+          type: integer
+    models.JadwalKuliahCreateRequest:
+      required:
+        - hari
+        - id_dosen
+        - id_jam_mulai
+        - id_jam_selesai
+        - id_mk
+      type: object
+      properties:
+        hari:
+          type: string
+        id_dosen:
+          type: integer
+        id_jam_mulai:
+          type: integer
+        id_jam_selesai:
+          type: integer
+        id_mk:
+          type: integer
+    models.JadwalKuliahRequest:
+      required:
+        - id_kelas
+        - jadwal_kuliah
+      type: object
+      properties:
+        id_kelas:
+          type: integer
+        jadwal_kuliah:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.JadwalKuliahCreateRequest"
+    models.LaporanPerkuliahanDTO:
+      required:
+        - idDosen
+        - idKelas
+        - idMk
+        - idPertemuan
+      type: object
+      properties:
+        idDosen:
+          type: integer
+        idKelas:
+          type: integer
+        idMk:
+          type: integer
+        idPertemuan:
+          type: integer
+        isPreview:
+          type: boolean
+    models.MataKuliah:
+      type: object
+      properties:
+        id:
+          type: integer
+        is_agama:
+          type: integer
+        is_ta_pkl:
+          type: string
+        jenis_mk:
+          type: string
+        keterangan:
+          type: string
+        kode_mk:
+          type: string
+        nama_mk:
+          type: string
+        semester_kuliah:
+          type: integer
+        sks:
+          type: integer
+        sks_lapangan:
+          type: integer
+        sks_praktek:
+          type: integer
+        sks_simulasi:
+          type: integer
+        status:
+          type: string
+    models.PaginationMeta:
+      type: object
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        total:
+          type: integer
+        totalPage:
+          type: integer
+    models.SaveAbsenTransRequest:
+      required:
+        - absen
+        - id_jadwal
+        - id_kelas
+        - id_pertemuan
+      type: object
+      properties:
+        absen:
+          type: array
+          items:
+            $ref: "#/components/schemas/models.SaveTransAbsen"
+        id_jadwal:
+          type: integer
+          example: 1
+        id_kelas:
+          type: integer
+          example: 1
+        id_pertemuan:
+          type: integer
+          example: 1
+    models.SaveTransAbsen:
+      required:
+        - id_mahasiswa
+      type: object
+      properties:
+        id_mahasiswa:
+          type: integer
+          example: 1
+        is_hadir:
+          type: string
+          description: yes or no
+          example: "yes"
+        keterangan:
+          type: string
+          description: daring or luring
+          example: daring
+    models.SaveTransJadwalKuliahDosen:
+      type: object
+      properties:
+        hari:
+          type: string
+        id:
+          type: integer
+        id_dosen:
+          type: integer
+        id_jam_mulai:
+          type: integer
+        id_jam_selesai:
+          type: integer
+        id_kelas:
+          type: integer
+        id_mk:
+          type: integer
+        id_semester:
+          type: integer
+    models.UpdateJadwalPertemuanRequest:
+      type: object
+      properties:
+        alasan_perubahan:
+          type: string
+        id_jadwal_kuliah:
+          type: integer
+          example: 1
+        status_usulan:
+          type: string
+          example: disetujui
+        tanggal_usulan_ganti:
+          type: string
+          example: 2006-01-02 15:04:05
+        usulan_mulai_jam:
+          type: integer
+          example: 1
+        usulan_sampai_jam:
+          type: integer
+          example: 1
+  securitySchemes:
+    BearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
