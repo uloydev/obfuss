@@ -1,7 +1,6 @@
 package services
 
 import (
-	"database/sql"
 	"errors"
 	"time"
 
@@ -52,7 +51,6 @@ func (s *JadwalKuliahDosenService) GetAllJadwalKuliahDosen(
 	var data []map[string]any
 
 	query := queries.FindAllJadwalKuliahDosen(s.db, idDosen)
-
 
 	meta, data, err := utils.Paginate[map[string]interface{}](pageParams, query, s.logger)
 
@@ -121,9 +119,9 @@ func (s *JadwalKuliahDosenService) SaveTrans(payload *models.SaveTransJadwalKuli
 func (s *JadwalKuliahDosenService) Delete(id int) error {
 	var jadwalPertemuan *entities.JadwalPertemuan
 
-	err := s.db.Table(jadwalPertemuan.TableName()).
-		Where("id_kelas = @id_kelas", sql.Named("id_kelas", id)).
-		Delete(jadwalPertemuan).Error
+	err := s.db.Table(entities.JadwalPertemuan{}.TableName()).
+		Where("id_jadwal = ?", id).
+		Delete(&jadwalPertemuan).Error
 
 	if err != nil {
 		return errors.New("error when delete jadwal kuliah")

@@ -10,8 +10,6 @@ import (
 	"skripsi.id/obfuss/routes"
 )
 
-const ENV string = "development"
-
 // @title			Obfuss API
 // @version		1
 // @description	Obfuss API Documentation
