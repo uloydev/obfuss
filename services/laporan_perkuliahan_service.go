@@ -39,7 +39,7 @@ func (s *LaporanPerkuliahanService) SaveTrans(payload *models.SaveTransLaporanPe
 
 	var angketDosen *entities.AngketDosen
 
-	err := s.db.Model(&angketDosen).First(&angketDosen, map[string]any{
+	err := s.db.Model(&angketDosen).Find(&angketDosen, map[string]any{
 		"id_pertemuan": &payload.IDPertemuan,
 	}).Error
 
@@ -51,6 +51,7 @@ func (s *LaporanPerkuliahanService) SaveTrans(payload *models.SaveTransLaporanPe
 
 	currentTime := time.Now()
 
+	angketDosen.IDPertemuan = payload.IDPertemuan
 	angketDosen.ModifiedDate = &currentTime
 	angketDosen.ModifiedUser = &user.ActorID
 	angketDosen.IDDosen = payload.IDDosen
