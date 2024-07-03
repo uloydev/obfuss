@@ -3,6 +3,7 @@ package services
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"path/filepath"
 	"strconv"
 	"time"
@@ -96,10 +97,14 @@ func (s *LaporanPerkuliahanService) GetAllAngeketDosen(
 
 	query := queries.GetKelasIDFromTPK(s.db, user)
 	query.Find(&kelasMhs).Limit(1)
+
 	idKelas := kelasMhs[0]["id_kelas"].(int32)
 
 	query = queries.GetAllLaporanKuliahByUsertype(s.db, int(idKelas), user)
+
 	meta, data, err := utils.Paginate[map[string]interface{}](pageParams, query, s.logger)
+
+	fmt.Println(data)
 
 	if err != nil {
 		s.logger.Error("failed to get laporan perkuliahan", zap.Error(err))

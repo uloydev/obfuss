@@ -268,3 +268,36 @@ func (h *AbsenHandler) Delete(c *gin.Context) {
 	})
 
 }
+
+func (h *AbsenHandler) ListAbsen(c *gin.Context) {
+	idKelas, err := strconv.Atoi(c.Query("idKelas"))
+	if err != nil {
+		c.JSON(400, models.BaseResponse[map[string]any]{
+			Message: "error",
+			Errors:  []any{"smtId must be a number"},
+		})
+		return
+	}
+
+	idPertemuan, err := strconv.Atoi(c.Query("idPertemuan"))
+	if err != nil {
+		c.JSON(400, models.BaseResponse[map[string]any]{
+			Message: "error",
+			Errors:  []any{"smtId must be a number"},
+		})
+		return
+	}
+
+	var mst []models.Result
+
+	h.db.Table("mst_mahasiswa").
+		Select("DISTINCT trans_absen_mahasiswa.is_hadir AS kehadiran, trans_absen_mahasiswa.keterangan, mst_mahasiswa.user_name, mst_mahasiswa.nama_lengkap").
+		Joins("JOIN trans_plot_kelas ON trans_plot_kelas.id_mahasiswa = mst_mahasiswa.id AND trans_plot_kelas.id_kelas = ?", idKelas).
+		Joins("LEFT JOIN trans_absen_mahasiswa ON trans_absen_mahasiswa.id_mahasiswa = mst_mahasiswa.id AND trans_absen_mahasiswa.id_pertemuan = ?", idPertemuan).
+		Find(&mst)
+
+	c.JSON(200, models.BaseResponse[[]models.Result]{
+		Data:    mst,
+		Message: "success",
+	})
+}

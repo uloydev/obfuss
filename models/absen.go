@@ -43,3 +43,10 @@ type AbsenCountResult struct {
 	JumlahLuring     int `json:"jumlah_luring" gorm:"column:jumlah_luring"`
 	JumlahDaring     int `json:"jumlah_daring" gorm:"column:jumlah_daring"`
 }
+
+type Result struct {
+	Kehadiran   *string `gorm:"column:kehadiran"`
+	Keterangan  *string `gorm:"column:keterangan"`
+	UserName    string  `gorm:"column:user_name"`
+	NamaLengkap string  `gorm:"column:nama_lengkap"`
+}

@@ -9,6 +9,7 @@ func FindAllJadwalKuliah(
 	db *gorm.DB,
 	smtId uint,
 ) *gorm.DB {
+
 	return db.Table(entities.JadwalKuliah{}.TableName()).
 		Select("mst_kurikulum.kode_kurikulum, trans_jadwal_kuliah.id_kelas, COUNT(trans_jadwal_kuliah.id_mk) AS jumlah_mk, "+
 			"mst_kelas.inisial_kelas, mst_kelas.nama_kelas, mst_semester.semester, "+

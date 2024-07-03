@@ -18,9 +18,11 @@ require (
 
 require (
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
+	github.com/danielkov/gin-helmet v0.0.0-20171108135313-1387e224435e // indirect
 	github.com/invopop/yaml v0.2.0 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
+	github.com/unixpickle/gobfuscate v0.0.0-20211207222725-13796335c727 // indirect
 	golang.org/x/mod v0.17.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

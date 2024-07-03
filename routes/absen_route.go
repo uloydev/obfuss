@@ -25,4 +25,5 @@ func (r *AbsenRoute) Register(app *gin.RouterGroup) {
 	api.GET("/", r.handler.GetAbsenMhs)
 	api.POST("/save-trans", r.handler.SaveTrans)
 	api.POST("/:idPertemuan/delete", r.handler.Delete)
+	api.GET("/pertemuan", r.handler.ListAbsen)
 }
