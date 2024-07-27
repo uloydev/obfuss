@@ -51,14 +51,12 @@ func (h *LaporanPerkuliahanHandler) SaveTransLaporanPerkuliahan(c *gin.Context) 
 		return
 	}
 
-	user, err := utils.GetUser(c)
-
+	mahasiswaId, err := strconv.Atoi(c.Query("mahasiswaId"))
 	if err != nil {
-		c.JSON(401, models.BaseResponse[any]{
+		c.JSON(400, models.BaseResponse[any]{
 			Message: "error",
-			Errors:  []any{err.Error()},
+			Errors:  []any{errors.New("invalid mahasiswa id").Error()},
 		})
-
 		return
 	}
 
@@ -69,17 +67,15 @@ func (h *LaporanPerkuliahanHandler) SaveTransLaporanPerkuliahan(c *gin.Context) 
 
 		if err := c.SaveUploadedFile(formData.Foto, filepath.Join("storage/foto-kuliah/", fotoName)); err != nil {
 			h.logger.Error("error:", zap.Any("while store data", err.Error()))
-
 			c.JSON(500, models.BaseResponse[any]{
 				Message: "error",
 				Errors:  []any{"internal server error"},
 			})
-
 			return
 		}
 	}
 
-	err = h.service.SaveTrans(formData, user)
+	laporan, err := h.service.SaveTrans(formData, mahasiswaId)
 
 	if err != nil {
 		c.JSON(500, models.BaseResponse[any]{
@@ -88,8 +84,8 @@ func (h *LaporanPerkuliahanHandler) SaveTransLaporanPerkuliahan(c *gin.Context) 
 		})
 	}
 
-	c.JSON(204, models.BaseResponse[any]{
-		Data:    nil,
+	c.JSON(200, models.BaseResponse[any]{
+		Data:    laporan,
 		Message: "success",
 	})
 }

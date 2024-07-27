@@ -71,7 +71,7 @@ func (s *JadwalKuliahDosenService) GetById(id int) (entities.JadwalKuliahDosen, 
 	return data, nil
 }
 
-func (s *JadwalKuliahDosenService) SaveTrans(payload *models.SaveTransJadwalKuliahDosen, userId int) error {
+func (s *JadwalKuliahDosenService) SaveTrans(payload *models.SaveTransJadwalKuliahDosen, userId int) (*entities.JadwalKuliahDosen, error) {
 	var (
 		errorFind   = errors.New("cannot find jadwal kuliah dosen")
 		errorUpdate = errors.New("failed when update jadwal kuliah dosen")
@@ -87,7 +87,7 @@ func (s *JadwalKuliahDosenService) SaveTrans(payload *models.SaveTransJadwalKuli
 
 	if err != nil {
 		s.logger.Error(err.Error())
-		return errorFind
+		return nil, errorFind
 	}
 
 	jadwalKuliahDosen.Hari = &payload.Hari
@@ -105,10 +105,10 @@ func (s *JadwalKuliahDosenService) SaveTrans(payload *models.SaveTransJadwalKuli
 
 	if err := s.db.Save(&jadwalKuliahDosen).Error; err != nil {
 		s.logger.Error(err.Error())
-		return errorUpdate
+		return nil, errorUpdate
 	}
 
-	return nil
+	return &jadwalKuliahDosen, nil
 }
 
 func (s *JadwalKuliahDosenService) Delete(id int) error {

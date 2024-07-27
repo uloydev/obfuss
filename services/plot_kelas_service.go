@@ -1,8 +1,6 @@
 package services
 
 import (
-	"errors"
-
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"skripsi.id/obfuss/entities"
@@ -26,7 +24,7 @@ func (s *PlotKelasService) GetIdKelas(conds map[string]any) (int, error) {
 
 	if err != nil {
 		s.logger.Error("failed to get id kelas", zap.Error(err))
-		return 0, errors.New("failed to get id kelas")
+		return 0, err
 	}
 
 	return plotKelas.IDKelas, nil

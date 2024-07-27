@@ -88,7 +88,7 @@ func (s *JadwalKuliahService) saveAuto(tx *gorm.DB, dayName string, idJadwal int
 	return nil
 }
 
-func (s *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliahRequest, userId int) error {
+func (s *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliahRequest, userId int) ([]entities.JadwalKuliah, error) {
 	var (
 		jadwalKuliah entities.JadwalKuliah
 	)
@@ -104,7 +104,7 @@ func (s *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 		s.logger.Error(err.Error())
 
 		trx.Rollback()
-		return errors.New("failed when delete jadwal kuliah by id kelas")
+		return nil, errors.New("failed when delete jadwal kuliah by id kelas")
 	}
 
 	for _, v := range payload.JadwalKuliah {
@@ -124,18 +124,17 @@ func (s *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 			s.logger.Error(err.Error())
 			trx.Rollback()
 
-			return errors.New("failed when save trans jadwal kuliah")
+			return nil, errors.New("failed when save trans jadwal kuliah")
 		}
 
 		// Function gak jelas
 		if err := s.saveAuto(trx, v.Hari, data.ID, v.IDJamMulai, v.IDJamSelesai); err != nil {
-			return err
+			return nil, err
 		}
 	}
 
 	trx.Commit()
-
-	return nil
+	return jadwalKuliahs, nil
 }
 
 func (s *JadwalKuliahService) GetById(id int) (entities.JadwalKuliah, error) {
@@ -143,7 +142,7 @@ func (s *JadwalKuliahService) GetById(id int) (entities.JadwalKuliah, error) {
 	err := s.db.Table(entities.JadwalKuliah{}.TableName()).First(&data, id).Error
 	if err != nil {
 		s.logger.Error("failed to get jadwal kuliah by id", zap.Error(err))
-		return data, errors.New("failed to get jadwal kuliah by id")
+		return data, err
 	}
 
 	return data, nil

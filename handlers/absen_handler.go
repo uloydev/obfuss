@@ -77,6 +77,14 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 	})
 
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(404, models.BaseResponse[map[string]any]{
+				Message: "notfound",
+				Errors:  []any{err.Error()},
+			})
+			return
+		}
+
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
 			Errors:  []any{err.Error()},
@@ -127,6 +135,7 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 				errors.New("mahasiswaId: must be a number"),
 			},
 		})
+		return
 	}
 
 	if err = c.BindJSON(&req); err != nil {
@@ -139,6 +148,14 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 
 	jadwalKuliah, err := h.jadwalKuliahService.GetById(req.IdJadwal)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(404, models.BaseResponse[map[string]any]{
+				Message: "error",
+				Errors:  []any{errors.New("jadwal kuliah not found").Error()},
+			})
+			return
+		}
+
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
 			Errors:  []any{err.Error()},
@@ -148,6 +165,14 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 
 	err = h.absenService.DeleteAbsenByPertemuan(req.IdPertemuan)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(404, models.BaseResponse[map[string]any]{
+				Message: "error",
+				Errors:  []any{errors.New("jadwal kuliah not found").Error()},
+			})
+			return
+		}
+
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
 			Errors:  []any{err.Error()},
@@ -260,6 +285,14 @@ func (h *AbsenHandler) Delete(c *gin.Context) {
 		return
 	}
 	if err := h.absenService.DeleteByPertemuanID(idPertemuan); err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(404, models.BaseResponse[any]{
+				Message: "error",
+				Errors:  []any{errors.New("cannot find pertemuan").Error},
+			})
+			return
+		}
+
 		c.JSON(500, models.BaseResponse[any]{
 			Message: "internal error",
 			Errors:  []any{err.Error()},
@@ -267,6 +300,14 @@ func (h *AbsenHandler) Delete(c *gin.Context) {
 	}
 
 	if err := h.angketDosenService.DeleteByPertemuanID(idPertemuan); err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(404, models.BaseResponse[any]{
+				Message: "error",
+				Errors:  []any{errors.New("cannot find angket dosen").Error},
+			})
+			return
+		}
+
 		c.JSON(500, models.BaseResponse[any]{
 			Message: "internal error",
 			Errors:  []any{err.Error()},

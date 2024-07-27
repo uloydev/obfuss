@@ -31,7 +31,7 @@ func NewLaporanPerkuliahanService(db *gorm.DB, logger *zap.Logger) *LaporanPerku
 	}
 }
 
-func (s *LaporanPerkuliahanService) SaveTrans(payload *models.SaveTransLaporanPerkuliahan, user *middlewares.User) error {
+func (s *LaporanPerkuliahanService) SaveTrans(payload *models.SaveTransLaporanPerkuliahan, actorId int) (*entities.AngketDosen, error) {
 	var (
 		internalServer = errors.New("internal server error")
 	)
@@ -45,14 +45,14 @@ func (s *LaporanPerkuliahanService) SaveTrans(payload *models.SaveTransLaporanPe
 	if err != nil {
 		s.logger.Error("error when find angket dosen :", zap.Any("error", err))
 
-		return internalServer
+		return nil, internalServer
 	}
 
 	currentTime := time.Now()
 
 	angketDosen.IDPertemuan = payload.IDPertemuan
 	angketDosen.ModifiedDate = &currentTime
-	angketDosen.ModifiedUser = &user.ActorID
+	angketDosen.ModifiedUser = &actorId
 	angketDosen.IDDosen = payload.IDDosen
 	angketDosen.PertemuanKe = &payload.PertemuanKe
 	angketDosen.JamKuliah = &payload.JamKuliah
@@ -66,10 +66,10 @@ func (s *LaporanPerkuliahanService) SaveTrans(payload *models.SaveTransLaporanPe
 	if err := s.db.Model(&angketDosen).Save(angketDosen).Error; err != nil {
 		s.logger.Error("error when update angket dosen :", zap.Any("error", err))
 
-		return internalServer
+		return nil, internalServer
 	}
 
-	return nil
+	return angketDosen, nil
 }
 
 func (s *LaporanPerkuliahanService) GetAngketDosenByPertemuan(idPertemuan int) (*entities.AngketDosen, error) {

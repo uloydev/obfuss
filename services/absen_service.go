@@ -49,7 +49,7 @@ func (s *AbsenService) DeleteAbsenByPertemuan(idPertemuan int) error {
 	if err != nil {
 		s.logger.Error("failed to delete absen by pertemuan", zap.Error(err))
 		tx.Rollback()
-		return errors.New("failed to delete absen by pertemuan")
+		return err
 	}
 	tx.Commit()
 
@@ -106,7 +106,7 @@ func (s *AbsenService) DeleteByPertemuanID(idPertemuan int) error {
 		Delete(entities.AbsenMahasiswa{}).Error
 	if err != nil {
 		s.logger.Error("failed to delete absen by pertemuan", zap.Error(err))
-		return errors.New("failed to delete absen by pertemuan")
+		return err
 	}
 
 	return nil

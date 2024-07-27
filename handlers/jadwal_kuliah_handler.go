@@ -116,7 +116,7 @@ func (h *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 		return
 	}
 
-	err = h.service.SaveTransJadwalKuliah(&body, user.ActorID)
+	jadwalKuliah, err := h.service.SaveTransJadwalKuliah(&body, user.ActorID)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.JadwalKuliah]{
 			Message: "error",
@@ -127,7 +127,7 @@ func (h *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 
 	c.JSON(200, models.BaseResponse[[]entities.JadwalKuliah]{
 		Message: "success",
-		Data:    nil,
+		Data:    jadwalKuliah,
 	})
 }
 

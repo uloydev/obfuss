@@ -85,17 +85,24 @@ func (h *JadwalKuliahDosenHandler) SaveTrans(c *gin.Context) {
 		return
 	}
 
-	user, err := utils.GetUser(c)
+	errors := []string{}
 
+	mahasiswaId, err := strconv.Atoi(c.Query("mahasiswaId"))
 	if err != nil {
-		c.JSON(401, models.BaseResponse[entities.JadwalKuliahDosen]{
+		errors = append(errors, "mahasiswaId: must be a number")
+	}
+
+	if len(errors) > 0 {
+		c.JSON(400, models.BaseResponse[entities.JadwalKuliahDosen]{
 			Message: "error",
-			Errors:  []any{errors.New("unauthorize")},
+			Errors:  []any{errors},
 		})
 		return
 	}
 
-	if err := h.service.SaveTrans(&body, user.ActorID); err != nil {
+	jadwalKuliah, err := h.service.SaveTrans(&body, mahasiswaId)
+
+	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.JadwalKuliahDosen]{
 			Message: "error",
 			Errors:  []any{err.Error()},
@@ -104,9 +111,9 @@ func (h *JadwalKuliahDosenHandler) SaveTrans(c *gin.Context) {
 		return
 	}
 
-	c.JSON(204, models.BaseResponse[*entities.JadwalKuliahDosen]{
+	c.JSON(200, models.BaseResponse[*entities.JadwalKuliahDosen]{
 		Message: "success",
-		Data:    nil,
+		Data:    jadwalKuliah,
 	})
 }
 

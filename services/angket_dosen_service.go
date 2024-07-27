@@ -54,7 +54,7 @@ func (s *AngketDosenService) DeleteByPertemuanID(idPertemuan int) error {
 	if err != nil {
 		s.logger.Error("failed to delete angket dosen by pertemuan", zap.Error(err))
 		tx.Rollback()
-		return errors.New("failed to delete angket dosen by pertemuan")
+		return err
 	}
 	tx.Commit()
 
