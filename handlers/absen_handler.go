@@ -11,7 +11,6 @@ import (
 	"skripsi.id/obfuss/entities"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/services"
-	"skripsi.id/obfuss/utils"
 )
 
 type AbsenHandler struct {
@@ -52,28 +51,30 @@ func NewAbsenHandler(db *gorm.DB, logger *zap.Logger) *AbsenHandler {
 // @Router			/mahasiswa/absen [get]
 // @Security BearerAuth
 func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
-	user, err := utils.GetUser(c)
-	if err != nil {
-		c.JSON(401, models.BaseResponse[any]{
-			Message: "error",
-			Errors:  []any{errors.New("unauthorize")},
-		})
-		return
-	}
+	errValidation := []any{}
 
 	smtId, err := strconv.Atoi(c.Query("smtId"))
 	if err != nil {
+		errValidation = append(errValidation, errors.New(SMT_ID_VALIDATION_ERROR))
+	}
+
+	mahasiswaId, err := strconv.Atoi(c.Query("mahasiswaId"))
+	if err != nil {
+		errValidation = append(errValidation, errors.New("mahasiswaId must be a number"))
+	}
+
+	if len(errValidation) > 0 {
 		c.JSON(400, models.BaseResponse[map[string]any]{
-			Message: "error",
-			Errors:  []any{SMT_ID_VALIDATION_ERROR},
+			Message: "bad request",
+			Errors:  errValidation,
 		})
-		return
 	}
 
 	kelasId, err := h.plotKelasService.GetIdKelas(map[string]any{
 		"id_semester":  smtId,
-		"id_mahasiswa": user.ActorID,
+		"id_mahasiswa": mahasiswaId,
 	})
+
 	if err != nil {
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
@@ -82,7 +83,7 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 		return
 	}
 
-	absen, err := h.absenService.GetAllAbsen(user.UserType, smtId, kelasId, 0)
+	absen, err := h.absenService.GetAllAbsen("mahasiswa", smtId, kelasId, 0)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",

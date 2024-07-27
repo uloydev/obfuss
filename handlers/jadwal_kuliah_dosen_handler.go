@@ -40,7 +40,6 @@ func NewJadwalKuliahDosenHandler(db *gorm.DB, logger *zap.Logger) *JadwalKuliahD
 // @Router		/jadwal-kuliah-dosen/ [get]
 // @Security BearerAuth
 func (h *JadwalKuliahDosenHandler) GetAll(c *gin.Context) {
-	var params models.PaginationParams
 	user, err := utils.GetUser(c)
 
 	if err != nil {
@@ -51,16 +50,7 @@ func (h *JadwalKuliahDosenHandler) GetAll(c *gin.Context) {
 		return
 	}
 
-	if err := c.BindQuery(&params); err != nil {
-		c.JSON(400, models.BaseResponse[any]{
-			Message: "error",
-			Errors:  []any{err.Error()},
-		})
-		return
-	}
-
-	data, meta, err := h.service.GetAllJadwalKuliahDosen(params, user.SemesterId)
-
+	data, err := h.service.GetAllJadwalKuliahDosen(user.SemesterId)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[any]{
 			Message: "error",
@@ -72,7 +62,6 @@ func (h *JadwalKuliahDosenHandler) GetAll(c *gin.Context) {
 	c.JSON(200, models.BaseResponse[[]map[string]any]{
 		Message: "success",
 		Data:    data,
-		Meta:    meta,
 	})
 }
 

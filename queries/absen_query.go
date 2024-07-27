@@ -16,7 +16,6 @@ func FindAllAbsenQuery(
 	userType string,
 	smtId, kelasId, DosenId int,
 ) *gorm.DB {
-
 	q := db.Table("trans_jadwal_pertemuan").
 		Select(`
         trans_jadwal_pertemuan.id AS id_pertemuan, trans_jadwal_kuliah.id AS id, SUBSTRING(jam_kuliah_mulai.jam_mulai,1,5) AS jam_mulai, SUBSTRING(jam_kuliah_mulai.jam_selesai,1,5) AS jam_selesai, trans_jadwal_kuliah.hari, 

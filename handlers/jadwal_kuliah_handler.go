@@ -71,7 +71,7 @@ func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 		return
 	}
 
-	jadwalKuliah, meta, err := h.service.GetJadwalKuliah(params, uint(user.SemesterId))
+	jadwalKuliah, err := h.service.GetJadwalKuliah(uint(user.SemesterId))
 	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.JadwalKuliah]{
 			Message: "error",
@@ -83,7 +83,6 @@ func (h *JadwalKuliahHandler) GetJadwalKuliah(c *gin.Context) {
 	c.JSON(200, models.BaseResponse[[]models.GetAllJadwalKuliahResponse]{
 		Message: "success",
 		Data:    jadwalKuliah,
-		Meta:    meta,
 	})
 }
 

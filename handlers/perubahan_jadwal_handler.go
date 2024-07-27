@@ -32,23 +32,21 @@ func NewPerubahanJadwalHandler(db *gorm.DB, logger *zap.Logger) *PerubahanJadwal
 // @Tags			Perubahan Jadwal
 // @Accept			json
 // @Produce		json
-// @Param			params	query		models.PaginationParams	true	"Pagination parameters"
 // @Success		200		{object}	models.BaseResponse[[]models.GetAllPerubahanJadwal]
 // @Router			/perubahan-jadwal [get]
 // @Security BearerAuth
 func (h *PerubahanJadwalHandler) GetPerubahanJadwal(c *gin.Context) {
-	user, error := utils.GetUser(c)
+	mahasiswaId, err := strconv.Atoi(c.Query("mahasiswaId"))
 
-	if error != nil {
-		c.JSON(500, models.BaseResponse[any]{
+	if err != nil {
+		c.JSON(400, models.BaseResponse[any]{
 			Message: "error",
-			Errors:  []any{error.Error()},
+			Errors:  []any{errors.New("invalid mahasiswa id").Error()},
 		})
 		return
 	}
 
-	perubahanJadwal, err := h.service.GetPerubahanJadwal(uint(user.SemesterId))
-
+	perubahanJadwal, err := h.service.GetPerubahanJadwal(uint(mahasiswaId))
 	if err != nil {
 		c.JSON(500, models.BaseResponse[any]{
 			Message: "error",
@@ -77,7 +75,6 @@ func (h *PerubahanJadwalHandler) Update(c *gin.Context) {
 	var payload models.UpdateJadwalPertemuanRequest
 
 	idPertemuanStr := c.Param("idJadwalPertemuan")
-
 	idPertemuan, err := strconv.Atoi(idPertemuanStr)
 	if err != nil {
 		c.JSON(400, models.BaseResponse[any]{
@@ -140,8 +137,8 @@ func (h *PerubahanJadwalHandler) Update(c *gin.Context) {
 		return
 	}
 
-	c.JSON(204, models.BaseResponse[any]{
-		Data:    nil,
+	c.JSON(200, models.BaseResponse[any]{
+		Data:    map[string]any{},
 		Message: "success",
 	})
 }

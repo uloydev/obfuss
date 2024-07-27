@@ -9,7 +9,6 @@ import (
 	"skripsi.id/obfuss/entities"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/queries"
-	"skripsi.id/obfuss/utils"
 )
 
 type JadwalKuliahDosenService struct {
@@ -41,27 +40,23 @@ func (s *JadwalKuliahDosenService) GetGridJadwalKuliahDosen() ([]entities.Kelas,
 }
 
 func (s *JadwalKuliahDosenService) GetAllJadwalKuliahDosen(
-	pageParams models.PaginationParams,
 	idDosen int,
 ) (
 	[]map[string]any,
-	*models.PaginationMeta,
 	error,
 ) {
 	var data []map[string]any
 
 	query := queries.FindAllJadwalKuliahDosen(s.db, idDosen)
-
-	meta, data, err := utils.Paginate[map[string]interface{}](pageParams, query, s.logger)
+	err := query.Find(&data).Error
 
 	if err != nil {
 		s.logger.Error("failed to get jadwal kuliah dosen", zap.Error(err))
-		return nil, nil, errors.New("failed to get jadwal kuliah dosen")
+		return nil, errors.New("failed to get jadwal kuliah dosen")
 	}
 
 	s.logger.Info("logging", zap.Any("data", data))
-
-	return data, meta, err
+	return data, err
 }
 
 func (s *JadwalKuliahDosenService) GetById(id int) (entities.JadwalKuliahDosen, error) {
