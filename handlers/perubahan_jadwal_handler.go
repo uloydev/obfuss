@@ -10,7 +10,6 @@ import (
 	"gorm.io/gorm"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/services"
-	"skripsi.id/obfuss/utils"
 )
 
 type PerubahanJadwalHandler struct {
@@ -36,7 +35,7 @@ func NewPerubahanJadwalHandler(db *gorm.DB, logger *zap.Logger) *PerubahanJadwal
 // @Router			/perubahan-jadwal [get]
 // @Security BearerAuth
 func (h *PerubahanJadwalHandler) GetPerubahanJadwal(c *gin.Context) {
-	mahasiswaId, err := strconv.Atoi(c.Query("mahasiswaId"))
+	semesterId, err := strconv.Atoi(c.Query("smtId"))
 
 	if err != nil {
 		c.JSON(400, models.BaseResponse[any]{
@@ -46,7 +45,7 @@ func (h *PerubahanJadwalHandler) GetPerubahanJadwal(c *gin.Context) {
 		return
 	}
 
-	perubahanJadwal, err := h.service.GetPerubahanJadwal(uint(mahasiswaId))
+	perubahanJadwal, err := h.service.GetPerubahanJadwal(uint(semesterId))
 	if err != nil {
 		c.JSON(500, models.BaseResponse[any]{
 			Message: "error",
@@ -76,10 +75,20 @@ func (h *PerubahanJadwalHandler) Update(c *gin.Context) {
 
 	idPertemuanStr := c.Param("idJadwalPertemuan")
 	idPertemuan, err := strconv.Atoi(idPertemuanStr)
+
 	if err != nil {
 		c.JSON(400, models.BaseResponse[any]{
 			Message: "error",
 			Errors:  []any{errors.New("invalid id pertemuan")},
+		})
+		return
+	}
+
+	mahasiswaId, err := strconv.Atoi(c.Query("mahasiswaId"))
+	if err != nil {
+		c.JSON(400, models.BaseResponse[any]{
+			Message: "error",
+			Errors:  []any{errors.New("invalid mahasiswa id")},
 		})
 		return
 	}
@@ -101,15 +110,6 @@ func (h *PerubahanJadwalHandler) Update(c *gin.Context) {
 		return
 	}
 
-	user, err := utils.GetUser(c)
-	if err != nil {
-		c.JSON(401, models.BaseResponse[any]{
-			Message: "error",
-			Errors:  []any{errors.New("unauthorize")},
-		})
-		return
-	}
-
 	jadwalPertemuan, err := h.service.GetJadwalById(idPertemuan)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[any]{
@@ -126,7 +126,7 @@ func (h *PerubahanJadwalHandler) Update(c *gin.Context) {
 	jadwalPertemuan.IDJadwal = payload.IDJadwalKuliah
 	jadwalPertemuan.AlasanPerubahan = payload.AlasanPerubahan
 	jadwalPertemuan.ModifiedDate = time.Now()
-	jadwalPertemuan.ModifiedUser = user.ActorID
+	jadwalPertemuan.ModifiedUser = mahasiswaId
 
 	err = h.service.SavePerubahanJadwal(&jadwalPertemuan)
 	if err != nil {
@@ -138,7 +138,7 @@ func (h *PerubahanJadwalHandler) Update(c *gin.Context) {
 	}
 
 	c.JSON(200, models.BaseResponse[any]{
-		Data:    map[string]any{},
+		Data:    jadwalPertemuan,
 		Message: "success",
 	})
 }

@@ -23,5 +23,6 @@ func FindAllPerubahanData(
 		Joins("JOIN mst_jam_kuliah AS jam_masuk_old ON jam_masuk_old.id = trans_jadwal_pertemuan.mulai_jam_old").
 		Joins("JOIN mst_jam_kuliah AS jam_selesai_old ON jam_selesai_old.id = trans_jadwal_pertemuan.sampai_jam_old").
 		Joins("JOIN mst_jam_kuliah AS jam_keluar_old ON jam_keluar_old.id = trans_jadwal_pertemuan.sampai_jam_old").
-		Where("trans_jadwal_pertemuan.status_usulan = ? AND mst_kelas.id_semester = ?", "disetujui", smtId)
+		Where("trans_jadwal_pertemuan.status_usulan = ? AND mst_kelas.id_semester = ?", "disetujui", smtId).
+		Order("id ASC")
 }

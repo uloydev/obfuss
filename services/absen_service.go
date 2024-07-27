@@ -35,7 +35,7 @@ func (s *AbsenService) GetAllAbsen(
 
 	if err != nil {
 		s.logger.Error("failed to get absen mahasiswa", zap.Error(err))
-		return nil, errors.New("failed to get absen mahasiswa")
+		return nil, err
 	}
 
 	return data, err

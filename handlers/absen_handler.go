@@ -55,12 +55,12 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 
 	smtId, err := strconv.Atoi(c.Query("smtId"))
 	if err != nil {
-		errValidation = append(errValidation, errors.New(SMT_ID_VALIDATION_ERROR))
+		errValidation = append(errValidation, errors.New(SMT_ID_VALIDATION_ERROR).Error())
 	}
 
 	mahasiswaId, err := strconv.Atoi(c.Query("mahasiswaId"))
 	if err != nil {
-		errValidation = append(errValidation, errors.New("mahasiswaId must be a number"))
+		errValidation = append(errValidation, errors.New("mahasiswaId must be a number").Error())
 	}
 
 	if len(errValidation) > 0 {
@@ -68,6 +68,7 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 			Message: "bad request",
 			Errors:  errValidation,
 		})
+		return
 	}
 
 	kelasId, err := h.plotKelasService.GetIdKelas(map[string]any{
@@ -85,9 +86,17 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 
 	absen, err := h.absenService.GetAllAbsen("mahasiswa", smtId, kelasId, 0)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(404, models.BaseResponse[map[string]any]{
+				Message: "notfound",
+				Errors:  []any{err.Error()},
+			})
+			return
+		}
+
 		c.JSON(500, models.BaseResponse[map[string]any]{
-			Message: "error",
-			Errors:  []any{err.Error()},
+			Message: "internal server error",
+			Data:    nil,
 		})
 		return
 	}
