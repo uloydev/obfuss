@@ -286,17 +286,19 @@ func (h *AbsenHandler) Delete(c *gin.Context) {
 	}
 	if err := h.absenService.DeleteByPertemuanID(idPertemuan); err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.JSON(404, models.BaseResponse[any]{
-				Message: "error",
+			c.JSON(422, models.BaseResponse[any]{
+				Message: "unprocessable entity",
 				Errors:  []any{errors.New("cannot find pertemuan").Error},
+				Data:    nil,
 			})
 			return
 		}
 
 		c.JSON(500, models.BaseResponse[any]{
-			Message: "internal error",
+			Message: "internal server error",
 			Errors:  []any{err.Error()},
 		})
+		return
 	}
 
 	if err := h.angketDosenService.DeleteByPertemuanID(idPertemuan); err != nil {
@@ -312,13 +314,13 @@ func (h *AbsenHandler) Delete(c *gin.Context) {
 			Message: "internal error",
 			Errors:  []any{err.Error()},
 		})
+		return
 	}
 
-	c.JSON(204, models.BaseResponse[any]{
+	c.JSON(200, models.BaseResponse[any]{
 		Data:    nil,
 		Message: fmt.Sprintf("success delete absen with id %d", idPertemuan),
 	})
-
 }
 
 func (h *AbsenHandler) ListAbsen(c *gin.Context) {

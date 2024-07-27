@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -101,12 +102,19 @@ func (s *AbsenService) CountAbsen(idPertemuan int) (models.AbsenCountResult, err
 }
 
 func (s *AbsenService) DeleteByPertemuanID(idPertemuan int) error {
-	err := s.db.Table(entities.AbsenMahasiswa{}.TableName()).
+	results := s.db.Table(entities.AbsenMahasiswa{}.TableName()).
 		Where("id_pertemuan = ?", idPertemuan).
-		Delete(entities.AbsenMahasiswa{}).Error
+		Delete(entities.AbsenMahasiswa{})
+
+	err := results.Error
+
 	if err != nil {
 		s.logger.Error("failed to delete absen by pertemuan", zap.Error(err))
 		return err
+	} else if results.RowsAffected < 1 {
+		s.logger.Log(zap.InfoLevel, fmt.Sprintf("cannot find any record with give id %d", idPertemuan))
+
+		return gorm.ErrRecordNotFound
 	}
 
 	return nil
