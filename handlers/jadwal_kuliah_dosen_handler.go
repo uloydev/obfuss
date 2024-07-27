@@ -171,16 +171,7 @@ func (h *JadwalKuliahDosenHandler) Delete(c *gin.Context) {
 // @Router		/jadwal-kuliah-dosen/mahasiswa [post]
 // @Security BearerAuth
 func (h *JadwalKuliahDosenHandler) GetAllMahasiswa(c *gin.Context) {
-	var params models.PaginationParams
 	var body models.GetMahasiswaRaw
-
-	if err := c.BindQuery(&params); err != nil {
-		c.JSON(400, models.BaseResponse[any]{
-			Message: "error",
-			Errors:  []any{err.Error()},
-		})
-		return
-	}
 
 	if err := c.BindJSON(&body); err != nil {
 		c.JSON(400, models.BaseResponse[any]{
@@ -190,7 +181,7 @@ func (h *JadwalKuliahDosenHandler) GetAllMahasiswa(c *gin.Context) {
 		return
 	}
 
-	data, meta, err := h.mhsService.GetMahasiswaRaw(params, body.IDKelas, body.IDPertemuan)
+	data, err := h.mhsService.GetMahasiswaRaw(body.IDKelas, body.IDPertemuan)
 
 	if err != nil {
 		c.JSON(500, models.BaseResponse[any]{
@@ -203,7 +194,6 @@ func (h *JadwalKuliahDosenHandler) GetAllMahasiswa(c *gin.Context) {
 	c.JSON(200, models.BaseResponse[[]map[string]any]{
 		Message: "success",
 		Data:    data,
-		Meta:    meta,
 	})
 }
 

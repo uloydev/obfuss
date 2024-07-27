@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,10 @@ type AbsenHandler struct {
 	angketDosenService     *services.AngketDosenService
 	jadwalKuliahService    *services.JadwalKuliahService
 }
+
+const (
+	SMT_ID_VALIDATION_ERROR = "smtId must be a number"
+)
 
 func NewAbsenHandler(db *gorm.DB, logger *zap.Logger) *AbsenHandler {
 	return &AbsenHandler{
@@ -47,8 +52,6 @@ func NewAbsenHandler(db *gorm.DB, logger *zap.Logger) *AbsenHandler {
 // @Router			/mahasiswa/absen [get]
 // @Security BearerAuth
 func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
-	var params models.PaginationParams
-
 	user, err := utils.GetUser(c)
 	if err != nil {
 		c.JSON(401, models.BaseResponse[any]{
@@ -58,19 +61,11 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 		return
 	}
 
-	if err := c.BindQuery(&params); err != nil {
-		c.JSON(400, models.BaseResponse[map[string]any]{
-			Message: "error",
-			Errors:  []any{err.Error()},
-		})
-		return
-	}
-
 	smtId, err := strconv.Atoi(c.Query("smtId"))
 	if err != nil {
 		c.JSON(400, models.BaseResponse[map[string]any]{
 			Message: "error",
-			Errors:  []any{"smtId must be a number"},
+			Errors:  []any{SMT_ID_VALIDATION_ERROR},
 		})
 		return
 	}
@@ -87,7 +82,7 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 		return
 	}
 
-	absen, meta, err := h.absenService.GetAllAbsen(params, user.UserType, smtId, kelasId, 0)
+	absen, err := h.absenService.GetAllAbsen(user.UserType, smtId, kelasId, 0)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
@@ -99,7 +94,6 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 	c.JSON(200, models.BaseResponse[[]models.GetAllAbsenResponse]{
 		Message: "success",
 		Data:    absen,
-		Meta:    meta,
 	})
 }
 
@@ -115,6 +109,7 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 	var req models.SaveAbsenTransRequest
 	user, err := utils.GetUser(c)
+	
 	if err != nil {
 		c.JSON(401, models.BaseResponse[any]{
 			Message: "error",
@@ -241,6 +236,7 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 func (h *AbsenHandler) Delete(c *gin.Context) {
 	idPertemuanStr := c.Param("idPertemuan")
 	idPertemuan, err := strconv.Atoi(idPertemuanStr)
+
 	if err != nil {
 		c.JSON(400, models.BaseResponse[any]{
 			Message: "error",
@@ -264,7 +260,7 @@ func (h *AbsenHandler) Delete(c *gin.Context) {
 
 	c.JSON(204, models.BaseResponse[any]{
 		Data:    nil,
-		Message: "success",
+		Message: fmt.Sprintf("success delete absen with id %d", idPertemuan),
 	})
 
 }
@@ -274,7 +270,7 @@ func (h *AbsenHandler) ListAbsen(c *gin.Context) {
 	if err != nil {
 		c.JSON(400, models.BaseResponse[map[string]any]{
 			Message: "error",
-			Errors:  []any{"smtId must be a number"},
+			Errors:  []any{SMT_ID_VALIDATION_ERROR},
 		})
 		return
 	}
@@ -283,7 +279,7 @@ func (h *AbsenHandler) ListAbsen(c *gin.Context) {
 	if err != nil {
 		c.JSON(400, models.BaseResponse[map[string]any]{
 			Message: "error",
-			Errors:  []any{"smtId must be a number"},
+			Errors:  []any{SMT_ID_VALIDATION_ERROR},
 		})
 		return
 	}

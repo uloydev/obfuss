@@ -8,7 +8,6 @@ import (
 	"skripsi.id/obfuss/entities"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/queries"
-	"skripsi.id/obfuss/utils"
 )
 
 type PerubahanJadwalService struct {
@@ -23,15 +22,17 @@ func NewPerubahanJadwalService(db *gorm.DB, logger *zap.Logger) *PerubahanJadwal
 	}
 }
 
-func (s *PerubahanJadwalService) GetPerubahanJadwal(pageParams models.PaginationParams, idSemester uint) ([]models.GetAllPerubahanJadwal, *models.PaginationMeta, error) {
+func (s *PerubahanJadwalService) GetPerubahanJadwal(idSemester uint) ([]models.GetAllPerubahanJadwal, error) {
 	query := queries.FindAllPerubahanData(s.db, idSemester)
-	meta, perubahanJadwal, err := utils.Paginate[models.GetAllPerubahanJadwal](pageParams, query, s.logger)
+	perubahanJadwal := []models.GetAllPerubahanJadwal{}
+
+	err := query.Find(&perubahanJadwal).Error
 
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	return perubahanJadwal, meta, nil
+	return perubahanJadwal, nil
 }
 
 func (s *PerubahanJadwalService) GetJadwalById(id int) (entities.JadwalPertemuan, error) {

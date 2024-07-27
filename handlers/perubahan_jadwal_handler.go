@@ -37,8 +37,6 @@ func NewPerubahanJadwalHandler(db *gorm.DB, logger *zap.Logger) *PerubahanJadwal
 // @Router			/perubahan-jadwal [get]
 // @Security BearerAuth
 func (h *PerubahanJadwalHandler) GetPerubahanJadwal(c *gin.Context) {
-	var params models.PaginationParams
-
 	user, error := utils.GetUser(c)
 
 	if error != nil {
@@ -49,7 +47,7 @@ func (h *PerubahanJadwalHandler) GetPerubahanJadwal(c *gin.Context) {
 		return
 	}
 
-	perubahanJadwal, meta, err := h.service.GetPerubahanJadwal(params, uint(user.SemesterId))
+	perubahanJadwal, err := h.service.GetPerubahanJadwal(uint(user.SemesterId))
 
 	if err != nil {
 		c.JSON(500, models.BaseResponse[any]{
@@ -62,7 +60,6 @@ func (h *PerubahanJadwalHandler) GetPerubahanJadwal(c *gin.Context) {
 	c.JSON(200, models.BaseResponse[[]models.GetAllPerubahanJadwal]{
 		Message: "success",
 		Data:    perubahanJadwal,
-		Meta:    meta,
 	})
 }
 

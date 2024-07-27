@@ -3,7 +3,6 @@ package services
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"path/filepath"
 	"strconv"
 	"time"
@@ -87,14 +86,13 @@ func (s *LaporanPerkuliahanService) GetAngketDosenByPertemuan(idPertemuan int) (
 }
 
 func (s *LaporanPerkuliahanService) GetAllAngeketDosen(
-	pageParams models.PaginationParams,
 	user *middlewares.User,
 ) (
 	[]map[string]any,
-	*models.PaginationMeta,
 	error,
 ) {
 	var kelasMhs []map[string]interface{}
+	data := []map[string]interface{}{}
 
 	query := queries.GetKelasIDFromTPK(s.db, user)
 	query.Find(&kelasMhs).Limit(1)
@@ -103,16 +101,14 @@ func (s *LaporanPerkuliahanService) GetAllAngeketDosen(
 
 	query = queries.GetAllLaporanKuliahByUsertype(s.db, int(idKelas), user)
 
-	meta, data, err := utils.Paginate[map[string]interface{}](pageParams, query, s.logger)
-
-	fmt.Println(data)
+	err := query.Find(&data).Error
 
 	if err != nil {
 		s.logger.Error("failed to get laporan perkuliahan", zap.Error(err))
-		return nil, nil, errors.New("failed to get laporan perkuliahan")
+		return nil, errors.New("failed to get laporan perkuliahan")
 	}
 
-	return data, meta, err
+	return data, err
 }
 
 func (s *LaporanPerkuliahanService) ToPDF(idKelas int, idPertemuan int, idDosen int, idMk int, isPreview bool, baseUrl string) ([]byte, error) {

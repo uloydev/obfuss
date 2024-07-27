@@ -124,7 +124,7 @@ func (h *LaporanPerkuliahanHandler) GetAll(c *gin.Context) {
 		return
 	}
 
-	data, meta, err := h.service.GetAllAngeketDosen(params, user)
+	data, err := h.service.GetAllAngeketDosen(user)
 
 	if err != nil {
 		c.JSON(500, models.BaseResponse[any]{
@@ -137,9 +137,7 @@ func (h *LaporanPerkuliahanHandler) GetAll(c *gin.Context) {
 	c.JSON(200, models.BaseResponse[[]map[string]any]{
 		Message: "success",
 		Data:    data,
-		Meta:    meta,
 	})
-
 }
 
 // @Summary		Delete Angket Dosen
