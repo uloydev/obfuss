@@ -5,9 +5,9 @@ type JadwalKuliah struct {
 	BaseModel
 	ID           int       `gorm:"type:int(11);auto_increment;" json:"id"`
 	IDSemester   *int      `gorm:"type:int(11);" json:"id_semester"`
-	Semester     *Semester `gorm:"foreignKey:IDSemester" json:"semester"`
+	Semester     *Semester `gorm:"foreignKey:IDSemester" json:"semester,omitempty"`
 	IDKelas      *int      `gorm:"type:int(11);" json:"id_kelas"`
-	Kelas        *Kelas    `gorm:"foreignKey:IDKelas" json:"kelas"`
+	Kelas        *Kelas    `gorm:"foreignKey:IDKelas" json:"kelas,omitempty"`
 	IDMk         *int      `gorm:"type:int(11);" json:"id_mk"`
 	IDDosen      *int      `gorm:"type:int(11);" json:"id_dosen"`
 	Hari         *string   `gorm:"type:enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu');" json:"hari"`

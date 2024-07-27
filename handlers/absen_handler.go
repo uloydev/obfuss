@@ -168,7 +168,7 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(404, models.BaseResponse[map[string]any]{
 				Message: "error",
-				Errors:  []any{errors.New("jadwal kuliah not found").Error()},
+				Errors:  []any{errors.New("absen not found").Error()},
 			})
 			return
 		}
