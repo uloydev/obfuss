@@ -29,7 +29,6 @@ func (s *AbsenService) GetAllAbsen(
 	[]models.GetAllAbsenResponse,
 	error,
 ) {
-
 	query := queries.FindAllAbsenQuery(s.db, userType, smtId, kelasId, dosenId)
 	data := []models.GetAllAbsenResponse{}
 	err := query.Find(&data).Error
@@ -60,7 +59,7 @@ func (s *AbsenService) DeleteAbsenByPertemuan(idPertemuan int) error {
 func (s *AbsenService) SaveAbsenTrans(
 	req models.SaveAbsenTransRequest,
 	actorId int,
-) error {
+) ([]entities.AbsenMahasiswa, error) {
 	tx := s.db.Begin()
 	data := []entities.AbsenMahasiswa{}
 
@@ -73,19 +72,21 @@ func (s *AbsenService) SaveAbsenTrans(
 			AddUser:     actorId,
 		})
 	}
-	err := tx.Table(entities.AbsenMahasiswa{}.TableName()).Create(&data).Error
+	results := tx.Table(entities.AbsenMahasiswa{}.TableName()).Create(&data)
+	err := results.Error
+
 	if err != nil {
 		tx.Rollback()
 		s.logger.Error("failed to save absen trans", zap.Error(err))
-		return errors.New("failed to save absen trans")
+		return nil, errors.New("failed to save absen trans")
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		tx.Rollback()
 		s.logger.Error("failed to save absen trans", zap.Error(err))
-		return errors.New("failed to save absen trans")
+		return nil, errors.New("failed to save absen trans")
 	}
-	return nil
+	return data, nil
 }
 
 func (s *AbsenService) CountAbsen(idPertemuan int) (models.AbsenCountResult, error) {

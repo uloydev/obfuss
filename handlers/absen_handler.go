@@ -108,16 +108,18 @@ func (h *AbsenHandler) GetAbsenMhs(c *gin.Context) {
 // @Security BearerAuth
 func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 	var req models.SaveAbsenTransRequest
-	user, err := utils.GetUser(c)
-	
+	mahasiswaId, err := strconv.Atoi(c.Query("mahasiswaId"))
+
 	if err != nil {
-		c.JSON(401, models.BaseResponse[any]{
-			Message: "error",
-			Errors:  []any{errors.New("unauthorize")},
+		c.JSON(400, models.BaseResponse[map[string]any]{
+			Message: "bad request",
+			Errors: []any{
+				errors.New("mahasiswaId: must be a number"),
+			},
 		})
-		return
 	}
-	if err := c.BindJSON(&req); err != nil {
+
+	if err = c.BindJSON(&req); err != nil {
 		c.JSON(400, models.BaseResponse[map[string]any]{
 			Message: "error",
 			Errors:  []any{err.Error()},
@@ -143,7 +145,7 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 		return
 	}
 
-	err = h.absenService.SaveAbsenTrans(req, user.ActorID)
+	data, err := h.absenService.SaveAbsenTrans(req, mahasiswaId)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
@@ -173,7 +175,6 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 
 	angket, err := h.angketDosenService.FineOneByPertemuan(req.IdPertemuan)
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
 			Errors:  []any{err.Error()},
@@ -181,8 +182,8 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 		return
 	}
 
-	absenCount, err := h.absenService.CountAbsen(req.IdPertemuan)
-	if err != nil {
+	absenCount, errAbsen := h.absenService.CountAbsen(req.IdPertemuan)
+	if errAbsen != nil {
 		c.JSON(500, models.BaseResponse[map[string]any]{
 			Message: "error",
 			Errors:  []any{err.Error()},
@@ -199,7 +200,7 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 			JumlahLuring:     &absenCount.JumlahLuring,
 			JumlahDaring:     &absenCount.JumlahDaring,
 			Status:           "Draft",
-			AddUser:          &user.ActorID,
+			AddUser:          &mahasiswaId,
 		}
 	} else {
 		angket.JumlahHadir = &absenCount.JumlahHadir
@@ -221,6 +222,10 @@ func (h *AbsenHandler) SaveTrans(c *gin.Context) {
 
 	c.JSON(200, models.BaseResponse[map[string]any]{
 		Message: "success",
+		Data: map[string]any{
+			"absen":  data,
+			"angket": angket,
+		},
 	})
 }
 
