@@ -11,7 +11,6 @@ import (
 	"skripsi.id/obfuss/middlewares"
 	"skripsi.id/obfuss/models"
 	"skripsi.id/obfuss/services"
-	"skripsi.id/obfuss/utils"
 )
 
 type JadwalKuliahHandler struct {
@@ -106,17 +105,17 @@ func (h *JadwalKuliahHandler) SaveTransJadwalKuliah(c *gin.Context) {
 		return
 	}
 
-	user, err := utils.GetUser(c)
+	mahasiswaId, err := strconv.Atoi(c.Query("mahasiswaId"))
 
 	if err != nil {
-		c.JSON(401, models.BaseResponse[entities.JadwalKuliah]{
+		c.JSON(400, models.BaseResponse[any]{
 			Message: "error",
-			Errors:  []any{errors.New("unauthorize")},
+			Errors:  []any{errors.New("invalid mahasiswa id").Error()},
 		})
 		return
 	}
 
-	jadwalKuliah, err := h.service.SaveTransJadwalKuliah(&body, user.ActorID)
+	jadwalKuliah, err := h.service.SaveTransJadwalKuliah(&body, mahasiswaId)
 	if err != nil {
 		c.JSON(500, models.BaseResponse[entities.JadwalKuliah]{
 			Message: "error",

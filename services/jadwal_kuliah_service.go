@@ -3,7 +3,6 @@ package services
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -93,6 +92,7 @@ func (s *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 		jadwalKuliah entities.JadwalKuliah
 	)
 
+	var jadwalKuliahResult []entities.JadwalKuliah
 	var jadwalKuliahs []entities.JadwalKuliah
 	var trx = s.db.Begin()
 
@@ -118,7 +118,7 @@ func (s *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 		data.IDJamSelesai = &v.IDJamSelesai
 		data.AddUser = userId
 
-		fmt.Println(v.Hari)
+		jadwalKuliahResult = append(jadwalKuliahResult, data)
 
 		if err := trx.Table(jadwalKuliah.TableName()).Create(&data).Error; err != nil {
 			s.logger.Error(err.Error())
@@ -134,7 +134,7 @@ func (s *JadwalKuliahService) SaveTransJadwalKuliah(payload *models.JadwalKuliah
 	}
 
 	trx.Commit()
-	return jadwalKuliahs, nil
+	return jadwalKuliahResult, nil
 }
 
 func (s *JadwalKuliahService) GetById(id int) (entities.JadwalKuliah, error) {
